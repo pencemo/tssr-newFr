@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
     CREATE: "/api/studycenter/addStudyCenter",
     UPDATE: "/api/studyCenter/updateStudyCenter",
     DELETE: "/api/studyCenters/:id",
+    COURSE_OF_STUDY_CENTER: "/api/studycenter/getCoursesOfStudyCenter",
     GET_STUDYCENTER_FOR_EXCEL: "/api/studycenter/getAllStudyCenterForExcel",
   },
   COURSE: {
@@ -42,6 +43,9 @@ export const API_ENDPOINTS = {
     CREATE_STUDENT_AND_ENROLLMENT:"/api/enrollment/createStudentWithEnrollment",
     EXCEL_ENROLLMENT: "/api/enrollment/EnrollmentUsingExcel",
     BULK_ENROLL: "/api/enrollment/bulkEnrollStudents",
+  },
+  STUDENTS: {
+    ALL_STUDENTS_OF_STUDY_CENTER: "/api/students/getAllStudents",
   },
 };
  

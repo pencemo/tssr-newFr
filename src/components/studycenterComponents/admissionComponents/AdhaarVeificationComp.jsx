@@ -77,7 +77,7 @@ const AdhaarVeificationComp = ({
   
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
+    <div className="flex items-center justify-center w-full h-full p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Verify Aadhaar</CardTitle>
@@ -97,20 +97,20 @@ const AdhaarVeificationComp = ({
                 value={adhaarNumber}
                 onChange={(e) => setAdhaarNumber(e.target.value)}
                 maxLength={12}
-                className="h-12 text-base"
+                className="h-11 text-base"
               />
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between gap-4">
+        <CardFooter className="flex items-center justify-center">
           <Button
             variant="outline"
             onClick={() => setAdhaarNumber("")}
-            className="flex-1 h-12 text-base"
+            className=""
           >
             Clear
           </Button>
-          <Button onClick={handleCheck} className="flex-1 h-12 text-base">
+          <Button onClick={handleCheck} className=" ">
             {isPending ? <Loader className="animate-spin" /> :
               "Verify & Continue"
             }

@@ -50,23 +50,9 @@ const data = {
       icon: Home04Icon,
     },
     {
-      title: "Study Centre",
-      url: "studycentre",
-      icon: Book02Icon,
-      items: [
-        {
-          title: "Requests",
-          url: "studycentre/req",
-        },
-        {
-          title: "Add Study Centre",
-          url: "studycentre/add",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      title: "Students",
+      url: "students",
+      icon: GraduateMaleIcon,
     },
     {
       title: "Courses",
@@ -84,11 +70,7 @@ const data = {
         },
       ],
     },
-    {
-      title: "Students",
-      url: "students",
-      icon: GraduateMaleIcon,
-    },
+    
     {
       title: "Hall Ticket",
       url: "hallticket",

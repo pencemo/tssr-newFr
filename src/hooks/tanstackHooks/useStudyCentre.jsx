@@ -60,3 +60,12 @@ export const useGetStudyCenterForExcel = () => {
     keepPreviousData: true,
   });
 };
+
+
+export const useCourseOfStudyCenter = () => {
+  return useQuery({
+    queryKey: ["courseOfStudyCenter"],
+    queryFn: () => studyCentreService.getCourseOfStudyCenter(),
+    keepPreviousData: true,
+  });
+};

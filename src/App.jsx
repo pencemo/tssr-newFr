@@ -13,6 +13,7 @@ import AdmissionSection from "./app/admin/Admission/AdmissionSection";
 import PageForStudyCenter from "./app/studycenter/PageForStudyCenter";
 import AdmissionForStudent from "./app/studycenter/Admission/AdmissionForStudent";
 import AdmissionUsingExcel from "./app/studycenter/Admission/AdmissionUsingExcel";
+import ViewStudent from "./app/studycenter/viewSutdent/viewStudent";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         {/* Routes for studycenter functionality */}
         <Route path="/studycenter" element={<PageForStudyCenter />}>
           <Route index element={<Dashbord />} />
+          <Route path="students" element={<ViewStudent />} />
           <Route path="admission" element={<Outlet />}>
             <Route index element={<AdmissionForStudent />} />
             <Route path="excel" element={<AdmissionUsingExcel />} />

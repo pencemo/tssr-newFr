@@ -8,8 +8,7 @@ export default function OpenBatches({ setStep, setCourse }) {
   const { data, isLoading, isError } = useOpenBatchesOfStudyCenter();
 
   if (isLoading) return <Loader className="mx-auto animate-spin" />;
-  if (isError)
-    return <p className="text-center text-red-500">Failed to load batches</p>;
+  if (isError) return <p className="text-center text-red-500">Failed to load batches</p>;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">

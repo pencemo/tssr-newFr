@@ -3,10 +3,20 @@ import { DatePickerWithRange } from "@/components/ui/rangePicker";
 import { useUpdateStatusOfBatch } from "@/hooks/tanstackHooks/useBatch";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const CustomDialog = ({ isOpen, onClose, data, schedul}) => {
   const [isVisible, setIsVisible] = useState(false);
   const {mutate}=useUpdateStatusOfBatch()
+  const [year, setYear] = useState("");
   const [date, setDate]=useState({
     from: null,
     to: null
@@ -27,24 +37,27 @@ export const CustomDialog = ({ isOpen, onClose, data, schedul}) => {
         from: data?.startDate,
         to: data?.endDate
       })
+      setYear(data?.admissionYear)
     }
   }, [schedul, data])
 
   const handleUpdateStatus = (id) => {
-    if(!id || !date.from || !date.to){
-        toast("Error", {
-          description: "Please select date",
-        })
+    if(!id || !date.from || !date.to || year === ''){
+        toast.error("Please select date and year" )
         return
     }
     mutate(
-      { data: {date}, batchId: id },
+      { data: {date, year}, batchId: id },
       {
         onSuccess: (data) => {
           if (data.success) {
             toast("Batch updated", {
               description: "Batch updated successfully",
             });
+            setDate({
+              from: null,
+              to: null
+            })
             onClose()
           } else {
             toast("Somthing went wrong", {
@@ -55,6 +68,9 @@ export const CustomDialog = ({ isOpen, onClose, data, schedul}) => {
       }
     );
   };
+
+  const currentYear = new Date().getFullYear();
+  const yearsArray = [currentYear - 1, currentYear, currentYear + 1];
 
   if (!isVisible) return null;
 
@@ -84,6 +100,22 @@ export const CustomDialog = ({ isOpen, onClose, data, schedul}) => {
         <div className="mt-5 space-y-2">
             <h1 className="text-sm font-medium text-gray-900">Select Date</h1>
           <DatePickerWithRange date={date} setDate={setDate} />
+        </div>
+        <div className="mt-5 space-y-2">
+            <h1 className="text-sm font-medium text-gray-900">Select Date</h1>
+            <Select onValueChange={(value) => setYear(value)}>
+                <SelectTrigger className={`w-full bg-background shadow-none py-5 `}>
+                  <SelectValue placeholder="Select a Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Year</SelectLabel>
+                    {yearsArray.map((year) => {
+                      return <SelectItem key={year} value={year}>{year}</SelectItem>;
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
         </div>
         <div className="mt-5 flex justify-end gap-2">
             <Button onClick={onClose} variant='outline'>Cancel</Button>

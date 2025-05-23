@@ -299,7 +299,7 @@ export const StateSelect = ({ name, setFormData, formData, error}) => {
         </Select>
 
         {/* District Dropdown */}
-        <Select value={formData.district} onValueChange={(value)=>setFormData({...formData, district:value})} disabled={formData.district === ''}>
+        <Select value={formData.district} onValueChange={(value)=>setFormData({...formData, district:value})} disabled={districts.length === 0}>
           <SelectTrigger className={`w-full py-5 shadow-none ${error && formData.district === "" && "border-red-500"}`}>
             <SelectValue placeholder="Select District" />
           </SelectTrigger>

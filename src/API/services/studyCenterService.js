@@ -51,5 +51,11 @@ export const studyCentreService = {
     );
     return response.data;
   },
+  getCourseOfStudyCenter: async () => {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.STUDY_CENTERS.COURSE_OF_STUDY_CENTER
+    );
+    return response.data;
+  },
 };
 

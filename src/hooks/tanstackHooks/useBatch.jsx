@@ -5,7 +5,7 @@ export const useBatchesOfCourse = (id) => {
   return useQuery({
     queryKey: ["batch", ],
     queryFn: () => batchService.getBatchesOfCourse(id),
-    keepPreviousData: true,
+    keepPreviousData: false,
   });
 };
 export const useOpenBatchesOfCourse = (id) => {

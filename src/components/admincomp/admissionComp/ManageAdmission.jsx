@@ -39,12 +39,13 @@ function ManageAdmission() {
     to: null,
   });
   const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
   const { mutate } = useOpenAdmission();
   const [error, setError] = useState(null)
   const [modelOpen, setModelOpen] = useState(false);
 
   const handleOpenAdmission = () => {
-    if(!date.from || !date.to || !month) {
+    if(!date.from || !date.to || !month || !year) {
       toast("Please fill all the fields", {
         description: "Please fill all the fields",
       });
@@ -53,7 +54,7 @@ function ManageAdmission() {
     }
      
     mutate(
-      { data: { month, date } },
+      { data: { month, date, year } },
       {
         onSuccess: (data) => {
           if (data.success) {
@@ -77,6 +78,9 @@ function ManageAdmission() {
     );
   };
 
+  const currentYear = new Date().getFullYear();
+const yearsArray = [currentYear - 1, currentYear, currentYear + 1];
+
   return (
     <div className="w-full  flex justify-between max-sm:flex-col gap-2 items-center border-b pb-4">
       <h1 className="text-xl md:text-2xl font-bold">Manage Admission</h1>
@@ -97,13 +101,26 @@ function ManageAdmission() {
               <DatePickerWithRange date={date} setDate={setDate} error={error} />
               <Select onValueChange={(value) => setMonth(value)}>
                 <SelectTrigger className={`w-full bg-background shadow-none py-5 ${error && month === '' ? "border-red-500" : ""}`}>
-                  <SelectValue placeholder="Select a month" />
+                  <SelectValue placeholder="Select a Month" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Months</SelectLabel>
                     {monthNames.map((month) => {
                       return <SelectItem key={month} value={month}>{month}</SelectItem>;
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Select onValueChange={(value) => setYear(value)}>
+                <SelectTrigger className={`w-full bg-background shadow-none py-5 ${error && month === '' ? "border-red-500" : ""}`}>
+                  <SelectValue placeholder="Select a Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Year</SelectLabel>
+                    {yearsArray.map((year) => {
+                      return <SelectItem key={year} value={year}>{year}</SelectItem>;
                     })}
                   </SelectGroup>
                 </SelectContent>

@@ -10,7 +10,7 @@ const AdmissionForStudent = () => {
   console.log(userData);
 
   return (
-    <div>
+    <div className="w-full h-full">
       {step === 1 && (
         <AdhaarVeificationComp setStep={setStep} setUserData={setUserData} />
       )}
