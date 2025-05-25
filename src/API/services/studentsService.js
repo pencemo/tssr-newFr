@@ -16,6 +16,26 @@ export const studentsService = {
     );
     return response.data;
   },
+  getOneStudent: async (id) => {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.STUDENTS.GET_ONE_STUDENT,
+      {
+        params: {
+         id
+        },
+      }
+    );
+    return response.data;
+  },
+  getStudentsForDl: async (courseId, batchId, year, fields) => {
+    const response = await axiosInstance.post(
+      API_ENDPOINTS.STUDENTS.STUDENT_FOR_DL,
+      {
+        courseId, batchId, year, fields
+      }
+    );
+    return response.data;
+  },
   
-};
+}; 
 

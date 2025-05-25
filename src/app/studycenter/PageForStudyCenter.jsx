@@ -14,8 +14,21 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
+import {useLocation } from 'react-router-dom';
 
 export default function PageForStudyCenter() {
+  const location = useLocation();
+  const burdCrumb = location.pathname.split('/')
+
+  const formatCrumbName = (crumb) => {
+    return crumb
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+  
+  
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -27,14 +40,17 @@ export default function PageForStudyCenter() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
+                  <BreadcrumbLink to="/">
+                    Home
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                  <BreadcrumbPage>
+                  {formatCrumbName(burdCrumb[2]  || burdCrumb[1])}
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
+                
               </BreadcrumbList>
             </Breadcrumb>
           </div>

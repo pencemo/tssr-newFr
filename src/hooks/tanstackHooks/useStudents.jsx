@@ -8,18 +8,21 @@ export const useStudentOfStudyCenter = (page, limit, search, couresId, batchId, 
       keepPreviousData: true,
     });
   };
+export const useOneStudent = (id) => {
+    return useQuery({
+      queryKey: ["oneStudent", id],
+      queryFn: () => studentsService.getOneStudent(id),
+      keepPreviousData: false,
+    });
+  };
 
 
-// export const useCreateCourse = () => {
-//   const queryClient= useQueryClient();
-// return useMutation({
-//   mutationFn: (data) => {
-//     return courseService.createCourse(data);
-//   },
-//   onSuccess: () => {
-//     queryClient.invalidateQueries("coures");
-//   },
-// });
-// }
+export const useStudentForDl = () => {
+  return useMutation({
+    mutationFn: ({courseId, batchId, year, fields}) => {
+      return studentsService.getStudentsForDl(courseId, batchId, year, fields)
+    },
+  });
+}
 
 

@@ -20,7 +20,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
 
   // Get the selected items' names for display
   const selectedItems = React.useMemo(() => {
-    return options.filter((option) => selected.includes(option._id))
+    return options?.filter((option) => selected.includes(option._id))
   }, [options, selected])
 
   return (
@@ -36,7 +36,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
           )}
         >
           <div className="flex flex-wrap gap-1">
-            {selectedItems.length > 0 ? (
+            {selectedItems?.length > 0 ? (
               <>
                 {selectedItems.map((item) => (
                   <Badge key={item._id} variant="secondary" className="mr-1 mb-1">

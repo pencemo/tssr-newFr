@@ -14,6 +14,8 @@ import PageForStudyCenter from "./app/studycenter/PageForStudyCenter";
 import AdmissionForStudent from "./app/studycenter/Admission/AdmissionForStudent";
 import AdmissionUsingExcel from "./app/studycenter/Admission/AdmissionUsingExcel";
 import ViewStudent from "./app/studycenter/viewSutdent/viewStudent";
+import NoData from "./components/ui/noData";
+import OneStudent from "./app/studycenter/viewSutdent/OneStudent";
 
 
 function App() {
@@ -42,7 +44,15 @@ function App() {
         {/* Routes for studycenter functionality */}
         <Route path="/studycenter" element={<PageForStudyCenter />}>
           <Route index element={<Dashbord />} />
-          <Route path="students" element={<ViewStudent />} />
+          <Route path="students" element={<Outlet />} >
+            <Route index element={<ViewStudent />} />
+            <Route path="view/:id" element={<OneStudent/>} />
+
+          </Route>
+          <Route path="examination" element={<NoData />} />
+          <Route path="results" element={<NoData />} />
+          <Route path="marksheet" element={<NoData />} />
+          <Route path="downloads" element={<NoData />} />
           <Route path="admission" element={<Outlet />}>
             <Route index element={<AdmissionForStudent />} />
             <Route path="excel" element={<AdmissionUsingExcel />} />

@@ -13,11 +13,14 @@ import {
     AvatarFallback,
     AvatarImage,
   } from "@/components/ui/avatar"
+import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
   
   
   export function StudentTable({data}) {
+    const navigate = useNavigate()
     return (
-      <Table>
+      <Table className='border-b'>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[10px]">NO</TableHead>
@@ -27,7 +30,9 @@ import {
             <TableHead>Email</TableHead>
             <TableHead>Course</TableHead>
             <TableHead>Batch</TableHead>
-            <TableHead className="text-right">Year</TableHead>
+            <TableHead >Year</TableHead>
+            <TableHead >Reg. NO</TableHead>
+            <TableHead ></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -36,7 +41,7 @@ import {
               <TableCell className="font-medium">{i+1}</TableCell>
               <TableCell className="font-medium">
                 <Avatar>
-                    <AvatarImage src={item.profileImage?item.profileImage :"https://github.com/shadcn.png"} alt="@shadcn" />
+                    <AvatarImage className='object-cover' src={item.profileImage?item.profileImage :"https://github.com/shadcn.png"} alt="@shadcn" />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </TableCell>
@@ -45,7 +50,11 @@ import {
               <TableCell>{item.email}</TableCell>
               <TableCell>{item.courseName}</TableCell>
               <TableCell>{item.batchMonth}</TableCell>
-              <TableCell className="text-right">{item.registrationNumber}</TableCell>
+              <TableCell >{item.year}</TableCell>
+              <TableCell >{item.registrationNumber}</TableCell>
+              <TableCell >
+                <Button variant='outline' size='sm' onClick={()=>navigate(`view/${item.enrollmentId}`)}>View student</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

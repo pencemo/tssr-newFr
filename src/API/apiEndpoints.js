@@ -46,6 +46,8 @@ export const API_ENDPOINTS = {
   },
   STUDENTS: {
     ALL_STUDENTS_OF_STUDY_CENTER: "/api/students/getAllStudents",
+    STUDENT_FOR_DL: "/api/students/getStudentsForDl",
+    GET_ONE_STUDENT: "/api/students/getOneStudent",
   },
 };
  

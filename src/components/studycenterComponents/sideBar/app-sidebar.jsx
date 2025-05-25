@@ -1,4 +1,3 @@
-"use client";
 
 import * as React from "react";
 import {
@@ -13,11 +12,16 @@ import {
 import logo from "../../../assets/Logo.svg";
 
 import {
+  AlignBoxBottomRightIcon,
   Book02Icon,
   Bookmark03Icon,
+  FileDownloadIcon,
   GraduateMaleIcon,
   Home04Icon,
+  InformationDiamondIcon,
   Mortarboard02Icon,
+  PenTool03Icon,
+  Settings02Icon,
   Ticket03Icon,
   UserAdd01Icon,
 } from "hugeicons-react";
@@ -52,11 +56,6 @@ const data = {
     {
       title: "Students",
       url: "students",
-      icon: GraduateMaleIcon,
-    },
-    {
-      title: "Courses",
-      url: "course",
       icon: Mortarboard02Icon,
     },
     {
@@ -72,9 +71,9 @@ const data = {
     },
     
     {
-      title: "Hall Ticket",
-      url: "hallticket",
-      icon: Ticket03Icon,
+      title: "Examination",
+      url: "examination",
+      icon: PenTool03Icon,
     },
     {
       title: "Results",
@@ -84,7 +83,12 @@ const data = {
     {
       title: "Marksheet",
       url: "marksheet",
-      icon: Settings2,
+      icon: AlignBoxBottomRightIcon,
+    },
+    {
+      title: "Downloads",
+      url: "downloads",
+      icon: FileDownloadIcon,
     },
   ],
   navSecondary: [
@@ -102,19 +106,19 @@ const data = {
   projects: [
     {
       name: "Settings",
-      url: "#",
-      icon: Settings,
+      url: "ure",
+      icon: Settings02Icon,
     },
     {
       name: "Report",
       url: "#",
-      icon: PieChart,
+      icon: InformationDiamondIcon,
     },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
+    // {
+    //   name: "Support",
+    //   url: "#",
+    //   icon: Map,
+    // },
   ],
 };
 

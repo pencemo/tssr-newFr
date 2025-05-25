@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { StudentTable } from "@/components/studycenterComponents/StudentView/StudentTable";
 import StudentFilter from "@/components/studycenterComponents/StudentView/StudentFilter";
 import { useStudentOfStudyCenter } from "@/hooks/tanstackHooks/useStudents";
+import NoData from "@/components/ui/noData";
+import { StudentDl } from "@/components/studycenterComponents/StudentView/StudentDl";
 
 export function ViewStudent() {
   const [search, setSearch] = useState("");
@@ -44,7 +46,7 @@ export function ViewStudent() {
 
   const { data, error, isLoading } = useStudentOfStudyCenter(
     currentPage,
-    20,
+    10,
     debouncedSearch,
     filters.course,
     filters.batch,
@@ -62,7 +64,6 @@ export function ViewStudent() {
   }, [data]);
 
   const handleFilterChange = (filterName, value) => {
-    console.log(filterName, value);
     setFilters((prev) => ({
       ...prev,
       [filterName]: value,
@@ -95,20 +96,31 @@ export function ViewStudent() {
             <Button onClick={() => navigate("/studycenter/admission")}>
               Add Student
             </Button>
+            <StudentDl/>
           </div>
         </div>
-
+        
+        <StudentFilter
+              courses={course?.data}
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onClear={() =>{
+                setFilters({
+                  course: "",
+                  batch: "",
+                  year: "",
+                  sort: "",
+                }
+                )
+              }}
+            />
         {isLoading ? (
           <div className="w-full h-full">
             <Loader />
           </div>
         ) : students.length > 0 ? (
           <>
-            <StudentFilter
-              courses={course?.data}
-              filters={filters}
-              onFilterChange={handleFilterChange}
-            />
+            
             <div className="rounded-md border">
               <StudentTable data={students} />
               <div className="flex items-center sm:justify-end justify-between space-x-2 py-4 px-3">
@@ -155,9 +167,7 @@ export function ViewStudent() {
             </div>
           </>
         ) : (
-          <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
-            No data found
-          </div>
+          <NoData/>
         )}
       </div>
     </div>
