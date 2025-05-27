@@ -16,6 +16,7 @@ import AdmissionUsingExcel from "./app/studycenter/Admission/AdmissionUsingExcel
 import ViewStudent from "./app/studycenter/viewSutdent/viewStudent";
 import NoData from "./components/ui/noData";
 import OneStudent from "./app/studycenter/viewSutdent/OneStudent";
+import Protect from "./Context/ProtectedRoute";
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/admin" element={<Page />}>
+        <Route path="/admin" element={<Protect requiredRole={['admin']}><Page /></Protect>}>
           <Route index element={<Dashbord />} />
           <Route path="studycentre" element={<Outlet />}>
             <Route index element={<StudyCentre />} />
@@ -41,8 +42,9 @@ function App() {
           <Route path="hallticket" element={<Dashbord />} />
           <Route path="results" element={<Dashbord />} />
         </Route>
+
         {/* Routes for studycenter functionality */}
-        <Route path="/studycenter" element={<PageForStudyCenter />}>
+        <Route path="/studycenter" element={<Protect requiredRole={['studycenter_user']}><PageForStudyCenter /></Protect>}>
           <Route index element={<Dashbord />} />
           <Route path="students" element={<Outlet />} >
             <Route index element={<ViewStudent />} />
