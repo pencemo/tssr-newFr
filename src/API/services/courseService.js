@@ -7,6 +7,12 @@ export const courseService = {
       API_ENDPOINTS.COURSE.GET_ALL);
     return response.data;
   },
+  getOpenCourseAndBatchOfStudyCenter: async () => {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.COURSE.GET_ADMOPENED_COURSE_AND_BATCH_OF_STUDY_CENTER
+    );
+    return response.data;
+  },
 //   getStudyCenters: async (page, limit, search) => {
 //     const response = await axiosInstance.get(
 //       API_ENDPOINTS.STUDY_CENTERS.VERIFIED,

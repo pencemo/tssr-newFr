@@ -19,6 +19,8 @@ export const API_ENDPOINTS = {
     ADD_COURSE: "/api/course/create",
     EDIT: "/api/course/update",
     GET_SUB: "/api/subject/getAllSubjects",
+    GET_ADMOPENED_COURSE_AND_BATCH_OF_STUDY_CENTER:
+      "/api/course/getAllOpenedCourseAndBatchOfStudycenter",
   },
   BATCH: {
     CREATE: "api/batch/createBatch",
@@ -40,7 +42,8 @@ export const API_ENDPOINTS = {
   ENROLLMENT: {
     CHECK_ENROLLED: "/api/enrollment/checkEnrolledOrNot",
     CREATE_STUDENT: "/api/enrollment/createStudent",
-    CREATE_STUDENT_AND_ENROLLMENT:"/api/enrollment/createStudentWithEnrollment",
+    CREATE_STUDENT_AND_ENROLLMENT:
+      "/api/enrollment/createStudentWithEnrollment",
     EXCEL_ENROLLMENT: "/api/enrollment/EnrollmentUsingExcel",
     BULK_ENROLL: "/api/enrollment/bulkEnrollStudents",
   },

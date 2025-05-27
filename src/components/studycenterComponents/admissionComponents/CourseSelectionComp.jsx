@@ -19,13 +19,14 @@ import {
 } from "@/components/ui/select";
 import { format, sub } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useAllCourse } from "@/hooks/tanstackHooks/useCourse";
+import { useAllCourse, useOpenCourseAndBatchOfStudyCenter } from "@/hooks/tanstackHooks/useCourse";
 import { useState, useEffect } from "react";
 import { useOpenBatchesOfCourse } from "@/hooks/tanstackHooks/useBatch";
 import Loader from "@/components/ui/loader";
 import {  useCreateEnrollmentAndStudent } from "@/hooks/tanstackHooks/useEnrollment";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { uploadFile } from "@/lib/s3Service";
 
 const CourseSelectionComp = ({ userData, setStep }) => {
   console.log("CourseSelectionComp", userData);
@@ -39,11 +40,13 @@ const CourseSelectionComp = ({ userData, setStep }) => {
   const [validationError, setValidationError] = useState("");
 
   const navigate = useNavigate();
-  const { data, isLoading } = useAllCourse();
+  const { data, isLoading } = useOpenCourseAndBatchOfStudyCenter();
+  console.log("Open Course and Batch Data:", data);
   const { mutate } = useCreateEnrollmentAndStudent();
-  const batchResponse = useOpenBatchesOfCourse(course);
-  const batches = batchResponse.data?.data || [];
-  const courses = data?.data || [];
+  const courses = data?.courses || [];
+  const selectedCourse = courses.find((c) => c.courseId === course);
+  const batches = selectedCourse ? selectedCourse.batches : [];
+  console.log("Available Batches:", batches);
 
   // Optional: Sync updated course/batch/year to local state if needed elsewhere
   const [enrollmentData, setEnrollmentData] = useState({
@@ -84,8 +87,8 @@ const CourseSelectionComp = ({ userData, setStep }) => {
   submissionData.append("qualification", userData.qualification);
 
   // Append files
-  submissionData.append("profileImage", userData.profileImage); // Must be a File object
-  submissionData.append("sslc", userData.sslc);
+  // submissionData.append("profileImage", userData.profileImage); // Must be a File object
+  // submissionData.append("sslc", userData.sslc);
   submissionData.append("enrollmentData", JSON.stringify(enrollmentData));
   // Sync when selections change
   useEffect(() => {
@@ -130,6 +133,15 @@ const CourseSelectionComp = ({ userData, setStep }) => {
     }
 
     setValidationError("");
+    const profileImageUrl = uploadFile(userData.profileImage);
+    const sslcUrl = uploadFile(userData.sslc);
+
+    if(!profileImageUrl || !sslcUrl) {
+      toast.error("Failed to upload files. Please try again.");
+      return;
+    }
+    submissionData.append("profileImage", profileImageUrl);
+    submissionData.append("sslc", sslcUrl);
 
     mutate(submissionData, {
       onSuccess: (res) => {
@@ -175,7 +187,7 @@ const CourseSelectionComp = ({ userData, setStep }) => {
             <div className="flex justify-center lg:justify-start">
               <Avatar className="w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 rounded-full border border-gray-300 overflow-hidden">
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={student?.profileImage || "/default-avatar.png"}
                   alt="@shadcn"
                   className="object-cover w-full h-full"
                 />
@@ -246,7 +258,7 @@ const CourseSelectionComp = ({ userData, setStep }) => {
                   <SelectGroup>
                     <SelectLabel>Courses</SelectLabel>
                     {courses.map((course) => (
-                      <SelectItem key={course._id} value={course._id}>
+                      <SelectItem key={course.courseId} value={course.courseId}>
                         {course.name}
                       </SelectItem>
                     ))}

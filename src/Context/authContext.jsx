@@ -13,6 +13,7 @@ function AuthContext({children}) {
             if(data){
                 if(data.success){
                     setUser(data.data)
+                    console.log("User data:", data.data)
                     setLoading(false)
                 }else{
                     setLoading(false)

@@ -8,6 +8,13 @@ export const useAllCourse = () => {
     keepPreviousData: true,
   });
 };
+export const useOpenCourseAndBatchOfStudyCenter = () => {
+  return useQuery({
+    queryKey: ["coures-open"],
+    queryFn: () => courseService.getOpenCourseAndBatchOfStudyCenter(),
+    keepPreviousData: true,
+  });
+};
 
 
 export const useCreateCourse = () => {
