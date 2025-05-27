@@ -31,8 +31,11 @@ export const useCreateStudent = () => {
 export const useCreateEnrollmentAndStudent = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (  data ) => { 
-      return enrollmentServices.createEnrollmentAndStudent(data);
+    mutationFn: ({ student, enrollmentData }) => {
+      return enrollmentServices.createEnrollmentAndStudent({
+        student,
+        enrollmentData,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["studentEnrollment"]);

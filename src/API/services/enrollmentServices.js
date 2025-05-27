@@ -28,11 +28,6 @@ export const enrollmentServices = {
     const response = await axiosInstance.post(
       API_ENDPOINTS.ENROLLMENT.CREATE_STUDENT_AND_ENROLLMENT,
       data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
     );
     return response.data;
   },

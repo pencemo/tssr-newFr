@@ -17,9 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { format, sub } from "date-fns";
+import { format, set, sub } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useAllCourse, useOpenCourseAndBatchOfStudyCenter } from "@/hooks/tanstackHooks/useCourse";
+import {  useOpenCourseAndBatchOfStudyCenter } from "@/hooks/tanstackHooks/useCourse";
 import { useState, useEffect } from "react";
 import { useOpenBatchesOfCourse } from "@/hooks/tanstackHooks/useBatch";
 import Loader from "@/components/ui/loader";
@@ -31,18 +31,17 @@ import { uploadFile } from "@/lib/s3Service";
 const CourseSelectionComp = ({ userData, setStep }) => {
   console.log("CourseSelectionComp", userData);
   const [student, setStudent] = useState(userData);
+  console.log("Student Data:", student);
   const [course, setCourse] = useState(null);
   const [batch, setBatch] = useState(null);
-  const [year, setYear] = useState(null);
   const [courseError, setCourseError] = useState(false);
   const [batchError, setBatchError] = useState(false);
-  const [yearError, setYearError] = useState(false);
   const [validationError, setValidationError] = useState("");
 
   const navigate = useNavigate();
   const { data, isLoading } = useOpenCourseAndBatchOfStudyCenter();
   console.log("Open Course and Batch Data:", data);
-  const { mutate } = useCreateEnrollmentAndStudent();
+  const { mutate , isPending } = useCreateEnrollmentAndStudent();
   const courses = data?.courses || [];
   const selectedCourse = courses.find((c) => c.courseId === course);
   const batches = selectedCourse ? selectedCourse.batches : [];
@@ -53,57 +52,22 @@ const CourseSelectionComp = ({ userData, setStep }) => {
     courseId: null,
     batchId: null,
     studentId: student._id,
-    year: null,
   });
 
-  const submissionData = new FormData();
 
-  // Append all simple fields
-  submissionData.append("name", userData.name);
-  submissionData.append("age", userData.age);
-  submissionData.append(
-    "dateOfBirth",
-    userData.dateOfBirth ? new Date(userData.dateOfBirth).toISOString() : null
-  );
-  submissionData.append("gender", userData.gender);
-  submissionData.append("phoneNumber", userData.phoneNumber);
-  submissionData.append("email", userData.email);
-  submissionData.append("adhaarNumber", userData.adhaarNumber);
-  // Append address fields
-  submissionData.append("place", userData.place);
-  submissionData.append("district", userData.district);
-  submissionData.append("state", userData.state);
-  submissionData.append("pincode", userData.pincode);
-
-  // Append other fields
-
-  submissionData.append(
-    "dateOfAdmission",
-    userData.dateOfAdmission
-      ? new Date(userData.dateOfAdmission).toISOString()
-      : null
-  );
-  submissionData.append("parentName", userData.parentName);
-  submissionData.append("qualification", userData.qualification);
-
-  // Append files
-  // submissionData.append("profileImage", userData.profileImage); // Must be a File object
-  // submissionData.append("sslc", userData.sslc);
-  submissionData.append("enrollmentData", JSON.stringify(enrollmentData));
   // Sync when selections change
   useEffect(() => {
     setEnrollmentData({
       courseId: course,
       batchId: batch,
       studentId: student._id,
-      year: Number(year),
     });
-  }, [course, batch, year, student._id]);
+  }, [course, batch, student._id]);
 
   // Inside component
 
   // handleSubmit with validation
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     let hasError = false;
 
     if (!course) {
@@ -120,30 +84,32 @@ const CourseSelectionComp = ({ userData, setStep }) => {
       setBatchError(false);
     }
 
-    if (!year) {
-      setYearError(true);
-      hasError = true;
-    } else {
-      setYearError(false);
-    }
-
     if (hasError) {
       setValidationError("⚠️ Please select all required fields.");
       return;
     }
 
     setValidationError("");
-    const profileImageUrl = uploadFile(userData.profileImage);
-    const sslcUrl = uploadFile(userData.sslc);
+    const [profileImageUrl, sslcUrl] = await Promise.all([
+      uploadFile(userData.profileImage),
+      uploadFile(userData.sslc)
+    ]);
+    
+
+    console.log("Profile Image URL:", profileImageUrl);
+    console.log("SSLC URL:", sslcUrl);
 
     if(!profileImageUrl || !sslcUrl) {
       toast.error("Failed to upload files. Please try again.");
       return;
     }
-    submissionData.append("profileImage", profileImageUrl);
-    submissionData.append("sslc", sslcUrl);
+    setStudent((prev) => ({
+      ...prev,  
+      profileImage: profileImageUrl.url,
+      sslc: sslcUrl.url,
+    }));
 
-    mutate(submissionData, {
+    mutate({student,enrollmentData}, {
       onSuccess: (res) => {
         if (res.success) {
           toast.success("Enrollment successful!");
@@ -161,7 +127,6 @@ const CourseSelectionComp = ({ userData, setStep }) => {
   function HandleBack() {
     setCourse(null);
     setBatch(null);
-    setYear(null);
     setCourseError(false);
     setStep(1);
   }
@@ -237,7 +202,7 @@ const CourseSelectionComp = ({ userData, setStep }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
             {/* Course Select */}
             <div className="w-full">
               <label className="block mb-1 text-sm font-medium text-gray-700">
@@ -295,34 +260,6 @@ const CourseSelectionComp = ({ userData, setStep }) => {
                 </SelectContent>
               </Select>
             </div>
-
-            {/* Year Select */}
-            <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Year
-              </label>
-              <Select
-                onValueChange={(value) => {
-                  setYear(value);
-                  setYearError(false);
-                }}
-              >
-                <SelectTrigger
-                  className={`w-full ${yearError ? "border-red-500" : ""}`}
-                >
-                  <SelectValue placeholder="Select a year" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Year</SelectLabel>
-                    <SelectItem value="2023">2023</SelectItem>
-                    <SelectItem value="2024">2024</SelectItem>
-                    <SelectItem value="2025">2025</SelectItem>
-                    <SelectItem value="2026">2026</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
         </CardContent>
 
@@ -343,7 +280,12 @@ const CourseSelectionComp = ({ userData, setStep }) => {
               Cancel
             </Button>
             <Button className="w-full sm:w-auto" onClick={handleSubmit}>
-              Confirm Selection
+              {isPending ? (
+                <Loader className="animate-spin" />
+              ) : (
+                "Confirm Selection"
+              )}
+              {/* Confirm Selection */}
             </Button>
           </div>
         </CardFooter>

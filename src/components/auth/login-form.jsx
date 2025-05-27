@@ -42,13 +42,15 @@ export function LoginForm({
         toast("Error to login", {
           description: data.message,
         })
+
         return 
       }else{
         setError("")
         toast("Login successfull", {
           description: data.message,
         })
-        setUser(data.data)
+        setUser(data.data.user)
+        console.log("User data:", data.data)
         // navigate('/user')
       }
       
@@ -63,15 +65,16 @@ export function LoginForm({
     
   }
 
-  useEffect(()=>{
-    if(user){
-      if(user.role === 'user'){
-        navigate('/')
-      }else{
-        navigate('/admin')
+  useEffect(() => {
+    if (user) {
+      if (user.role === "studycenter_user") {
+        navigate("/studycenter");
+
+      } else if (user.role === "admin") {
+        navigate("/admin");
       }
     }
-  }, [user])
+  }, [user, navigate]);
 
   return (
     (<div className={cn("flex flex-col gap-6", className)} {...props}>
