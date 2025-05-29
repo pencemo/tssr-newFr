@@ -29,9 +29,8 @@ import { useNavigate } from "react-router-dom";
 import { uploadFile } from "@/lib/s3Service";
 
 const CourseSelectionComp = ({ userData, setStep }) => {
-  console.log("CourseSelectionComp", userData);
   const [student, setStudent] = useState(userData);
-  console.log("Student Data:", student);
+  // console.log("Student Data:", student);
   const [course, setCourse] = useState(null);
   const [batch, setBatch] = useState(null);
   const [courseError, setCourseError] = useState(false);
@@ -40,12 +39,10 @@ const CourseSelectionComp = ({ userData, setStep }) => {
 
   const navigate = useNavigate();
   const { data, isLoading } = useOpenCourseAndBatchOfStudyCenter();
-  console.log("Open Course and Batch Data:", data);
   const { mutate , isPending } = useCreateEnrollmentAndStudent();
   const courses = data?.courses || [];
   const selectedCourse = courses.find((c) => c.courseId === course);
   const batches = selectedCourse ? selectedCourse.batches : [];
-  console.log("Available Batches:", batches);
 
   // Optional: Sync updated course/batch/year to local state if needed elsewhere
   const [enrollmentData, setEnrollmentData] = useState({
@@ -103,25 +100,28 @@ const CourseSelectionComp = ({ userData, setStep }) => {
       toast.error("Failed to upload files. Please try again.");
       return;
     }
-    setStudent((prev) => ({
-      ...prev,  
+    const studentWithUrls = {
+      ...student,
       profileImage: profileImageUrl.url,
       sslc: sslcUrl.url,
-    }));
+    };
 
-    mutate({student,enrollmentData}, {
-      onSuccess: (res) => {
-        if (res.success) {
-          toast.success("Enrollment successful!");
-          navigate("/studycenter");
-        } else {
-          toast.error(res.message);
-        }
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
+    mutate(
+      { student: studentWithUrls, enrollmentData },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            toast.success("Enrollment successful!");
+            navigate("/studycenter");
+          } else {
+            toast.error(res.message);
+          }
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
+      }
+    );
   };
 
   function HandleBack() {

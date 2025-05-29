@@ -9,6 +9,7 @@ export const excelDownload = (jsonData) => {
       if (Array.isArray(value)) {
         // Convert arrays to comma-separated string
         
+        
         flattenedItem[key] = value.join(", ");
       } else if (typeof value === "object" && value !== null) {
         // Convert nested objects to string
