@@ -9,15 +9,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/Context/authContext";
 
 const currentYear = new Date().getFullYear();
-const oldYears = Array.from({ length: 20 }, (_, i) => currentYear - i);
+const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
-function StudentFilter({ filters, onFilterChange, courses , onClear}) {
+function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter}) {
    const [batches, setBatches] = useState([]);
+   const {user}=useAuth()
   return (
     <div className="w-full flex max-md:flex-col items-end justify-between gap-2 rounded-xl">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 w-full max-w-4xl">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-2 w-full max-w-5xl">
+        {user?.role === "admin" &&
+        <SelctFilter
+        data={studycenter || []}
+        isObject
+        text={"Select Centre"}
+        value={filters.studyCentre}
+        onChange={(value) => {
+          console.log(value);
+          onFilterChange("studyCentre", value)
+        }}
+        lebal={"Study Centre"}
+      />
+        }
       <SelctFilter
         data={courses || []}
         isObject
@@ -75,7 +90,7 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
             {isObject ? (
               data.map((item, index) => (
                 <SelectItem key={index} value={item.courseId || item._id}>
-                  {item.courseName || item.month}
+                  {item.courseName || item.month || item.name}
                 </SelectItem>
               ))
             ) : (

@@ -1,4 +1,5 @@
 import { authService } from "@/API/services/authService";
+import { settingsService } from "@/API/services/settingsService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useGetUser = () => {
@@ -9,6 +10,12 @@ export const useGetUser = () => {
   });
 };
 
+export const useSettings = () => {
+  return useQuery({
+    queryKey: ["settings"],
+    queryFn: () => settingsService.getSettings(),
+  });
+};
 
 
 export const useLogin = () => {

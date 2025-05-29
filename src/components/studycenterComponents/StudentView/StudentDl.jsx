@@ -16,11 +16,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { excelDownload } from "@/lib/ExcelDownload";
-import { useCourseOfStudyCenter } from "@/hooks/tanstackHooks/useStudyCentre";
+import { useCourseOfStudyCenter, useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
 import { Download04Icon } from "hugeicons-react";
 import { Download, Loader2, MoreVerticalIcon } from "lucide-react";
 import { useStudentForDl } from "@/hooks/tanstackHooks/useStudents";
 import { toast } from "sonner";
+import { useAuth } from "@/Context/authContext";
 
 const EXPORT_FIELDS = [
   { id: "registrationNumber", label: "Reg. Number" },
@@ -61,12 +62,16 @@ export function StudentDl() {
   const { data: course } = useCourseOfStudyCenter();
   const [batchs, setBatches] = useState([]);
   const [error, setError] = useState(null);
+  const {user}=useAuth()
   const [isLoading, setLoading] = useState(false);
   const { isPending, mutateAsync } = useStudentForDl();
+  const {data:studycenter}=useGetStudyCenterForExcel()
+  const [isOpen, setOpen]=useState(false)
   const [filters, setFilters] = useState({
     course: "",
     batch: "",
     year: "",
+    studyCenter: ""
   });
 
   const handleFilterChange = (filterName, value) => {
@@ -84,13 +89,16 @@ export function StudentDl() {
     );
 
   const currentYear = new Date().getFullYear();
-  const oldYears = Array.from({ length: 20 }, (_, i) => currentYear - i);
+  const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
   const handleDownload = async () => {
-    if (!filters.course || !filters.batch || !filters.year) {
-      toast.error("Please select all fields");
-      setError("Please select all fields");
-      return;
+    setError(null);
+    if(!user.isAdmin){
+      if ( !filters.course || !filters.batch || !filters.year) {
+        toast.error("Please select all fields");
+        setError("Please select all fields");
+        return;
+      }
     }
     try {
       setLoading(true);
@@ -98,30 +106,46 @@ export function StudentDl() {
         courseId: filters.course,
         batchId: filters.batch,
         year: filters.year,
+        studyCenter: filters.studyCenter,
         fields: includedFields,
+      }, {
+        onSuccess: (data) => {
+          if(!data.success){
+            toast.error(data.message)
+            setError(data.message)
+          }
+        }
       });
 
       if (data && data.data) {
         excelDownload(data?.data);
-      } else {
-        toast.error("Error to fetch data");
+        setFilters({
+          course: "",
+          batch: "",
+          year: "",
+        });
       }
     } catch (err) {
       toast.error("Failed to download study center data.");
     } finally {
-      setFilters({
-        course: "",
-        batch: "",
-        year: "",
-      });
-
-      setError(null);
+      
       setLoading(false);
     }
   };
 
+  useEffect(()=>{
+    if(!isOpen){
+      setFilters({
+        course: "",
+        batch: "",
+        year: "",
+        studyCenter: ""
+      })
+      setError(null)
+    }
+  }, [isOpen])
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" size="icon">
           <MoreVerticalIcon />
@@ -140,6 +164,17 @@ export function StudentDl() {
           <div className="space-y-3">
             {/* Sort Option */}
             <div className="w-full space-y-2 ">
+              {user.isAdmin&&<DlFilter
+                data={studycenter ? studycenter.data : []}
+                lebal="Study Center"
+                text="Select Center"
+                value={filters.studyCenter}
+                onChange={(value) => {
+                  handleFilterChange("studyCenter", value);
+                }}
+                isObject={true}
+                // error={error && filters.studyCenter === ""}
+              />}
               <DlFilter
                 data={course ? course.data : []}
                 lebal="Course"
@@ -244,7 +279,7 @@ function DlFilter({
             {isObject ? (
               data.map((item, index) => (
                 <SelectItem key={index} value={item.courseId || item._id}>
-                  {item.courseName || item.month}
+                  {item.courseName || item.month || item.name}
                 </SelectItem>
               ))
             ) : (

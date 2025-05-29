@@ -9,13 +9,14 @@ import {
   MoreVerticalIcon,
 } from "lucide-react";
 import Loader from "@/components/ui/loader";
-import { useCourseOfStudyCenter } from "@/hooks/tanstackHooks/useStudyCentre";
+import { useCourseOfStudyCenter, useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
 import { useNavigate } from "react-router-dom";
 import { StudentTable } from "@/components/studycenterComponents/StudentView/StudentTable";
 import StudentFilter from "@/components/studycenterComponents/StudentView/StudentFilter";
 import { useStudentOfStudyCenter } from "@/hooks/tanstackHooks/useStudents";
 import NoData from "@/components/ui/noData";
 import { StudentDl } from "@/components/studycenterComponents/StudentView/StudentDl";
+import { useAuth } from "@/Context/authContext";
 
 export function ViewStudent() {
   const [search, setSearch] = useState("");
@@ -24,11 +25,14 @@ export function ViewStudent() {
   const [students, setStudents] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
   const { data:course } = useCourseOfStudyCenter()
+  const {data:studycenter}=useGetStudyCenterForExcel()
+  const {user}=useAuth()
   const [filters, setFilters] = useState({
     course: "",
     batch: "",
     year: "",
     sort: "",
+    studyCentre: ""
   });
   const navigate = useNavigate();
 
@@ -51,7 +55,8 @@ export function ViewStudent() {
     filters.course,
     filters.batch,
     filters.year,
-    filters.sort
+    filters.sort,
+    filters.studyCentre,
   );
 
   useEffect(() => {
@@ -82,6 +87,9 @@ export function ViewStudent() {
   return (
     <div className=" w-full h-full">
       <div className="space-y-6 w-full h-full">
+        <div>
+          <h1 className="text-2xl font-bold">Students Data</h1>
+        </div>
         <div className="flex max-sm:flex-col gap-2 justify-between items-center">
           <Input
             value={search}
@@ -89,19 +97,20 @@ export function ViewStudent() {
               setSearch(e.target.value);
             }}
             type="text"
-            placeholder="Search users..."
+            placeholder="Search Student"
             className="max-w-sm max-sm:max-w-full"
           />
           <div className="max-sm:w-full flex items-center justify-center gap-2">
-            <Button onClick={() => navigate("/studycenter/admission")}>
+            {!user.isAdmin &&<Button onClick={() => navigate("/studycenter/admission")}>
               Add Student
-            </Button>
+            </Button>}
             <StudentDl/>
           </div>
         </div>
         
         <StudentFilter
               courses={course?.data}
+              studycenter={studycenter?.data}
               filters={filters}
               onFilterChange={handleFilterChange}
               onClear={() =>{
@@ -110,6 +119,7 @@ export function ViewStudent() {
                   batch: "",
                   year: "",
                   sort: "",
+                  studyCentre: ''
                 }
                 )
               }}

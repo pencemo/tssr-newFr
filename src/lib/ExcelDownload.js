@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
 
-export const excelDownload = (jsonData) => {
+export const excelDownload = (jsonData, fileName = "data") => {
   // Flatten nested arrays and stringify objects
   const flattenedData = jsonData.map((item) => {
     const flattenedItem = {};
@@ -30,5 +30,5 @@ export const excelDownload = (jsonData) => {
   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
   // Export the Excel file
-  XLSX.writeFile(wb, "data.xlsx");
+  XLSX.writeFile(wb, `${fileName}.xlsx`);
 };
