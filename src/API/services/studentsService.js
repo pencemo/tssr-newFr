@@ -2,7 +2,7 @@ import axiosInstance from "../axiosConfig";
 import { API_ENDPOINTS } from "../apiEndpoints";
 
 export const studentsService = {
-  getAllStudentsOfStudyCenter: async (page, limit, search, courseId, batchId, year, sortBy) => {
+  getAllStudentsOfStudyCenter: async (page, limit, search, courseId, batchId, year, sortBy, studyCentre) => {
     const response = await axiosInstance.get(
       API_ENDPOINTS.STUDENTS.ALL_STUDENTS_OF_STUDY_CENTER,
       {
@@ -10,7 +10,7 @@ export const studentsService = {
           page,
           limit,
           search,
-          courseId, batchId, year, sortBy
+          courseId, batchId, year, sortBy, studyCentre
         },
       }
     );
@@ -27,11 +27,11 @@ export const studentsService = {
     );
     return response.data;
   },
-  getStudentsForDl: async (courseId, batchId, year, fields) => {
+  getStudentsForDl: async (courseId, batchId, year, fields, studycenterId) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.STUDENTS.STUDENT_FOR_DL,
       {
-        courseId, batchId, year, fields
+        courseId, batchId, year, fields, studycenterId
       }
     );
     return response.data;

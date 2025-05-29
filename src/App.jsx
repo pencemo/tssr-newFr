@@ -17,6 +17,9 @@ import ViewStudent from "./app/studycenter/viewSutdent/viewStudent";
 import NoData from "./components/ui/noData";
 import OneStudent from "./app/studycenter/viewSutdent/OneStudent";
 import Protect from "./Context/ProtectedRoute";
+import DownloadFiles from "./app/studycenter/Downloads/DownloadFiles";
+import { PDFViewer } from "@react-pdf/renderer";
+import PDFView from "./components/studycenterComponents/DownloadsFile/PDFView";
 
 
 function App() {
@@ -25,6 +28,43 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/pdf" element={
+          <div className="w-full h-screen flex justify-center items-center">
+             <PDFViewer width={1000} height={500} className="w-full min-h-screen">
+            
+            <PDFView name={'ATTENDANCE REGISTER'}  head={['Date', 'Subject 1', 'Subject 2', 'Subject 3', 'Subject 4', 'Subject 5', 'Subject 6', 'Online / Ofline']} data={
+              {
+                "success": true,
+                "data": [
+                    {
+                        "name": "Jane Smith",
+                        "registrationNumber": "10511002",
+                        "year": 2025,
+                        "enrolledDate": "2025-05-23T00:00:00.000Z",
+                        "isCompleted": "Not Completed",
+                        "isPassed": "Not Passed",
+                        "batchMonth": "December",
+                        "courseName": "Diploma in mear stack"
+                    },
+                    {
+                        "name": "Alex Johnson",
+                        "registrationNumber": "10511003",
+                        "year": 2025,
+                        "enrolledDate": "2025-05-23T00:00:00.000Z",
+                        "isCompleted": "Not Completed",
+                        "isPassed": "Not Passed",
+                        "batchMonth": "December",
+                        "courseName": "Diploma in mear stack"
+                    }
+                ],
+                "studycenterName": "Taptune",
+                "courseName": "Diploma in mear stack",
+                "year": 2025
+            }
+            } />
+            </PDFViewer>
+          </div>
+        } />
 
         <Route path="/admin" element={<Protect requiredRole={['admin']}><Page /></Protect>}>
           <Route index element={<Dashbord />} />
@@ -38,7 +78,10 @@ function App() {
             <Route index element={<Courses />} />
           </Route>
           <Route path="admission" element={<AdmissionSection />} />
-          <Route path="students" element={<Dashbord />} />
+          <Route path="students" element={<Outlet/>} >
+            <Route index element={<ViewStudent />} />
+            <Route path="view/:id" element={<OneStudent/>} />
+          </Route>
           <Route path="hallticket" element={<Dashbord />} />
           <Route path="results" element={<Dashbord />} />
         </Route>
@@ -54,7 +97,7 @@ function App() {
           <Route path="examination" element={<NoData />} />
           <Route path="results" element={<NoData />} />
           <Route path="marksheet" element={<NoData />} />
-          <Route path="downloads" element={<NoData />} />
+          <Route path="downloads" element={<DownloadFiles />} />
           <Route path="admission" element={<Outlet />}>
             <Route index element={<AdmissionForStudent />} />
             <Route path="excel" element={<AdmissionUsingExcel />} />

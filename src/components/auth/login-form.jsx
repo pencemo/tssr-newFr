@@ -39,25 +39,16 @@ export function LoginForm({
       const data = await authService.login(formData)
       if(!data.success){
         setError(data.message)
-        toast("Error to login", {
-          description: data.message,
-        })
-
+        toast.error(data.message)
         return 
       }else{
         setError("")
-        toast("Login successfull", {
-          description: data.message,
-        })
+        toast.success("Login successfull")
         setUser(data.data.user)
-        console.log("User data:", data.data)
-        // navigate('/user')
       }
       
     }catch(err){
-      toast("Error to login", {
-        description: 'Somthing went wrong',
-      })
+      toast.error("Something went wrong to login" )
       setError('Something went wrong')
     }finally{
       setLoading(false)

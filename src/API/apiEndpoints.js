@@ -4,6 +4,7 @@ export const API_ENDPOINTS = {
     LOGIN: "/api/auth/login",
     ISOUTH: "/api/auth/isAuth",
     REGISTER: "/api/auth/create",
+    LOGOUT: '/api/auth/logout'
   },
   STUDY_CENTERS: {
     VERIFIED: "/api/studycenter/getVerifiedStudyCenters",
@@ -52,5 +53,8 @@ export const API_ENDPOINTS = {
     STUDENT_FOR_DL: "/api/students/getStudentsForDl",
     GET_ONE_STUDENT: "/api/students/getOneStudent",
   },
+  SETTINGS: {
+    GET_SETTINGS: "/api/settings/getSettings",
+  }
 };
  
