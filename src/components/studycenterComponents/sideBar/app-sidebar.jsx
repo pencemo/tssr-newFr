@@ -20,8 +20,10 @@ import {
   Home04Icon,
   InformationDiamondIcon,
   Mortarboard02Icon,
+  Notification03Icon,
   PenTool03Icon,
   Settings02Icon,
+  Store02Icon,
   Ticket03Icon,
   UserAdd01Icon,
 } from "hugeicons-react";
@@ -42,11 +44,6 @@ import { Link } from "react-router-dom";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -90,6 +87,11 @@ const data = {
       url: "downloads",
       icon: FileDownloadIcon,
     },
+    {
+      title: "TSSR Store",
+      url: "store",
+      icon: Store02Icon,
+    },
   ],
   navSecondary: [
     {
@@ -106,19 +108,20 @@ const data = {
   projects: [
     {
       name: "Settings",
-      url: "ure",
+      url: "settings",
       icon: Settings02Icon,
     },
     {
-      name: "Report",
-      url: "#",
-      icon: InformationDiamondIcon,
+      name: "Notifications",
+      url: "notifications",
+      icon: Notification03Icon,
     },
     // {
-    //   name: "Support",
+    //   name: "Report",
     //   url: "#",
-    //   icon: Map,
+    //   icon: InformationDiamondIcon,
     // },
+    
   ],
 };
 
@@ -155,7 +158,7 @@ export function AppSidebar({ ...props }) {
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

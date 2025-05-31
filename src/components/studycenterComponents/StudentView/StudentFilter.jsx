@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/Context/authContext";
 
-const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear()+1;
 const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
 function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter}) {
@@ -19,7 +19,7 @@ function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter
    const {user}=useAuth()
   return (
     <div className="w-full flex max-md:flex-col items-end justify-between gap-2 rounded-xl">
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-2 w-full max-w-5xl">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 w-full max-w-5xl">
         {user?.role === "admin" &&
         <SelctFilter
         data={studycenter || []}
@@ -61,13 +61,13 @@ function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter
         onChange={(value) => onFilterChange("year", value)}
         lebal={"Year"}
       />
-      <SelctFilter
-        data={oldYears}
+      {/* <SelctFilter
+        data={['Name', 'Date (Diffoult)']}
         text={"Sort by"}
         value={filters.sort}
         onChange={(value) => onFilterChange("sort", value)}
         lebal={"Sort"}
-      />
+      /> */}
       </div>
       <Button onClick={onClear} variant='outline' className='shadow-none py-5'>Clear filter</Button>
     </div>

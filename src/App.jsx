@@ -20,6 +20,11 @@ import Protect from "./Context/ProtectedRoute";
 import DownloadFiles from "./app/studycenter/Downloads/DownloadFiles";
 import { PDFViewer } from "@react-pdf/renderer";
 import PDFView from "./components/studycenterComponents/DownloadsFile/PDFView";
+import DashbordStudy from "./app/studycenter/Dashboard/DashbordStudy";
+import AdminSettings from "./app/admin/Settings/AdminSettings";
+import SettingsCentre from "./app/studycenter/SettingsCentre/SettingsCentre";
+import Store from "./app/admin/Store/Store";
+import CentreStore from "./app/studycenter/Store/CentreStore";
 
 
 function App() {
@@ -82,22 +87,25 @@ function App() {
             <Route index element={<ViewStudent />} />
             <Route path="view/:id" element={<OneStudent/>} />
           </Route>
-          <Route path="hallticket" element={<Dashbord />} />
+          <Route path="examination" element={<Dashbord />} />
           <Route path="results" element={<Dashbord />} />
+          <Route path="store" element={<Store />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
 
         {/* Routes for studycenter functionality */}
         <Route path="/studycenter" element={<Protect requiredRole={['studycenter_user']}><PageForStudyCenter /></Protect>}>
-          <Route index element={<Dashbord />} />
+          <Route index element={<DashbordStudy />} />
           <Route path="students" element={<Outlet />} >
             <Route index element={<ViewStudent />} />
             <Route path="view/:id" element={<OneStudent/>} />
-
           </Route>
           <Route path="examination" element={<NoData />} />
           <Route path="results" element={<NoData />} />
           <Route path="marksheet" element={<NoData />} />
           <Route path="downloads" element={<DownloadFiles />} />
+          <Route path="store" element={<CentreStore />} />
+          <Route path="settings" element={<SettingsCentre />} />
           <Route path="admission" element={<Outlet />}>
             <Route index element={<AdmissionForStudent />} />
             <Route path="excel" element={<AdmissionUsingExcel />} />

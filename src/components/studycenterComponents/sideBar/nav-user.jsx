@@ -5,7 +5,9 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  File,
   LogOut,
+  Settings,
   Sparkles,
 } from "lucide-react"
 
@@ -31,12 +33,11 @@ import {
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/Context/authContext"
 import { authService } from "@/API/services/authService"
+import { useNavigate } from "react-router-dom"
 
-export function NavUser({
-  // user,
-}) {
+export function NavUser() {
   const { isMobile } = useSidebar()
-
+  const navigate = useNavigate()
   const {user, setUser}=useAuth()
 
   const handleLogOut = ()=>{
@@ -83,23 +84,17 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+              <DropdownMenuItem onClick={()=>navigate('/studycenter/settings')}>
+                <Settings />
+                Settings
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+              <DropdownMenuItem onClick={()=>navigate('/studycenter/downloads')}>
+                <File />
+                Downloads
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={()=>navigate('/studycenter/notifications')}>
                 <Bell />
                 Notifications
               </DropdownMenuItem>

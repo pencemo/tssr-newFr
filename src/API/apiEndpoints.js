@@ -14,6 +14,7 @@ export const API_ENDPOINTS = {
     DELETE: "/api/studyCenters/:id",
     COURSE_OF_STUDY_CENTER: "/api/studycenter/getCoursesOfStudyCenter",
     GET_STUDYCENTER_FOR_EXCEL: "/api/studycenter/getAllStudyCenterForExcel",
+    
   },
   COURSE: {
     GET_ALL: "/api/course/getAllCourses",
@@ -55,6 +56,15 @@ export const API_ENDPOINTS = {
   },
   SETTINGS: {
     GET_SETTINGS: "/api/settings/getSettings",
+    UPDATE_ACCOUNT_INFO: "/api/settings/updateAdminAndUserField",
+    TOGGLE_SETTINGS: "/api/settings/toggleSettingsField",
+    EDIT_STUDY_CENTER: "/api/studycenter/editStudyCenterFields",
+  }, 
+  PRODUCT: {
+    ADD_PRODUCT: "/api/products/addProduct",
+    GET_ALL_PRODUCTS: "/api/products/getAllProducts",
+    GET_ONE_PRODUCT: "/api/products/getProduct",
+    UPDATE_PRODUCT: "/api/products/updateProduct",
   }
 };
  

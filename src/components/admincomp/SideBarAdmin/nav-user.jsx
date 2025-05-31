@@ -5,7 +5,9 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  Info,
   LogOut,
+  Settings,
   Sparkles,
 } from "lucide-react"
 
@@ -29,11 +31,23 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useAuth } from "@/Context/authContext"
+import { authService } from "@/API/services/authService"
+import { useNavigate } from "react-router-dom"
 
 export function NavUser({
-  user
+  // user
 }) {
   const { isMobile } = useSidebar()
+  const {user, setUser}=useAuth()
+  const navigate = useNavigate()
+
+  const handleLogOut = ()=>{
+    setUser(null)
+    authService.logOut()
+  }
+
+
 
   return (
     (<SidebarMenu>
@@ -43,9 +57,9 @@ export function NavUser({
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-lg border border-gray-200/50">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">TR</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -72,29 +86,23 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+              <DropdownMenuItem onClick={()=>navigate('/admin/settings')}>
+                <Settings />
+                Settings
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+              <DropdownMenuItem onClick={()=>navigate('/admin')}>
+                <Info />
+                Riport
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={()=>navigate('/admin/notifications')}>
                 <Bell />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

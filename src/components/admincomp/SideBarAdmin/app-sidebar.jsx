@@ -23,7 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Book02Icon, Bookmark03Icon, GraduateMaleIcon, Home04Icon, Mortarboard02Icon, Ticket03Icon, UserAdd01Icon } from "hugeicons-react"
+import { Book02Icon, Bookmark03Icon, GraduateMaleIcon, Home04Icon, Mortarboard02Icon, NoteEditIcon, Ticket03Icon, UserAdd01Icon } from "hugeicons-react"
 import { Link } from "react-router-dom"
 
 const data = {
@@ -76,9 +76,9 @@ const data = {
       
     },
     {
-      title: "Hall Ticket",
-      url: "hallticket",
-      icon: Ticket03Icon,
+      title: "Examination",
+      url: "examination",
+      icon: NoteEditIcon,
       
     },
     {
@@ -88,8 +88,8 @@ const data = {
       
     },
     {
-      title: "Marksheet",
-      url: "marksheet",
+      title: "TSSR Store",
+      url: "store",
       icon: Settings2,
       
     },
@@ -109,18 +109,13 @@ const data = {
   projects: [
     {
       name: "Settings",
-      url: "#",
+      url: "settings",
       icon: Settings,
     },
     {
       name: "Report",
       url: "#",
       icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 }
