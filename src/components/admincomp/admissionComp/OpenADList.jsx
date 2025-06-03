@@ -163,7 +163,7 @@ export function OpenADList() {
       </div>
     </div>
   );
-}
+} 
 
 
 export default OpenADList

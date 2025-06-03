@@ -76,7 +76,7 @@ export function Courses() {
     <div className=" w-full h-full">
       {selected ? (
         <div>
-          <Batches data={selected} subjects={subjects} setData={setSelected}  />
+          <Batches data={selected} subjects={subjects} setData={setSelected} />
         </div>
       ) : (
         <div className="space-y-6 w-full h-full">
@@ -90,17 +90,26 @@ export function Courses() {
               placeholder="Search users..."
               className="max-w-sm max-sm:max-w-full"
             />
-            <div className="max-sm:w-full flex flex-col">
-            <AddCourse
-                formData={formData}
-                setFormData={setFormData}
-                subject={subjects?.data}
-                submit={handleAddCourse}
-                type="add"
-                selected={selectedCoures}
-                setSelected={setSelectedCourse}
-              />
-              {/* <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Course</Button> */}
+            <div>
+              <div className="max-sm:w-full flex flex-row gap-2 items-center">
+                <Button
+                  className={"max-sm:w-full"}
+                  onClick={() => navigate("/admin/course/subjects")}
+                >
+                  Add Subjects
+                </Button>
+
+                <AddCourse
+                  formData={formData}
+                  setFormData={setFormData}
+                  subject={subjects?.data}
+                  submit={handleAddCourse}
+                  type="add"
+                  selected={selectedCoures}
+                  setSelected={setSelectedCourse}
+                />
+                {/* <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Course</Button> */}
+              </div>
             </div>
           </div>
 

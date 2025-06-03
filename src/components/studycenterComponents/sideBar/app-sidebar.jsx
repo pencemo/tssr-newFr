@@ -66,7 +66,7 @@ const data = {
         },
       ],
     },
-    
+
     {
       title: "Examination",
       url: "examination",
@@ -91,6 +91,12 @@ const data = {
       title: "TSSR Store",
       url: "store",
       icon: Store02Icon,
+      items: [
+        {
+          title: "TSSR Store",
+          url: "store/myorders",
+        },
+      ],
     },
   ],
   navSecondary: [
@@ -121,7 +127,6 @@ const data = {
     //   url: "#",
     //   icon: InformationDiamondIcon,
     // },
-    
   ],
 };
 

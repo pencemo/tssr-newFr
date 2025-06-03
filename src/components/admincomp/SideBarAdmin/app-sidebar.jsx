@@ -61,6 +61,10 @@ const data = {
       title: "Courses",
       url: "course",
       icon: Mortarboard02Icon,
+      items: [{
+        title: "subjects",
+        url: "course/subjects",
+      }]
       
     },
     {
@@ -89,8 +93,14 @@ const data = {
     },
     {
       title: "TSSR Store",
-      url: "store",
+      url: "orders",
       icon: Settings2,
+      items: [
+        {
+          title: "Products",
+          url: "orders/products",
+        }
+      ]
       
     },
   ],
