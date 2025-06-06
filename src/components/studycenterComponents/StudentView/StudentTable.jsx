@@ -15,9 +15,12 @@ import {
   } from "@/components/ui/avatar"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/Context/authContext";
   
   
   export function StudentTable({data}) {
+    const {user}=useAuth()
+    console.log(user);
     const navigate = useNavigate()
     return (
       <Table className='border-b'>
@@ -27,7 +30,7 @@ import { Button } from "@/components/ui/button"
             <TableHead className="w-[100px]">Profile</TableHead>
             <TableHead className="">Name</TableHead>
             <TableHead>Mobile</TableHead>
-            <TableHead>Email</TableHead>
+            {user?.isAdmin && <TableHead>Center</TableHead>}
             <TableHead>Course</TableHead>
             <TableHead>Batch</TableHead>
             <TableHead >Year</TableHead>
@@ -47,7 +50,7 @@ import { Button } from "@/components/ui/button"
               </TableCell>
               <TableCell className="font-medium">{item.studentName}</TableCell>
               <TableCell>{item.phoneNumber}</TableCell>
-              <TableCell>{item.email}</TableCell>
+              {user?.isAdmin && <TableCell>{item?.studycenterName}</TableCell>}
               <TableCell>{item.courseName}</TableCell>
               <TableCell>{item.batchMonth}</TableCell>
               <TableCell >{item.year}</TableCell>

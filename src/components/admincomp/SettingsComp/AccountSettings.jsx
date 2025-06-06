@@ -65,12 +65,12 @@ import { toast } from "sonner";
             <div className="space-y-2">
               <Label htmlFor='name' >Username</Label>
               <Input id='name' name='name' onChange={handleChange} value={userData.name} className="w-full" placeholder="Username" />
-              <p className="text-sm text-muted-foreground">Adipisicing elit. Consequatur alias vero vel sint non! Explicabo eligendi excepturi obcaecati molestiae?</p>
+              <p className="text-sm text-muted-foreground">User name of the account holder</p>
             </div>
             <div className="space-y-2">
               <Label htmlFor='email' >Email</Label>
               <Input id='email' value={userData.email} disabled className="w-full" placeholder="Email" />
-              <p className="text-sm text-muted-foreground">Can't change your email of your accout</p>
+              <p className="text-sm text-muted-foreground">Can't change email of your accout</p>
             </div>
             <div className="space-y-2">
               <Label htmlFor='phoneNumber' >Phone Nubmer</Label>
@@ -78,9 +78,9 @@ import { toast } from "sonner";
               {/* <p className="text-sm text-muted-foreground"></p> */}
             </div>
             <div className="space-y-2">
-              <Label htmlFor='name' >Password</Label>
-              <Input id='name' name='oldPassword' onChange={handleChange} value={userData.oldPassword} className="w-full" placeholder="Old Password" />
-              <Input id='name' name='newPassword' onChange={handleChange} value={userData.newPassword} className="w-full" placeholder="New Password" />
+              <Label htmlFor='password' >Password</Label>
+              <Input id='password' name='oldPassword' onChange={handleChange} value={userData.oldPassword} className="w-full" placeholder="Old Password" />
+              <Input  name='newPassword' onChange={handleChange} value={userData.newPassword} className="w-full" placeholder="New Password" />
               <p className="text-sm text-muted-foreground">For change password type your old and new pssword</p>
             </div>
             <div className="space-y-2">

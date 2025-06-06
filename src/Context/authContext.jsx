@@ -1,4 +1,5 @@
 import { useGetUser, useSettings } from '@/hooks/tanstackHooks/useAuth'
+import { useAllNotifications } from '@/hooks/tanstackHooks/useNotifications'
 import React, { useContext, useEffect, useState } from 'react'
 import { createContext } from 'react'
 
@@ -6,34 +7,43 @@ export const AuthContexP = createContext()
 
 function AuthContext({children}) {
     const [user, setUser] = useState(null)
-    const [settings, setSettings] = useState(null)
+    const [notificationCount, setNotificationCount]=useState(0)
     const [loading, setLoading] = useState(true)
     const {data}=useGetUser()
-    const {data: settingsData}=useSettings()
+    const {data: notificationsData}=useAllNotifications()
 
     useEffect(()=>{
         const getUser = async () => {
             if(data){
                 if(data.success){
                     setUser(data.data)
-                    console.log("User data:", data.data)
                     setLoading(false)
                 }else{
                     setLoading(false)
                 }
             }
         }
-        const getSettings = async () => {
-            if(settingsData && settingsData.success){
-                setSettings(settingsData.data)
+        
+        getUser()
+    }, [data])
+
+    useEffect(()=>{
+        const savedCount = window.localStorage.getItem('notificationCount') || 0
+
+        const setNotification = async () => {
+            if(notificationsData && notificationsData.success){
+                const newNotificationsCount = notificationsData?.data?.length - savedCount
+                setNotificationCount(newNotificationsCount)
             }
         }
-        getUser()
-        getSettings()
-    }, [data, settingsData])
+        
+        setNotification()
+    }, [notificationsData])
+
+
 
   return (
-    <AuthContexP.Provider value={{user, setUser, loading, settings, setSettings}} >
+    <AuthContexP.Provider value={{user, setUser, loading, notificationCount, setNotificationCount}} >
         {children}
     </AuthContexP.Provider>
   )
@@ -45,6 +55,7 @@ export const useAuth = () => {
     return useContext(AuthContexP)
 }
 
-export const useSettingsContext = () => {
+export const useNotificationCount = () => {
     return useContext(AuthContexP)
 }
+

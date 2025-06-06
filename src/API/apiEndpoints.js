@@ -77,5 +77,13 @@ export const API_ENDPOINTS = {
     GET_ORDER_OF_A_USER: "/api/orders/getOrderOfUser",
     GET_ORDER_BY_STATUS: "/api/orders/getOrdersByStatus",
   },
+  NOTIFICATIONS: {
+    GET_NOTIFICATIONS: "/api/notifications/getNotificationsOfEachUser",
+    CREATE_NOTIFICATION: "/api/notifications/createNotification",
+  },
+  DASHBOARD: {
+    GET_DATA: '/api/dashboard/getDashboardData',
+    GET_DATA_CENTER: '/api/dashboard/getDashboardDataOfStudycenter'
+  }
 };
  

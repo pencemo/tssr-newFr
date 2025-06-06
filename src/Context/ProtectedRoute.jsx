@@ -48,7 +48,7 @@ function Protect({ children, requiredRole }) {
     }else if(!user.isActive){
       return (
         <div className='w-full h-screen grid place-content-center'>
-          <span className="text-lg text-foreground">Account not activated</span>
+          <span className="text-lg text-foreground">Account is currently unavailable</span>
         </div>
       );
 

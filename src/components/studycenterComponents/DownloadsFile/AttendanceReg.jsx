@@ -81,6 +81,9 @@ export function AttendanceReg({name, fields, mark}) {
         link.download = `${name}.pdf`;
         link.click();
         URL.revokeObjectURL(url);
+      }else{
+        setError("No data found")
+        toast.error("No data found")
       }
       
     } catch (err) {

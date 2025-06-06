@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
-
 import LoginPage from "./app/Auth/login";
 import Home from "./page/Home";
 import Page from "./app/admin/page";
@@ -28,6 +27,9 @@ import CentreStore from "./app/studycenter/Store/CentreStore";
 import Orders from "./app/admin/Store/Orders";
 import MyOrders from "./app/studycenter/Store/MyOrders";
 import SubjectList from "./app/admin/Course/SubjectList";
+import AdminNotifications from "./app/admin/Notification/AdminNotifications";
+import CenterNotification from "./app/studycenter/Notifications/CenterNotification";
+import StudentPDF from "./app/studycenter/viewSutdent/StudentPDF";
 
 
 function App() {
@@ -36,6 +38,7 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
+        
         <Route
           path="/pdf"
           element={
@@ -45,7 +48,7 @@ function App() {
                 height={500}
                 className="w-full min-h-screen"
               >
-                <PDFView
+                {/* <PDFView
                   name={"ATTENDANCE REGISTER"}
                   head={[
                     "Date",
@@ -85,7 +88,40 @@ function App() {
                     courseName: "Diploma in mear stack",
                     year: 2025,
                   }}
-                />
+                /> */}
+                <StudentPDF data={{
+    "_id": "68403cc44b9290dd089b4ce5",
+    "year": 2026,
+    "enrolledDate": "2025-06-04T12:32:04.415Z",
+    "isCompleted": false,
+    "isPassed": false,
+    "isCertificateIssued": false,
+    "createdAt": "2025-06-04T12:32:04.178Z",
+    "updatedAt": "2025-06-04T12:32:04.178Z",
+    "__v": 0,
+    "name": "sinan",
+    "age": 20,
+    "dateOfBirth": "2025-06-04T12:29:38.123Z",
+    "gender": "Male",
+    "phoneNumber": "0123456789",
+    "place": "kutiyadi",
+    "district": "Dhubri",
+    "state": "Assam",
+    "pincode": "456543",
+    "email": "muhamedsadhin@gmail.com",
+    "adhaarNumber": "123456789049",
+    "studyCenterId": "68381045170805f690f6997d",
+    "registrationNumber": "10521005",
+    "dateOfAdmission": "2025-06-04T12:29:38.123Z",
+    "parentName": "hai",
+    "qualification": "12th Pass",
+    "sslc": "https://tssrfiles.s3.amazonaws.com/1749040317406_anshin_internship_1_(1).pdf",
+    "profileImage": "https://tssrfiles.s3.amazonaws.com/1749040317406_data_(8).xlsx",
+    "studentId": "SIN/789/543",
+    "studycenter": "Neptune Mark",
+    "batchMonth": "July",
+    "ourseName": "BCA Jan"
+}}/>
               </PDFViewer>
             </div>
           }
@@ -123,6 +159,7 @@ function App() {
             <Route path="products" element={<Store />} />
           </Route>
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="notification" element={<AdminNotifications />} />
         </Route>
 
         {/* Routes for studycenter functionality */}
@@ -148,6 +185,7 @@ function App() {
             <Route path="myorders" element={<MyOrders />} />
           </Route>
           <Route path="settings" element={<SettingsCentre />} />
+          <Route path="notifications" element={<CenterNotification />} />
           <Route path="admission" element={<Outlet />}>
             <Route index element={<AdmissionForStudent />} />
             <Route path="excel" element={<AdmissionUsingExcel />} />

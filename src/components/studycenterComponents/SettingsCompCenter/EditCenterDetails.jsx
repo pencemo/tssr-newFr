@@ -70,7 +70,7 @@ import { toast } from "sonner";
               <p className="text-sm text-muted-foreground">The name will be changed all connetd data of study center like student and entrollment</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor='centerHead' >Name of Center</Label>
+              <Label htmlFor='centerHead' >Name of Center Head</Label>
               <Input id='centerHead' name='centerHead' onChange={handleChange} value={center.centerHead} className="w-full" placeholder="Center Head" />
             </div>
 
@@ -84,7 +84,7 @@ import { toast } from "sonner";
               <Input id='phoneNumber' onChange={handleChange} name='phoneNumber' value={center.phoneNumber} className="w-full" placeholder="Phone Number" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor='phoneNumber' >Address</Label>
+              <Label >Address</Label>
               <div className="grid md:grid-cols-3 gap-2">
                 <Input onChange={handleChange} name='district' value={center.district} className="w-full" placeholder="District" />
                 <Input onChange={handleChange} name='place' value={center.place} className="w-full" placeholder="Place" />

@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { User, Phone, Mail, MapPin, GraduationCap, FileText, Download, CheckCircle, XCircle, Clock } from "lucide-react"
 import { Call02Icon, Location01Icon, MailOpen01Icon, StudentCardIcon } from 'hugeicons-react'
+import StudentPDF from './StudentPDF'
 
 function OneStudent() {
   const {id} = useParams()
@@ -79,7 +80,7 @@ function OneStudent() {
                 </div>
               </div>
             </div>
-            <Button variant='outline'>Download PDF</Button>
+            <StudentPDF studentData={student}/>
           </div>
         </Card>
 
