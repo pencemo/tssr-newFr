@@ -40,9 +40,11 @@ export function NavUser() {
   const navigate = useNavigate()
   const {user, setUser}=useAuth()
 
-  const handleLogOut = ()=>{
-    setUser(null)
-    authService.logOut()
+  const handleLogOut = async () => { 
+    
+    await authService.logOut()
+    setUser(null);
+    
   }
 
   return (

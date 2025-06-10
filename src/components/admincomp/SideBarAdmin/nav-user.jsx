@@ -35,16 +35,14 @@ import { useAuth } from "@/Context/authContext"
 import { authService } from "@/API/services/authService"
 import { useNavigate } from "react-router-dom"
 
-export function NavUser({
-  // user
-}) {
+export function NavUser() {
   const { isMobile } = useSidebar()
   const {user, setUser}=useAuth()
   const navigate = useNavigate()
 
-  const handleLogOut = ()=>{
+  const handleLogOut = async()=>{
+    await authService.logOut()
     setUser(null)
-    authService.logOut()
   }
 
 
