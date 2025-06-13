@@ -6,13 +6,8 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  MoreVerticalIcon,
 } from "lucide-react";
 import Loader from "@/components/ui/loader";
-import { TableComp } from "@/components/admincomp/studycenComp/Table";
-import { useStudyCentre } from "@/hooks/tanstackHooks/useStudyCentre";
-import { useNavigate } from "react-router-dom";
-import { MenuButtons } from "@/components/admincomp/studycenComp/MenuButtons";
 import { TableList } from "./TableList";
 import { useChangeStatusAdmission, useOpenAdmissinList } from "@/hooks/tanstackHooks/useAdmission";
 import { Alert } from "@/components/ui/Alert";
@@ -56,6 +51,11 @@ export function OpenADList() {
   const handleEdit = (rowData) => {
     setSelectedRow(rowData)
     setIsModalOpen(true)
+  }
+
+  const onClose = () => {
+    setIsModalOpen(false)
+    setSelectedRow(null)
   }
 
   const handleUpdateStatus = () => {

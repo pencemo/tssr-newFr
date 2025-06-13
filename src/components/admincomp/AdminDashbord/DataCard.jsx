@@ -6,7 +6,6 @@ import {
 import React from "react";
 
 function DataCard({ data }) {
-  console.log(data);
   return (
     <div className="mt-10">
       <div className="">

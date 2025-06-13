@@ -1,4 +1,3 @@
-"use client"
 
 import { ChevronRight } from "lucide-react";
 
@@ -30,7 +29,7 @@ export function NavMain({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem className={'NavLinkAdmin'}>
-              <SidebarMenuButton className={'rounded-full px-3'} asChild tooltip={item.title}>
+              <SidebarMenuButton className={'rounded-lg px-3'} asChild tooltip={item.title}>
                 <NavLink end={item.url === ''} to={item.url}>
                   <item.icon  />
                   <span>{item.title}</span>
@@ -38,9 +37,9 @@ export function NavMain({
               </SidebarMenuButton>
               {item.items?.length ? (
                 <>
-                  <CollapsibleTrigger className=' right-3' asChild>
+                  <CollapsibleTrigger className='hover:bg-transparent cursor-pointer  right-3' asChild>
                     <SidebarMenuAction className="data-[state=open]:rotate-90">
-                      <ChevronRight className="opacity-40" />
+                      <ChevronRight className="" />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
                   </CollapsibleTrigger>

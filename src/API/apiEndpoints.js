@@ -84,6 +84,13 @@ export const API_ENDPOINTS = {
   DASHBOARD: {
     GET_DATA: '/api/dashboard/getDashboardData',
     GET_DATA_CENTER: '/api/dashboard/getDashboardDataOfStudycenter'
+  }, 
+  EXAM: {
+    SCHEDULE_EXAM: '/api/exam/scheduleExam',
+    GET_SCHEDULED_EXAMS: '/api/exam/getScheduledExamBatches',
+    CLOSE_SCHEDULED_EXAM: '/api/exam/closeScheduledExam',
+    GET_EXAM_OF_STUDY_CENTER: '/api/exam/getScheduledExamBatchesOfStudyCenter',
+    DOWNLOAD_HALL_TICKET: '/api/hallticket/DownloadhallTicket',
   }
 };
  

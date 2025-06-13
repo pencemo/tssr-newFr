@@ -1,7 +1,8 @@
-import { useGetUser, useSettings } from '@/hooks/tanstackHooks/useAuth'
+import { useGetUser } from '@/hooks/tanstackHooks/useAuth'
 import { useAllNotifications } from '@/hooks/tanstackHooks/useNotifications'
 import React, { useContext, useEffect, useState } from 'react'
 import { createContext } from 'react'
+import logo from '../assets/logo.svg'
 
 export const AuthContexP = createContext()
 
@@ -27,6 +28,20 @@ function AuthContext({children}) {
         getUser()
     }, [data])
 
+    function requestNotificationPermission() {
+        if ('Notification' in window) {
+            Notification.requestPermission() 
+        } else {
+            console.log('This browser does not support desktop notifications.');
+        }
+    }
+
+    function sendNotification(title, options = {}) {
+        if (Notification.permission === 'granted') {
+            new Notification(title, options);
+        }
+    }
+
     useEffect(()=>{
         const savedCount = window.localStorage.getItem('notificationCount') || 0
 
@@ -34,10 +49,20 @@ function AuthContext({children}) {
             if(notificationsData && notificationsData.success){
                 const newNotificationsCount = notificationsData?.data?.length - savedCount
                 setNotificationCount(newNotificationsCount)
+                 if(newNotificationsCount > 0){
+                    sendNotification('New notifications', {
+                        body: `You have received ${newNotificationsCount} new notifications.`,
+                        icon: logo,
+                    });
+                }
             }
+            
         }
         
+        requestNotificationPermission()
         setNotification()
+       
+
     }, [notificationsData])
 
 

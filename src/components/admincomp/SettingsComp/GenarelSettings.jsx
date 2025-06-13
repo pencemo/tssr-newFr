@@ -1,21 +1,32 @@
 import {
   Card,
   CardDescription,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useSettings, useToggleSettings } from "@/hooks/tanstackHooks/useAuth";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 function GenarelSettings() {
+  const [settings, setSettings]=useState({
+    reportsDownload: true,
+    admissionPermission: true,
+    wholeAppLoginPermission: true,
+    studyCenterUpdatePermission: true
+  })
   const {data, isLoading}=useSettings()
+  useEffect(()=>{
+    if(data.data){
+      setSettings(data.data)
+    }
+    // console.log(data);
+  }, [data])
+
   const {mutate}=useToggleSettings()
-console.log(data);
+
   const handleToggle=(key)=>{
+    setSettings(prev=>({...prev,[key]:!prev[key]}))
     mutate({key},{
       onSuccess:(data)=>{
         if(data.success){
@@ -44,7 +55,7 @@ console.log(data);
                 Allow or restrict access to downloadable documents.
                 </CardDescription>
               </div>
-              <Switch checked={data?.data?.reportsDownload} onCheckedChange={()=>handleToggle('reportsDownload')} className="cursor-pointer" />
+              <Switch checked={settings?.reportsDownload} onCheckedChange={()=>handleToggle('reportsDownload')} className="cursor-pointer" />
             </div>
           </Card>
 
@@ -56,7 +67,7 @@ console.log(data);
                 Manage user login permissions for the study center.
                 </CardDescription>
               </div>
-              <Switch checked={data?.data?.wholeAppLoginPermission} onCheckedChange={()=>handleToggle('wholeAppLoginPermission')} className="cursor-pointer" />
+              <Switch checked={settings?.wholeAppLoginPermission} onCheckedChange={()=>handleToggle('wholeAppLoginPermission')} className="cursor-pointer" />
             </div>
           </Card>
 
@@ -68,7 +79,7 @@ console.log(data);
                 Control access to student admission functionalities.
                 </CardDescription>
               </div>
-              <Switch checked={data?.data?.admissionPermission} onCheckedChange={()=>handleToggle('admissionPermission')} className="cursor-pointer" />
+              <Switch checked={settings?.admissionPermission} onCheckedChange={()=>handleToggle('admissionPermission')} className="cursor-pointer" />
             </div>
           </Card>
 
@@ -80,7 +91,7 @@ console.log(data);
                 Control access to edti details of study center.
                 </CardDescription>
               </div>
-              <Switch checked={data?.data?.studyCenterUpdatePermission} onCheckedChange={()=>handleToggle('studyCenterUpdatePermission')} className="cursor-pointer" />
+              <Switch checked={settings?.studyCenterUpdatePermission} onCheckedChange={()=>handleToggle('studyCenterUpdatePermission')} className="cursor-pointer" />
             </div>
           </Card>
 

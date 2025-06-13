@@ -6,9 +6,8 @@ import React from 'react'
 
 function Store() {
   const {data, isLoading, isError}=useAllProduct()
-  console.log(data);
   return (
-    <div>
+    <div className='w-full h-full'>
         <div className='flex  justify-between items-center max-md:flex-col'>
             <h1 className='text-2xl font-bold'>Store Collection</h1>
             <AddProduct/>

@@ -11,7 +11,6 @@ function Dashbord() {
   
   if(error || isError) return <div>error</div>
   if(isLoading) return <div className="w-full h-full"><Loader/></div>
-  console.log(data);
   return (
     <div className="w-full h-full space-y-5">
       <div className="mb-5 w-full  ">

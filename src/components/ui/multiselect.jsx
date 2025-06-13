@@ -6,7 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
-export function MultiSelect({ options, selected, onChange, placeholder = "Select items", className, error }) {
+export function MultiSelect({ options, selected, onChange, placeholder = "Select items", className, error, disabled = false }) {
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState("")
 
@@ -25,12 +25,13 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <div
+      <PopoverTrigger  asChild>
+        <button
+        disabled={disabled}
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "flex min-h-10 w-full flex-wrap items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+            "flex min-h-10 w-full disabled:opacity-40 flex-wrap items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
             className,
             error && "border-red-500",
           )}
@@ -51,7 +52,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
           <div className="flex shrink-0 opacity-50">
             <ChevronsUpDown className="h-4 w-4" />
           </div>
-        </div>
+        </button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
         <Command>
@@ -59,7 +60,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
           <CommandList>
             <CommandEmpty>No item found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
+              {options?.map((option) => (
                 <CommandItem
                   key={option._id}
                   value={option.name}

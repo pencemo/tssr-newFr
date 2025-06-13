@@ -22,7 +22,7 @@ export function NewNotifications() {
         <Notification03Icon/>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72" align="end">
+      <PopoverContent className="w-72 md:w-80" align="end">
         <div>
         <Card className="w-full max-w-md border-none shadow-none p-0">
       <CardHeader className="flex flex-row items-center justify-between space-y-0  px-0">

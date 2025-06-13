@@ -125,16 +125,15 @@
   color: var(--background);
 }
 .NavLinkAdmin .active:hover{
-  background-color: var(--color-violet-400);
+  background-color: var(--color-violet-600);
 }
 
+
 @theme {
-  /* Animation definitions */
   --animate-rotate: rotate 1s linear infinite;
   --animate-prixClipFix: prixClipFix 2s linear infinite;
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;
 
-  /* Keyframes definitions */
   @keyframes rotate {
     100% {
       transform: rotate(360deg);
