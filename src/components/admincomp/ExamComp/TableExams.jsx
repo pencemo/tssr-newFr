@@ -8,9 +8,9 @@ import {
   } from "@/components/ui/table";
   import { format } from "date-fns";
   import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
   
-  export function TableExams({ data, search, onEdit}) {
-  
+  export function TableExams({ data, search, onEdit,loading, selected }) {
     // Transform and filter the data
     const filteredData = data
       .flatMap((exam) =>
@@ -56,8 +56,8 @@ import {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.map((item, i) => (
-              <TableRow key={`${item.examScheduleId}-${item.batchId}`}>
+            {filteredData.map((item, i) => {
+              return <TableRow className={loading && selected?.batchId === item?.batchId && 'opacity-40 pointer-events-none'} key={`${item.examScheduleId}-${item.batchId}`}>
                 <TableCell className="font-medium">{i + 1}</TableCell>
                 <TableCell className="font-medium">{item.courseId.name}</TableCell>
                 <TableCell>{item.examName}</TableCell>
@@ -70,14 +70,16 @@ import {
                 <TableCell>
                   <Button
                     variant="outline"
-                    className="h-8 shadow-none"
-                    onClick={() => onEdit(item)}
+                    className="h-8 shadow-none min-w-32"
+                    onClick={() => {
+                      onEdit(item)
+                    }}
                   >
-                    Delete exam
+                    {loading && selected?.batchId === item?.batchId ? <Loader2 className="animate-spin"/>:"Delete exam"}
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
+            })}
           </TableBody>
         </Table>
       </div>

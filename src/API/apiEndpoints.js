@@ -3,8 +3,10 @@ export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/api/auth/login",
     ISOUTH: "/api/auth/isAuth",
-    REGISTER: "/api/auth/create",
     LOGOUT: "/api/auth/logout",
+    FORGOT_PASSWORD: "/api/auth/forgotPassword",
+    VERIFY_OTP: "/api/auth/verifyOtp",
+    RESET_PASSWORD: "/api/auth/resetPassword",
   },
   STUDY_CENTERS: {
     VERIFIED: "/api/studycenter/getVerifiedStudyCenters",

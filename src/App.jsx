@@ -35,6 +35,7 @@ import { CreateExam } from "./components/admincomp/ExamComp/CreateExam";
 import CenterExams from "./app/studycenter/CenterExams/CenterExams";
 import HallTicket from "./components/studycenterComponents/examComponents/hallTicketPDF";
 import HallTicketSearch from "./app/studycenter/CenterExams/HallTicketSearch";
+import ResetPassword from "./app/Auth/resetPassword";
 
 
 function App() {
@@ -43,8 +44,7 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/print" element={<HallTicket />} />
-        
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route
           path="/admin"

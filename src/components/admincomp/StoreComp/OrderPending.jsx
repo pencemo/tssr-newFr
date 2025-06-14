@@ -39,7 +39,7 @@ const OrderPending = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
-  const { data, isPending } = useGetOrderByStatus({
+  const { data, isLoading } = useGetOrderByStatus({
     page: currentPage,
     limit,
     status: "pending",
@@ -49,7 +49,7 @@ const OrderPending = () => {
   const orders = data?.data || [];
   const totalPage = data?.totalPages || 1;
 
-  const { mutate, isLoading, variables } = useUpdateOrderStatus();
+  const { mutate, isPending, variables } = useUpdateOrderStatus();
 
   const handleUpdate = (id, status) => {
     mutate(
@@ -82,8 +82,8 @@ const OrderPending = () => {
         />
       </div>
 
-      <div className="w-full overflow-x-auto">
-        <Table>
+      <div className="w-full overflow-x-auto border rounded-xl">
+        <Table className='border-b'>
           <TableCaption>List of all pending orders</TableCaption>
           <TableHeader>
             <TableRow>
@@ -97,7 +97,7 @@ const OrderPending = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isPending ? (
+            {isLoading ? (
               <TableRow>
                 <TableCell colSpan={7}>
                   <div className="flex justify-center items-center h-48 w-full">
@@ -120,7 +120,7 @@ const OrderPending = () => {
                 const price = order.productId?.price || 0;
                 const total = price * order.quantity;
                 const loadingThisOrder =
-                  isLoading && variables?.id === order._id;
+                  isPending && variables?.id === order._id;
 
                 return (
                   <TableRow key={order._id}>

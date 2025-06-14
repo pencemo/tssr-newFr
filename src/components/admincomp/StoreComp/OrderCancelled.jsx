@@ -57,8 +57,8 @@ const OrderCancelled = () => {
         />
       </div>
 
-      <div className="w-full overflow-x-auto">
-        <Table>
+      <div className="w-full overflow-x-auto border rounded-xl">
+        <Table className={'border-b'}>
           <TableCaption>All cancelled orders</TableCaption>
           <TableHeader>
             <TableRow>

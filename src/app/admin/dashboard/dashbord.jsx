@@ -13,7 +13,7 @@ function Dashbord() {
   if(isLoading) return <div className="w-full h-full"><Loader/></div>
   return (
     <div className="w-full h-full space-y-5">
-      <div className="mb-5 w-full  ">
+      {/* <div className="mb-5 w-full  ">
         <div className="flex  gap-5 items-center">
           <img src={logo} className="w-28" alt="" />
           <div>
@@ -21,7 +21,7 @@ function Dashbord() {
             <p className="text-muted-foreground">Task manage applicatin</p>
           </div>
         </div>
-      </div>
+      </div> */}
       <DataCard data={data?.data} />
       <div className="grid md:grid-cols-8 gap-5">
         <div className="md:col-span-5">

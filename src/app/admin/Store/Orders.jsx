@@ -1,16 +1,18 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OrderPending from '@/components/admincomp/StoreComp/orderPending';
-import { useAllOrders } from '@/hooks/tanstackHooks/useOrder';
 import OrderConfirmed from '@/components/admincomp/StoreComp/OrderConfirmed';
 import OrderCancelled from '@/components/admincomp/StoreComp/OrderCancelled';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 const Orders = () => {
-
+const navigate = useNavigate()
 
   return (
     <div>
       <div className="w-full  flex justify-between max-sm:flex-col gap-2 items-center border-b pb-4">
         <h1 className="text-xl md:text-2xl font-bold">Manage Orders</h1>
+        <Button onClick={()=>navigate('/admin/orders/products')}>All Products</Button>
       </div>
       <Tabs defaultValue="Active" className="w-full mt-5">
         <TabsList className="h-11 space-x-2 bg-transparent">

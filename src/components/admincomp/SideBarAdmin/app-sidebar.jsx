@@ -85,12 +85,12 @@ const data = {
       icon: NoteEditIcon,
       
     },
-    {
-      title: "Results",
-      url: "results",
-      icon: Bookmark03Icon,
+    // {
+    //   title: "Results",
+    //   url: "results",
+    //   icon: Bookmark03Icon,
       
-    },
+    // },
     {
       title: "TSSR Store",
       url: "orders",
@@ -127,11 +127,7 @@ const data = {
       url: "settings",
       icon: Settings02Icon,
     },
-    {
-      name: "Report",
-      url: "#",
-      icon: InformationSquareIcon,
-    },
+    
   ],
 }
 

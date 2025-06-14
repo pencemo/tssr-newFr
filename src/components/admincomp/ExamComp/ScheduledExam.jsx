@@ -10,7 +10,7 @@ export function ScheduledExams() {
   const [search, setSearch] = useState("");
   const [selectedRow, setSelectedRow] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {mutate}=useCloseScheduledExam()
+  const {mutate, isPending}=useCloseScheduledExam()
   const { data, error, isLoading } = useGetScheduledEXam();
 
   
@@ -77,6 +77,8 @@ export function ScheduledExams() {
               data={data?.data}
               onEdit={handleEdit}
               search={search}
+              loading={isPending}
+              selected={selectedRow}
             />
             <Alert deleteFn={handleUpdateStatus} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
           </div>:

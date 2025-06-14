@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button"
 import { useAllNotifications } from "@/hooks/tanstackHooks/useNotifications";
 import { NotificationIcon } from "../NotificationComp/GetIcon";
 import { formatDistanceToNowStrict } from "date-fns";
+import Loader from "@/components/ui/loader";
 
 export default function NotificationCard() {
   const { data, error, isLoading } = useAllNotifications();
   
-  if(error || isLoading) return <div>Loading...</div>
+  if(error || isLoading) return <Loader/>
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">

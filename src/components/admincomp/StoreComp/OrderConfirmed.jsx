@@ -18,7 +18,6 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Loader2,
-  LoaderCircleIcon,
 } from "lucide-react";
 
 const OrderConfirmed = () => {
@@ -37,14 +36,13 @@ const OrderConfirmed = () => {
     return () => clearTimeout(handler);
   }, [search]);
 
-  const { data, isPending } = useGetOrderByStatus({
+  const { data, isLoading } = useGetOrderByStatus({
     page: currentPage,
     limit,
     status: "accepted",
     search: debouncedSearch,
   });
 
-  console.log("data :", data);
 
   const orders = data?.data || [];
   const totalOrders = data?.totalCount || 0;
@@ -62,8 +60,8 @@ const OrderConfirmed = () => {
           />
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <Table>
+        <div className="w-full overflow-x-auto border rounded-lg">
+          <Table className='border-b'>
             <TableCaption>All confirmed (accepted) orders</TableCaption>
             <TableHeader>
               <TableRow>
@@ -76,7 +74,7 @@ const OrderConfirmed = () => {
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
-            {isPending ? (
+            {isLoading ? (
               <TableBody>
                 <TableRow>
                   <TableCell colSpan={7}>
