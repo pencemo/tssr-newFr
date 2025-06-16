@@ -18,7 +18,6 @@ export const useSettings = () => {
   });
 };
 
-
 export const useToggleSettings = () => {
   const queryClient= useQueryClient();
 return useMutation({
@@ -67,4 +66,26 @@ return useMutation({
 });
 }
 
+export const useSendOTP = () => {
+return useMutation({
+  mutationFn: (data) => {
+    return authService.forgotPassword(data);
+  },
+});
+}
 
+export const useVerifyOTP = () => {
+return useMutation({
+  mutationFn: (data) => {
+    return authService.verifyOTP(data);
+  },
+});
+}
+
+export const useResetPassword = () => {
+return useMutation({
+  mutationFn: (data) => {
+    return authService.resetPassword(data);
+  },
+});
+}

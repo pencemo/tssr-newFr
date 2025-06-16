@@ -5,19 +5,34 @@ import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useSendOTP } from "@/hooks/tanstackHooks/useAuth";
+import { Loader2Icon } from "lucide-react";
 
 export function ResetOTP({ className, next, email, setEmail }) {
 
-    const [error, setError]=useState(null)
+  const [error, setError] = useState(null)
+  const { mutate, isPending } = useSendOTP();
     
-    const handleSubmit = () => {
-        setError(null)
-        if(!email){
-            setError("Email is required")
-            toast.error("Email is required")
-            return
+  const handleSubmit = () => {
+    setError(null)
+    if (!email) {
+      setError("Email is required")
+      toast.error("Email is required")
+      return
+    }
+    mutate({ email }, {
+      onSuccess: (data) => {
+        if (data.success) {
+          toast.success(data.message) 
+          next()
+        } else {
+          toast.error(data.message)
         }
-        next()
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      }
+    })
     }
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -30,11 +45,18 @@ export function ResetOTP({ className, next, email, setEmail }) {
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
-          <Input className={error && email=== "" && 'border-red-500'} onChange={e=>setEmail(e.target.value)} id="email" type="email" placeholder="m@example.com" required />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+          <Input
+            className={error && email === "" && "border-red-500"}
+            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
         <Button onClick={handleSubmit} className="w-full">
-          Sent OTP
+          {isPending ? <Loader2Icon className="animate-spin"/> : "Sent OTP"}
         </Button>
 
         <div className="text-center text-sm">

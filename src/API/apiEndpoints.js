@@ -4,7 +4,7 @@ export const API_ENDPOINTS = {
     LOGIN: "/api/auth/login",
     ISOUTH: "/api/auth/isAuth",
     LOGOUT: "/api/auth/logout",
-    FORGOT_PASSWORD: "/api/auth/forgotPassword",
+    FORGOT_PASSWORD: "/api/auth/sendOtp",
     VERIFY_OTP: "/api/auth/verifyOtp",
     RESET_PASSWORD: "/api/auth/resetPassword",
   },
@@ -27,8 +27,8 @@ export const API_ENDPOINTS = {
   },
   SUBJECTS: {
     GET_ALL_SUBJECTS: "/api/subject/getAlltrueAndfalseSubjects",
-    CREATE_SUBJECTS: '/api/subject/create',
-    UPDATE_SUBJECTS:'/api/subject/update'
+    CREATE_SUBJECTS: "/api/subject/create",
+    UPDATE_SUBJECTS: "/api/subject/update",
   },
   BATCH: {
     CREATE: "api/batch/createBatch",
@@ -84,15 +84,15 @@ export const API_ENDPOINTS = {
     CREATE_NOTIFICATION: "/api/notifications/createNotification",
   },
   DASHBOARD: {
-    GET_DATA: '/api/dashboard/getDashboardData',
-    GET_DATA_CENTER: '/api/dashboard/getDashboardDataOfStudycenter'
-  }, 
+    GET_DATA: "/api/dashboard/getDashboardData",
+    GET_DATA_CENTER: "/api/dashboard/getDashboardDataOfStudycenter",
+  },
   EXAM: {
-    SCHEDULE_EXAM: '/api/exam/scheduleExam',
-    GET_SCHEDULED_EXAMS: '/api/exam/getScheduledExamBatches',
-    CLOSE_SCHEDULED_EXAM: '/api/exam/closeScheduledExam',
-    GET_EXAM_OF_STUDY_CENTER: '/api/exam/getScheduledExamBatchesOfStudyCenter',
-    DOWNLOAD_HALL_TICKET: '/api/hallticket/DownloadhallTicket',
-  }
+    SCHEDULE_EXAM: "/api/exam/scheduleExam",
+    GET_SCHEDULED_EXAMS: "/api/exam/getScheduledExamBatches",
+    CLOSE_SCHEDULED_EXAM: "/api/exam/closeScheduledExam",
+    GET_EXAM_OF_STUDY_CENTER: "/api/exam/getScheduledExamBatchesOfStudyCenter",
+    DOWNLOAD_HALL_TICKET: "/api/hallticket/DownloadhallTicket",
+  },
 };
  

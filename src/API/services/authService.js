@@ -16,17 +16,17 @@ export const authService = {
     );
     return response.data;
   },
-  verifyOTP: async (otp) => {
+  verifyOTP: async ({ email, otp }) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.AUTH.VERIFY_OTP,
-      otp
+      { email, otp }
     );
     return response.data;
-  },
-  resetPassword: async (newPassword) => {
+  },  
+  resetPassword: async ({email,newPassword}) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.AUTH.RESET_PASSWORD,
-      newPassword
+      { email,newPassword }
     );
     return response.data;
   },
