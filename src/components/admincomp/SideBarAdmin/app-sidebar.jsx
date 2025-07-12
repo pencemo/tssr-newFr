@@ -23,7 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Book02Icon, Bookmark03Icon, GraduateMaleIcon, Home04Icon, InformationSquareIcon, Mortarboard02Icon, NoteEditIcon, Notification03Icon, Settings02Icon, Ticket03Icon, UserAdd01Icon } from "hugeicons-react"
+import { Book02Icon, Bookmark03Icon, GraduateMaleIcon, Home04Icon, InformationSquareIcon, Mortarboard02Icon, NoteEditIcon, Notification03Icon, Settings02Icon, Ticket03Icon, UserAdd01Icon, UserMultipleIcon } from "hugeicons-react"
 import { Link } from "react-router-dom"
 
 const data = {
@@ -44,16 +44,12 @@ const data = {
       icon: Book02Icon,
       items: [
         {
-          title: "Requests",
-          url: "studycentre/req",
-        },
-        {
-          title: "Add Study Centre",
+          title: "Add Centre",
           url: "studycentre/add",
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "Requests",
+          url: "studycentre/req",
         },
       ],
     },
@@ -62,7 +58,7 @@ const data = {
       url: "course",
       icon: Mortarboard02Icon,
       items: [{
-        title: "subjects",
+        title: "Subjects",
         url: "course/subjects",
       }]
       
@@ -83,6 +79,12 @@ const data = {
       title: "Examination",
       url: "examination",
       icon: NoteEditIcon,
+      
+    },
+    {
+      title: "Manage Staff",
+      url: "staff", 
+      icon: UserMultipleIcon,
       
     },
     // {

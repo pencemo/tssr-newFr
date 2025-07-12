@@ -19,7 +19,6 @@ export const useCreateStudent = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (submissionData) => {
-      //console.log("Data in useCreateStudent:", submissionData);
       return enrollmentServices.createStudent(submissionData);
     },
     onSuccess: () => {

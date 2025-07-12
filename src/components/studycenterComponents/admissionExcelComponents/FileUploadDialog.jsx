@@ -94,7 +94,6 @@ export function FileUploadDialog({
       setSslcFile(null);
       setDialogOpen(false);
     } catch (error) {
-      console.error("Upload error:", error);
       toast.warning("Something went wrong during upload.");
     } finally {
       setUploading(false);

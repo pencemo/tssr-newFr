@@ -14,6 +14,7 @@ import { FormInputs } from "../studycenComp/CreateStudy"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useEffect, useState } from "react"
 import { SubjectSelect } from "./SubjectSelect"
+import { courseCategory } from "@/lib/list"
 
 export function AddCourse({formData, setFormData, subject, submit, type, selected, setSelected}) {
     const [isError, setError]=useState(false)
@@ -33,13 +34,14 @@ export function AddCourse({formData, setFormData, subject, submit, type, selecte
             setError(true)
         }else{
             await submit();
+            setFormData({...formData, name:"", category:"", duration:"", subjects:[]})
             setIsDialogOpen(false)
         }
     }
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className='' asChild>
-        <Button >{type === 'add' ? "Add " : "Edit"} Course</Button>
+        <Button className={'w-full'}>{type === 'add' ? "Add " : "Edit"} Course</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -63,7 +65,7 @@ export function AddCourse({formData, setFormData, subject, submit, type, selecte
           id="category"
           setFormData={setFormData}
         //   onChange={handleChange}
-        formData={formData}
+          formData={formData}
           error={isError && formData.category === ""}
           />
           
@@ -120,9 +122,9 @@ const SelectTag = ({ name, setFormData, formData, error}) => {
               <SelectValue placeholder="Select State" />
             </SelectTrigger>
             <SelectContent>
-              {['Maharashtra', 'Gujarat', 'Rajasthan'].map((item, i) => (
-                <SelectItem key={i} value={item}>
-                  {item}
+              {courseCategory.map((item, i) => (
+                <SelectItem className='capitalize' key={i} value={item}>
+                  {item.toLocaleLowerCase()}
                 </SelectItem>
               ))}
             </SelectContent>

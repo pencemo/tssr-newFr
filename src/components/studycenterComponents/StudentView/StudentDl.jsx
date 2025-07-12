@@ -22,6 +22,7 @@ import { Download, Loader2, MoreVerticalIcon } from "lucide-react";
 import { useStudentForDl } from "@/hooks/tanstackHooks/useStudents";
 import { toast } from "sonner";
 import { useAuth } from "@/Context/authContext";
+import { HiMiniArrowDownTray } from "react-icons/hi2";
 
 const EXPORT_FIELDS = [
   { id: "registrationNumber", label: "Reg. Number" },
@@ -147,8 +148,9 @@ export function StudentDl() {
   return (
     <Popover open={isOpen} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="icon">
-          <MoreVerticalIcon />
+        <Button  >
+          {/* Download */}
+          <HiMiniArrowDownTray size={26}/>
         </Button>
       </PopoverTrigger>
 

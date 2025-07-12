@@ -59,12 +59,12 @@ const data = {
       title: "Admission",
       url: "/studycenter/admission",
       icon: UserAdd01Icon,
-      items: [
-        {
-          title: "Admission (Excel)",
-          url: "/studycenter/admission/excel",
-        },
-      ],
+      // items: [
+      //   {
+      //     title: "Admission (Excel)",
+      //     url: "/studycenter/admission/excel",
+      //   },
+      // ],
     },
 
     {
@@ -72,16 +72,16 @@ const data = {
       url: "examination",
       icon: PenTool03Icon,
     },
-    {
-      title: "Results",
-      url: "results",
-      icon: Bookmark03Icon,
-    },
-    {
-      title: "Marksheet",
-      url: "marksheet",
-      icon: AlignBoxBottomRightIcon,
-    },
+    // {
+    //   title: "Results",
+    //   url: "results",
+    //   icon: Bookmark03Icon,
+    // },
+    // {
+    //   title: "Marksheet",
+    //   url: "marksheet",
+    //   icon: AlignBoxBottomRightIcon,
+    // },
     {
       title: "Downloads",
       url: "downloads",
@@ -122,11 +122,6 @@ const data = {
       url: "notifications",
       icon: Notification03Icon,
     },
-    // {
-    //   name: "Report",
-    //   url: "#",
-    //   icon: InformationDiamondIcon,
-    // },
   ],
 };
 

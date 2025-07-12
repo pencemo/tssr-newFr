@@ -87,7 +87,6 @@ export function AttendanceReg({name, fields, mark}) {
       }
       
     } catch (err) {
-      console.error(err);
       setError("Something went wrong");
     }
   };
@@ -127,7 +126,6 @@ export function AttendanceReg({name, fields, mark}) {
       }
       
     }catch(err){
-      console.log(err)
       setError(err)
     }finally{
       setIsExel(false)

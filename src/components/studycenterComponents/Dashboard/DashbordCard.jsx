@@ -3,7 +3,6 @@ import { BookOpen02Icon, Mortarboard02Icon } from "hugeicons-react";
 import React from "react";
 
 function DashbordCard({ data }) {
-  console.log(data);
   return (
     <div className="w-full h-full">
       {/* Card Section */}

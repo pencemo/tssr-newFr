@@ -3,9 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useBatchesOfCourse = (id) => {
   return useQuery({
-    queryKey: ["batch", ],
+    queryKey: ["batch", id],
     queryFn: () => batchService.getBatchesOfCourse(id),
-    keepPreviousData: false,
+    enabled: !!id
   });
 };
 export const useOpenBatchesOfCourse = (id) => {

@@ -12,7 +12,7 @@ import { useState } from "react";
 import { DatePickerWithRange } from "@/components/ui/rangePicker";
 import { useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
 import { Input } from "@/components/ui/input";
-import { Loader2, XIcon } from "lucide-react";
+import { ChevronLeft, Loader2, XIcon } from "lucide-react";
 import { TimePicker } from "@/components/ui/timePicker";
 import { useSceduleExam } from "@/hooks/tanstackHooks/useExam";
 import { toast } from "sonner";
@@ -154,12 +154,15 @@ const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
   // if(isSuccess) return <div>sucsess</div>
   return (
     <div className="w-full max-w-[50rem] shadow-md mx-auto border rounded-2xl p-5 md:p-8">
-        <div className="">
+        <div className="relative">
           <div className="mb-4">
             <h2 className="text-xl font-semibold">Schedule Exam</h2>
             <p className="text-sm text-gray-500">
               Scheduled new exam for selected batches of all course
             </p>
+          </div>
+          <div onClick={()=>navigate(-1)} className="absolute hover:bg-accent cursor-pointer rounded-full p-1 text-gray-800 top-0 right-0">
+            <ChevronLeft/>
           </div>
 
           <div className="grid gap-4 py-4">

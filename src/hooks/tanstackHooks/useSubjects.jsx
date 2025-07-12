@@ -31,7 +31,6 @@ export const useUpdateSubjects = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
-      console.log(data);
       return subjectServices.updateSubjects(data);
     },
     onSuccess: () => {

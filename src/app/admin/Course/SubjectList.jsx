@@ -9,6 +9,7 @@ import {
   useUpdateSubjects,
 } from "@/hooks/tanstackHooks/useSubjects";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const subjectsData = [
   { id: 1, name: "Mathematics", code: "MATH101", isActive: true },
@@ -21,7 +22,7 @@ export default function SubjectList() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [subjectName, setSubjectName] = useState("");
   const [subjectCode, setSubjectCode] = useState("");
-
+  const navigate = useNavigate()
   const { data } = useAllTrueAndFalseSubjects();
   useEffect(() => {
     if (data) {
@@ -29,7 +30,7 @@ export default function SubjectList() {
     }
   }, [data]);
 
-  const { mutate, isLoading } = useUpdateSubjects();
+  const { mutate, isPending } = useUpdateSubjects();
 
   const handleToggle = (code, newState) => {
     // Find the subject by code to get its id
@@ -38,7 +39,6 @@ export default function SubjectList() {
       toast.error("Subject not found");
       return;
     }
-      //console.log(subject._id);
     mutate(
       { id: subject._id },
       {
@@ -84,7 +84,11 @@ export default function SubjectList() {
         <h2 className="text-2xl font-semibold tracking-tight text-primary">
           Subjects
         </h2>
+        <div className="space-x-1">
+
+        <Button variant='outline' onClick={() => navigate(-1)}>Back</Button>
         <Button onClick={() => setDialogOpen(true)}>Add Subject</Button>
+        </div>
       </div>
 
       {/* Add Subject Dialog */}
@@ -99,7 +103,7 @@ export default function SubjectList() {
       />
 
       {/* Subject Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {subjects.map((subject) => (
           <SubjectCard
             key={subject.code}

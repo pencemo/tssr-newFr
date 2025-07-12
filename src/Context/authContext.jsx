@@ -43,17 +43,20 @@ function AuthContext({children}) {
     }
 
     useEffect(()=>{
-        const savedCount = window.localStorage.getItem('notificationCount') || 0
-
+        const savedCount = window.localStorage.getItem('notificationCount')
         const setNotification = async () => {
             if(notificationsData && notificationsData.success){
-                const newNotificationsCount = notificationsData?.data?.length - savedCount
-                setNotificationCount(newNotificationsCount)
-                 if(newNotificationsCount > 0){
-                    sendNotification('New notifications', {
-                        body: `You have received ${newNotificationsCount} new notifications.`,
-                        icon: logo,
-                    });
+                if(savedCount){
+                    const newNotificationsCount = notificationsData?.data?.length - savedCount
+                    setNotificationCount(newNotificationsCount)
+                    if(newNotificationsCount > 0){
+                        sendNotification('New notifications', {
+                            body: `You have received ${newNotificationsCount} new notifications.`,
+                            icon: logo,
+                        });
+                    }
+                }else{
+                    window.localStorage.setItem('notificationCount', notificationsData?.data?.length)
                 }
             }
             

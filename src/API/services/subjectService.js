@@ -20,7 +20,6 @@ export const subjectServices = {
     return response.data;
   },
   updateSubjects: async (data) => {
-    //console.log(data.id);
     const response = await axiosInstance.put(API_ENDPOINTS.SUBJECTS.UPDATE_SUBJECTS,{} ,{
       params: {
         id:data.id,
@@ -29,24 +28,4 @@ export const subjectServices = {
     return response.data;
   },
 
-  //   getStudyCenters: async (page, limit, search) => {
-  //     const response = await axiosInstance.get(
-  //       API_ENDPOINTS.STUDY_CENTERS.VERIFIED,
-  //       {
-  //         params: {
-  //           page,
-  //           limit,
-  //           search,
-  //         },
-  //       }
-  //     );
-  //     return response.data;
-  //   },
-  //   createStudyCenter: async (studyCenter) => {
-  //     const response = await axiosInstance.post(
-  //       API_ENDPOINTS.STUDY_CENTERS.CREATE,
-  //       studyCenter
-  //     )
-  //     return response.data;
-  //   }
 };

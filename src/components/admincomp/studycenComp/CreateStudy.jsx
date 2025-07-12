@@ -61,7 +61,6 @@ function CreateStudy() {
       setError(true)
       return
     }
-    // return console.log(formData);
     mutate(formData, {
       onSuccess: (data) => { 
         if(data.success){

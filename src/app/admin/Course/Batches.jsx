@@ -21,7 +21,6 @@ function Batches({ data, subjects, setData }) {
   const [selected, setSelected] = useState([]);
   const [batch, setBatch] = useState([])
   const { mutate } = useUpdateCourse();
-  const {mutate : updateStatusOfBatch} = useUpdateStatusOfBatch()
   const { data: batches, error, isLoading } = useBatchesOfCourse(data._id);
   const [formData, setFormData] = useState({
     name: "",
@@ -68,14 +67,14 @@ function Batches({ data, subjects, setData }) {
   
 
   return (
-    <div className="w-full border rounded-2xl overflow-hidden shadow-lg">
-      <div className="w-full  py-8 md:px-6 border-b flex max-md:flex-col justify-between bg-muted px-4">
+    <div className="w-full border rounded-2xl overflow-hidden  ">
+      <div className="w-full  py-8 md:px-6 border-b flex max-md:flex-col gap-3 md:items-end justify-between bg-primary-foreground px-4">
         <div>
-          <h1 className="text-xl md:text-3xl font-semibold">{data.name}</h1>
-          <p className="text-muted-foreground">{data.category}</p>
-          <p className="text-muted-foreground">{data.duration}</p>
+          <h1 className="text-xl md:text-3xl font-bold text-primary mb-1">{data.name}</h1>
+          <p className="text-gray-800 text-sm ">Category : <span className="font-medium">{data.category}</span></p>
+          <p className="text-gray-800 text-sm ">Duration : <span className="font-medium">{data.duration}</span></p>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="grid grid-cols-2 gap-1">
           <Button variant='outline' onClick={()=>setData(null)}>Back</Button>
           <AddCourse
             formData={formData}
@@ -95,7 +94,7 @@ function Batches({ data, subjects, setData }) {
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-4 gap-4">
           {isLoading ? (
-            <div className="w-full h-full">
+            <div className="w-full h-full col-span-full">
               <Loader />
             </div>
           ) : error ? (
@@ -144,27 +143,14 @@ function Batches({ data, subjects, setData }) {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col ">
-                      <h1 className="text-2xl font-medium">{item.month}</h1>
+                      <h1 className="text-2xl font-medium">{item.month} Batch</h1>
                       <div className="w-full mt-2 border-t pt-4 flex items-center justify-between">
                         <div>
                           <h1 className="font-medium">Admission Status</h1>
                           <p className="text-sm text-muted-foreground">
-                            Make it on to take admission
+                            {isAdmissionOpened? "Admission Opened": isSceduled ? "Batch Scheduled" : "Admission Closed"}
                           </p>
                         </div>
-                        {isAdmissionOpened? 
-                        <CheckmarkSquare01Icon className="text-green-600" />:
-                        isSceduled? 
-                        <div className="text-sm text-muted-foreground">
-                          Scheduled  {format(startDate, "dd/MM/yyyy")}, {format(endDate, "dd/MM/yyyy")}
-                        </div>:
-                        <CancelSquareIcon className="text-red-500" />
-                        }
-                        {/* <Switch
-                          className={'cursor-pointer'}
-                          checked={item.isAdmissionStarted}
-                          onCheckedChange={(value) => handleUpdateStatus(value, item._id)}
-                        /> */}
                       </div>
                     </div>
                   </CardContent>

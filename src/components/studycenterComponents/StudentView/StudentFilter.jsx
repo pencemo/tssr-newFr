@@ -14,11 +14,11 @@ import { useAuth } from "@/Context/authContext";
 const currentYear = new Date().getFullYear()+1;
 const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
-function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter}) {
+function StudentFilter({ filters, onFilterChange, courses , studycenter}) {
    const [batches, setBatches] = useState([]);
    const {user}=useAuth()
   return (
-    <div className="w-full flex max-md:flex-col items-end justify-between gap-2 rounded-xl">
+    // <div className="w-full flex max-md:fle x-col items-end justify-between gap-2 rounded-xl">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 w-full max-w-5xl">
         {user?.role === "admin" &&
         <SelctFilter
@@ -27,7 +27,6 @@ function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter
         text={"Select Centre"}
         value={filters.studyCentre}
         onChange={(value) => {
-          console.log(value);
           onFilterChange("studyCentre", value)
         }}
         lebal={"Study Centre"}
@@ -61,16 +60,8 @@ function StudentFilter({ filters, onFilterChange, courses , onClear, studycenter
         onChange={(value) => onFilterChange("year", value)}
         lebal={"Year"}
       />
-      {/* <SelctFilter
-        data={['Name', 'Date (Diffoult)']}
-        text={"Sort by"}
-        value={filters.sort}
-        onChange={(value) => onFilterChange("sort", value)}
-        lebal={"Sort"}
-      /> */}
       </div>
-      <Button onClick={onClear} variant='outline' className='shadow-none py-5'>Clear filter</Button>
-    </div>
+    // </div>
   );
 }
 
@@ -81,7 +72,7 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
     <div className="space-y-1">
       {/* <h1 className=" text-sm font-medium">{lebal}</h1> */}
       <Select value={value} onValueChange={onChange} disabled={disabled} >
-        <SelectTrigger className="w-full bg-zinc-50  shadow-none py-5">
+        <SelectTrigger className="w-full bg-zinc-50  shadow-none  ">
           <SelectValue placeholder={text} />
         </SelectTrigger>
         <SelectContent>

@@ -20,7 +20,6 @@ import { useAuth } from "@/Context/authContext";
   
   export function StudentTable({data}) {
     const {user}=useAuth()
-    console.log(user);
     const navigate = useNavigate()
     return (
       <Table className='border-b'>

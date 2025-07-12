@@ -70,7 +70,6 @@ export function EditProduct({isOpen, setOpen, edit}) {
         }
       },
       onError: (error) => {
-        console.log(error)
         setError(error.message)
         toast.error(error.message)
       }

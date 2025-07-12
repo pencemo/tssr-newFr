@@ -1,3 +1,11 @@
+export const courseCategory = [
+   "TEACHERS TRAINING COURSES",
+   "PARAMEDICAL / HEALTH RELATED COURSES",
+   "MANAGEMENT COURSES",
+   "SKILL DEVELOPMENT COURSES",
+   "HUMEN RESORSE DEVELOPMENT COURSES"
+]
+
 export const states =[  
       {  
          "state":"Andhra Pradesh",

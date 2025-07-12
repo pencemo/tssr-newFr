@@ -1,7 +1,6 @@
 import { ResetOTP } from "@/components/auth/ResetOTP";
 import { SubmitReset } from "@/components/auth/SubmitReset";
 import { VerifyOTP } from "@/components/auth/VerifyOTP";
-import { GalleryVerticalEnd } from "lucide-react";
 import React, { useState } from "react";
 import logo from "@/assets/logo.svg";
 

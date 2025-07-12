@@ -20,7 +20,6 @@ function GenarelSettings() {
     if(data.data){
       setSettings(data.data)
     }
-    // console.log(data);
   }, [data])
 
   const {mutate}=useToggleSettings()

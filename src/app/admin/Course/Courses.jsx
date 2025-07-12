@@ -91,12 +91,13 @@ export function Courses() {
               className="max-w-sm max-sm:max-w-full"
             />
             <div>
-              <div className="max-sm:w-full flex flex-row gap-2 items-center">
+              <div className=" grid grid-cols-2 gap-2 ">
                 <Button
-                  className={"max-sm:w-full"}
+                  className={"w-full border"}
+                  variant='secondary'
                   onClick={() => navigate("/admin/course/subjects")}
                 >
-                  Add Subjects
+                  Subjects
                 </Button>
 
                 <AddCourse

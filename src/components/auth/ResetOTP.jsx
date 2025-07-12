@@ -27,6 +27,7 @@ export function ResetOTP({ className, next, email, setEmail }) {
           next()
         } else {
           toast.error(data.message)
+          setError(data.message)
         }
       },
       onError: (error) => {

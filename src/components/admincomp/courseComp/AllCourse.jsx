@@ -1,4 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Book02Icon, BookOpen02Icon, Clock01Icon } from 'hugeicons-react'
 import React from 'react'
 
@@ -7,7 +8,7 @@ function AllCourse({data, setSelected}) {
     <div className='grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
       {data.map((item, i) =>{
         return (
-          <Card onClick={() => setSelected(item)} key={i} className='border-primary bg-primary-foreground overflow-hidden pt-0 hover:shadow-lg shadow-none cursor-pointer transition-all duration-300'>
+          <Card  key={i} className='  overflow-hidden pt-0 hover:shadow-lg shadow transition-all duration-300'>
             <CardHeader className='relative  py-4 border-b'>
               <CardTitle className=''>{item.name}</CardTitle>
               <CardDescription>Category : <span className='text-black'>{item.category}</span></CardDescription>
@@ -33,6 +34,9 @@ function AllCourse({data, setSelected}) {
                   </div>
                 </div>
               </CardContent>
+              <CardFooter>
+                <Button  className='w-full rounded-full' onClick={() => setSelected(item)}>Show Batches</Button>
+              </CardFooter>
           </Card>
         )
       })}

@@ -8,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-export function DatePicker({date, setDate}) {
+export function DatePicker({date, setDate, length = 25, year = new Date().getFullYear()}) {
   const [calendarDate, setCalendarDate] = React.useState(new Date())
 
   // Get current month and year from the calendar date
@@ -17,8 +17,8 @@ export function DatePicker({date, setDate}) {
 
   // Generate years for the selector (10 years before and after current year)
   const years = React.useMemo(() => {
-    const currentYear = new Date().getFullYear()
-    return Array.from({ length: 25 }, (_, i) => currentYear -1 + i)
+    // const currentYear = year
+    return Array.from({ length }, (_, i) => year -1 + i)
   }, [])
 
   // Month names for the selector

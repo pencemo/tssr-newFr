@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,15 +11,10 @@ import {
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/datePicker";
 import { states } from "@/lib/list";
-import { useCreateStudent } from "@/hooks/tanstackHooks/useEnrollment";
-import { toast } from "sonner";
-import { set } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { CloudUploadIcon, Upload04Icon } from "hugeicons-react";
 
-export function EnrollmentFormUI({ userData, setStep, setUserData }) {
-  const [user, setUser] = useState(userData);
+export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
   const [selectedState, setSelectedState] = useState("");
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -36,7 +31,7 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
     qualification: "",
     sslc: null,
     profileImage: null,
-    adhaarNumber: user?.adhaarNumber || "",
+    adhaarNumber: userData?.adhaarNumber || "",
   });
 
   const [errors, setErrors] = useState({});
@@ -48,6 +43,35 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
       [name]: files ? files[0] : value,
     }));
   };
+
+  const handleFileUpload = (e) => {
+    const { name, files } = e.target;
+    
+    // Check if a file is selected
+    if (files && files[0]) {
+      // 1MB = 1,048,576 bytes
+      if (files[0].size > 1048576) {
+        setErrors({
+          ...errors,
+          [name]: "File size should be less than 1MB.",
+        })
+        e.target.value = ''; // Clear the input
+        return;
+      }
+      
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0]  
+      }));
+    }
+  };
+
+  useEffect(()=>{
+    setFormData((prev) => ({
+      ...prev,
+      ...userData
+    }));
+  }, [userData])
 
   const handleDateChange = (date, field) => {
     setFormData({ ...formData, [field]: date });
@@ -96,13 +120,12 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = ( ) => {
+      
     if (!validate()) return;
 
     setUserData(formData);
-    setStep(3);
+    onNext();
   };
 
   const handleBackToVerification = () => {
@@ -123,83 +146,86 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
       qualification: "",
       sslc: null,
       profileImage: null,
-      adhaarNumber: user?.adhaarNumber || "",
+      adhaarNumber: userData?.adhaarNumber || "",
     });
 
     // Clear errors
     setErrors({});
 
     // Navigate to studycenter
-    setStep(1);
+    onBack();
   };
 
   const districtOptions =
     states.find((s) => s.state === selectedState)?.districts || [];
 
+    const image = formData.profileImage ? URL.createObjectURL(formData.profileImage) : 'https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg';
+
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 bg-white rounded-lg shadow-md">
-      <div className="mb-6">
+    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 shadow-lg bg-white rounded-2xl border">
+      <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-800">
           Student Enrollment Form
         </h1>
         <p className="text-gray-600 mt-1">Please fill all required fields</p>
       </div>
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
+      <div className="space-y-8 "  >
         {/* PERSONAL SECTION */}
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">
             Personal Information
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name*</Label>
-              <Input
-                id="name"
-                name="name"
-                onChange={handleChange}
-                value={formData.name}
-              />
-              {errors.name && (
-                <p className="text-sm text-red-600">{errors.name}</p>
-              )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
+            <div className="col-span-full flex items-end gap-2 mb-5">
+              <div className="size-32 border rounded-full overflow-hidden">
+                <img src={image} className="w-full h-full object-cover" alt="" />
+              </div>
+              <div className="flex flex-col items-start">
+                <input onChange={handleFileUpload} id="profileImage" name="profileImage" type="file" className="sr-only" accept="image/*" />
+                <label htmlFor="profileImage" className={`border py-2 px-3 inline-flex gap-1 items-center rounded-md cursor-pointer text-sm font-medium ${errors.profileImage && formData.profileImage == null ? "border-red-500" : ""}`}><Upload04Icon size={20}/> Upload Image </label>
+                <p className="text-sm text-gray-500 mt-1">Maximum file size is 1MB. Accepted file types: JPG, JPEG</p>
+                {errors.profileImage && <p className="text-sm text-red-600 ">{errors.profileImage}</p>}
+              </div>
             </div>
+            <FormInput
+              label="Full Name"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              error={errors.name}
+            />
+            <FormInput
+              label="Age"
+              id="age"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              error={errors.age}
+              type="number"
+            />
+            
 
             <div className="space-y-2">
-              <Label htmlFor="age">Age*</Label>
-              <Input
-                id="age"
-                name="age"
-                type="number"
-                min="1"
-                onChange={handleChange}
-                value={formData.age}
-              />
-              {errors.age && (
-                <p className="text-sm text-red-600">{errors.age}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label>Date of Birth*</Label>
+              <Label>Date of Birth</Label>
               <DatePicker
                 date={formData.dateOfBirth}
                 setDate={(date) => handleDateChange(date, "dateOfBirth")}
-                // onChange={(date) =>
-                //   setFormData({ ...formData, dateOfBirth: date })
-                // }
+                year={new Date().getFullYear() - 30}
+                length={32}
               />
             </div>
 
             <div className="space-y-2 w-full">
-              <Label>Gender*</Label>
+              <Label>Gender</Label>
               <Select
                 onValueChange={(val) =>
                   setFormData({ ...formData, gender: val })
                 }
                 value={formData.gender}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className={`w-full ${errors.gender && formData.gender == '' ? "border-red-500" : ""}`}>
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -208,63 +234,40 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
                   <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
-              {errors.gender && (
-                <p className="text-sm text-red-600">{errors.gender}</p>
-              )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Phone Number*</Label>
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                onChange={handleChange}
-                value={formData.phoneNumber}
-              />
-              {errors.phoneNumber && (
-                <p className="text-sm text-red-600">{errors.phoneNumber}</p>
-              )}
-            </div>
+            <FormInput
+              label="Phone Number"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              error={errors.phoneNumber}
+            />
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email*</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                onChange={handleChange}
-                value={formData.email}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-600">{errors.email}</p>
-              )}
-            </div>
+            <FormInput
+              label="Email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={errors.email}
+            />
           </div>
         </div>
 
         {/* ADDRESS SECTION */}
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">
             Address Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="place">Place*</Label>
-              <Input
-                id="place"
-                name="place"
-                onChange={handleChange}
-                value={formData.place}
-              />
-              {errors.place && (
-                <p className="text-sm text-red-600">{errors.place}</p>
-              )}
-            </div>
+            
 
             <div className="space-y-2">
-              <Label>State*</Label>
+              <Label>State</Label>
               <Select onValueChange={handleStateChange} value={selectedState}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className={`w-full ${errors.state && formData.state == '' ? "border-red-500" : ""}`}>
                   <SelectValue placeholder="Select state" />
                 </SelectTrigger>
                 <SelectContent>
@@ -275,19 +278,16 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
                   ))}
                 </SelectContent>
               </Select>
-              {errors.state && (
-                <p className="text-sm text-red-600 ">{errors.state}</p>
-              )}
             </div>
 
             <div className="space-y-2">
-              <Label>District*</Label>
+              <Label>District</Label>
               <Select
                 onValueChange={handleDistrictChange}
                 value={formData.district}
                 disabled={!selectedState}
               >
-                <SelectTrigger className={`w-full`}>
+                <SelectTrigger className={`w-full ${errors.district && formData.district == '' ? "border-red-500" : ""}`}>
                   <SelectValue placeholder="Select district" />
                 </SelectTrigger>
                 <SelectContent>
@@ -298,106 +298,79 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
                   ))}
                 </SelectContent>
               </Select>
-              {errors.district && (
-                <p className="text-sm text-red-600">{errors.district}</p>
-              )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="pincode">Pincode*</Label>
-              <Input
-                id="pincode"
-                name="pincode"
-                onChange={handleChange}
-                value={formData.pincode}
-              />
-              {errors.pincode && (
-                <p className="text-sm text-red-600">{errors.pincode}</p>
-              )}
-            </div>
+            <FormInput
+              label="Place"
+              id="place"
+              name="place"
+              value={formData.place}
+              onChange={handleChange}
+              error={errors.place}
+            />
+            <FormInput
+              label="Pincode"
+              id="pincode"
+              name="pincode"
+              value={formData.pincode}
+              onChange={handleChange}
+              error={errors.pincode}
+            />
+            
           </div>
         </div>
 
         {/* EDUCATION SECTION */}
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">
             Education Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Date of Admission*</Label>
+            {/* <div className="space-y-2">
+              <Label>Date of Admission</Label>
               <DatePicker
                 date={formData.dateOfAdmission}
                 setDate={(date) => handleDateChange(date, "dateOfAdmission")}
-                // onChange={(date) =>
-                //   setFormData({ ...formData, dateOfAdmission: date })
-                // }
               />
-            </div>
+            </div> */}
 
-            <div className="space-y-2">
-              <Label htmlFor="parentName">Parent Name*</Label>
-              <Input
-                id="parentName"
-                name="parentName"
-                onChange={handleChange}
-                value={formData.parentName}
-              />
-              {errors.parentName && (
-                <p className="text-sm text-red-600">{errors.parentName}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="qualification">Qualification*</Label>
-              <Input
-                id="qualification"
-                name="qualification"
-                onChange={handleChange}
-                value={formData.qualification}
-              />
-              {errors.qualification && (
-                <p className="text-sm text-red-600">{errors.qualification}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="sslc">SSLC Certificate*</Label>
-              <Input
-                id="sslc"
-                name="sslc"
-                type="file"
-                onChange={handleChange}
-              />
-              {errors.sslc && (
-                <p className="text-sm text-red-600">{errors.sslc}</p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* PROFILE IMAGE */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h2 className="text-lg font-semibold text-gray-700 mb-4">
-            Profile Image
-          </h2>
-          <div className="space-y-2">
-            <Label htmlFor="profileImage">Upload Photo*</Label>
-            <Input
-              id="profileImage"
-              name="profileImage"
-              type="file"
-              accept="image/*"
+            <FormInput
+              label="Parent Name"
+              id="parentName"
+              name="parentName"
+              value={formData.parentName}
               onChange={handleChange}
+              error={errors.parentName}
             />
-            {errors.profileImage && (
-              <p className="text-sm text-red-600">{errors.profileImage}</p>
-            )}
+
+            <FormInput
+              label="Qualification"
+              id="qualification"
+              name="qualification"
+              value={formData.qualification}
+              onChange={handleChange}
+              error={errors.qualification}
+            />
+           
+            <div className=" col-span-full mt-5">
+              <label htmlFor="sslc" className={`${errors.sslc && formData.sslc == null ? "border-red-500" : ""} w-full py-7 border flex flex-col gapy-2 cursor-pointer hover:border-primary transition-all duration-200 hover:bg-primary-foreground items-center justify-center border-dashed border-gray-300 p-4 rounded-xl`}>
+                {formData.sslc? <h1 className="text-sm font-medium">{formData.sslc.name}</h1>
+                  :<>
+                <CloudUploadIcon strokeWidth={1}/>
+                <h1 className="text-sm font-medium text-gray-600">Upload SSLC Certificate</h1>
+                <p className="text-xs text-gray-500">Maximum file size is 1MB. Accepted file types: JPG, PDF</p>
+                {errors.sslc &&<p className="text-xs text-red-500">{errors.sslc}</p>}
+                </>}
+              </label>
+              <input onChange={handleFileUpload} type="file" id="sslc" name="sslc" className="sr-only" />
+            </div>
           </div>
         </div>
 
         {/* ACTIONS */}
-        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+        
+        {/* {  Object.keys(errors).length != 0 && <p className="text-sm text-red-600">Please fill all required fields</p>} */}
+        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6 pt-5 border-t">
           <Button
             type="button"
             variant="outline"
@@ -406,11 +379,33 @@ export function EnrollmentFormUI({ userData, setStep, setUserData }) {
           >
             Back to Verification
           </Button>
-          <Button type="submit" className="w-full sm:w-auto">
+          <Button onClick={handleSubmit}   className="w-full sm:w-auto">
             Submit Enrollment
           </Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
+
+
+
+
+const FormInput = ({ label, id, name, value, onChange, error, type = "text" }) => {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        name={name}
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={label}
+        className={error && value === ''? "border-red-500" : ""}
+      />
+      
+      {error && <p className="text-sm text-red-600">{error}</p>}
+    </div>
+  );
+};

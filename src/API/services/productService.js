@@ -10,7 +10,6 @@ export const productService = {
     return response.data;
   },
   editProduct: async (id, data) => {
-    console.log(id, data);
    try{
     const response = await axiosInstance.post(
       API_ENDPOINTS.PRODUCT.UPDATE_PRODUCT,

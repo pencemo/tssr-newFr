@@ -5,7 +5,6 @@ import React from 'react'
 
 function CentreStore() {
     const {data, isLoading, isError}=useAllProduct()
-    console.log(data);
     return (
       <div>
           <div className='flex  justify-between items-center max-md:flex-col'>

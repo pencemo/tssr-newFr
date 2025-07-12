@@ -57,8 +57,6 @@ export function TableComp({ data }) {
             </TableCell>
             <TableCell className="">View data</TableCell>
             <TableCell className="">
-              {/* <DeleteAlert deleteFn={()=>console.log(user._id)}/> */}
-              {/* <EditS tudy data={item} /> */}
               <Button
               variant='outline'
               className='h-8'

@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreVerticalIcon,
-} from "lucide-react";
 import Loader from "@/components/ui/loader";
 import { useCourseOfStudyCenter, useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +10,8 @@ import { useStudentOfStudyCenter } from "@/hooks/tanstackHooks/useStudents";
 import NoData from "@/components/ui/noData";
 import { StudentDl } from "@/components/studycenterComponents/StudentView/StudentDl";
 import { useAuth } from "@/Context/authContext";
+import Pagination from "@/components/ui/Pagination";
+import { HiOutlineXMark } from "react-icons/hi2";
 
 export function ViewStudent() {
   const [search, setSearch] = useState("");
@@ -62,6 +57,7 @@ export function ViewStudent() {
   useEffect(() => {
     if (data && data.data) {
       setStudents(data.data);
+      console.log(data);
     }
     if (data) {
       setTotalPage(data.totalPages);
@@ -90,7 +86,7 @@ export function ViewStudent() {
         <div>
           <h1 className="text-2xl font-bold">Students Data</h1>
         </div>
-        <div className="flex max-sm:flex-col gap-2 justify-between items-center">
+        <div className=" ">
           <Input
             value={search}
             onChange={(e) => {
@@ -100,20 +96,20 @@ export function ViewStudent() {
             placeholder="Search Student"
             className="max-w-sm max-sm:max-w-full"
           />
-          <div className="max-sm:w-full flex items-center justify-center gap-2">
-            {!user.isAdmin &&<Button onClick={() => navigate("/studycenter/admission")}>
-              Add Student
-            </Button>}
-            <StudentDl/>
-          </div>
+          
         </div>
         
+        <div className="w-full flex max-md:flex-col  md:justify-between gap-2 ">
+           
         <StudentFilter
               courses={course?.data}
               studycenter={studycenter?.data}
               filters={filters}
               onFilterChange={handleFilterChange}
-              onClear={() =>{
+              
+            />
+          <div className="grid grid-cols-2 gap-2">
+          <Button onClick={() =>{
                 setFilters({
                   course: "",
                   batch: "",
@@ -122,8 +118,11 @@ export function ViewStudent() {
                   studyCentre: ''
                 }
                 )
-              }}
-            />
+              }} variant='outline'  >
+                <HiOutlineXMark size={26}/></Button> 
+              <StudentDl/>
+          </div>
+        </div>
         {isLoading ? (
           <div className="w-full h-full">
             <Loader />
@@ -133,47 +132,7 @@ export function ViewStudent() {
             
             <div className="rounded-md border">
               <StudentTable data={students} />
-              <div className="flex items-center sm:justify-end justify-between space-x-2 py-4 px-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronsLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <span className="text-sm">
-                  Page {currentPage} of {totalPage}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPage))
-                  }
-                  disabled={currentPage === totalPage}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(totalPage)}
-                  disabled={currentPage === totalPage}
-                >
-                  <ChevronsRight className="h-4 w-4" />
-                </Button>
-              </div>
+              <Pagination totalData={data?.totalData} currentPage={currentPage} totalPage={totalPage} setCurrentPage={setCurrentPage} />
             </div>
           </>
         ) : (

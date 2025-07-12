@@ -54,7 +54,6 @@ export function EditStudy({ data, course }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     if (
       formData.name === "" ||
       formData.centerHead === "" ||

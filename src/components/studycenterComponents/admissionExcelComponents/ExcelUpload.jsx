@@ -9,20 +9,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { ExcelTableView } from "./ExcelTableView";
 import { useCreateEnrollmentUsingExcel } from "@/hooks/tanstackHooks/useEnrollment";
-import { excelToJson } from "@/lib/excelToJson";
+import { excelToJson, jsonToExcel } from "@/lib/excelToJson";
 import { toast } from "sonner";
 import Loader from "@/components/ui/loader";
 import { LoaderCircle, LoaderIcon } from "lucide-react";
+import { CloudUploadIcon } from "hugeicons-react";
 
-
-const ExcelUpload = ({ setStep, setCourse, course }) => {
+const ExcelUpload = ({ onBack, setCourse, course }) => {
   const [file, setFile] = useState(null);
   const { mutate, isPending } = useCreateEnrollmentUsingExcel();
   const [tableData, setTableData] = useState([]);
   const [error, setError] = useState(null);
+  const [translate, setTranslate] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -61,72 +61,139 @@ const ExcelUpload = ({ setStep, setCourse, course }) => {
     setTableData([]);
     setError(null);
     setCourse(null);
-    setStep(1);
+    onBack();
   }
+  const instruction = [
+    "Download the demo Excel file below.",
+    "Enter all required student details in the same format.",
+    "Do not rename or modify any column headers.",
+    "Upload the completed Excel file and wait for the upload to finish.",
+    "On successful upload, you'll be redirected to the next step.",
+    "Review the uploaded data in the table.",
+    "Upload each student's photo and SSLC certificate.",
+    "Submit the final form.",
+  ];
+  const malayalam = [
+    "താഴെയുള്ള ഡെമോ എക്സൽ ഫയൽ ഡൗൺലോഡ് ചെയ്യുക",
+    "ആവശ്യമായ എല്ലാ വിദ്യാർത്ഥി വിശദാംശങ്ങളും അതേ ഫോർമാറ്റിൽ നൽകുക.",
+    "കോളം ഹെഡറുകളുടെ പേരുമാറ്റുകയോ പരിഷ്കരിക്കുകയോ ചെയ്യരുത്",
+    "പൂർത്തിയാക്കിയ എക്സൽ ഫയൽ അപ്‌ലോഡ് ചെയ്ത് പൂർത്തിയാകുന്നതുവരെ കാത്തിരിക്കുക.",
+    "അപ്‌ലോഡ് വിജയകരമായാൽ ഘട്ടത്തിലേക്ക് റീഡയറക്‌ട് ചെയ്യും.",
+    "പട്ടികയിലെ അപ്‌ലോഡ് ചെയ്‌ത ഡാറ്റ അവലോകനം ചെയ്യുക.",
+    "ഓരോ വിദ്യാർത്ഥിയുടെയും ഫോട്ടോയും SSLC സർട്ടിഫിക്കറ്റും അപ്‌ലോഡ് ചെയ്യുക.",
+    "ഫോം സബ്മിറ്റ് ചെയ്യുക.",
+  ];
 
   return (
     <div>
-      <Card className="w-full mx-auto bg-white border border-gray-200 rounded-2xl shadow-md">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold">
-            Upload your Excel File
-          </CardTitle>
-          <CardDescription>
-            Deploy your new project and upload data via Excel.
-          </CardDescription>
-        </CardHeader>
+      {tableData.length >= 0 ? (
+        <Card className="w-full max-w-5xl mx-auto bg-white border border-gray-200 rounded-2xl shadow-md">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">
+              Upload Student Data
+            </CardTitle>
+            <CardDescription>
+              Easily upload student details in bulk using an Excel file
+            </CardDescription>
+          </CardHeader>
 
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col space-y-1.5">
-              <Input
-                id="excel"
-                type="file"
-                accept=".xlsx, .xls"
-                onChange={handleFileChange}
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Only .xlsx, .xls and .csv files are accepted.
-              </p>
-              {file && (
-                <p className="text-sm font-medium text-green-600">
-                  Uploaded: {file.name}
-                </p>
-              )}
-              {error && (
-                <p className="text-sm font-medium text-red-600">
-                  Please select a valid Excel file.
-                </p>
-              )}
+          <CardContent>
+            <div className="space-y-1">
+              <h1 className="text-xl font-medium mb-2">Instruction</h1>
+              {!translate
+                ? instruction.map((item, index) => {
+                    return (
+                      <p key={index} className="text-sm text-gray-700 ">
+                        {index + 1}. {item}
+                      </p>
+                    );
+                  })
+                : malayalam.map((item, index) => {
+                    return (
+                      <p key={index} className="text-sm text-gray-700 ">
+                        {index + 1}. {item}
+                      </p>
+                    );
+                  })}
+              <button
+                className="cursor-pointer text-sm text-muted-foreground"
+                onClick={() => setTranslate(!translate)}
+              >
+                Translate to {translate ? "English" : "Malayalam"}
+              </button>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <Button variant="outline" onClick={handleCancel}>
-                Back
-              </Button>
-              <Button onClick={handleUpload} className="md:w-20">
-                {isPending ? (
-                  <LoaderCircle className="animate-spin" />
-                ) : (
-                  "Deploy"
+            <div className="f lex items-center justify-between mt-6">
+              <div className="flex flex-col space-y-1.5">
+                <input
+                  id="excel"
+                  type="file"
+                  className="sr-only"
+                  accept=".xlsx, .xls"
+                  onChange={handleFileChange}
+                />
+                <label
+                  htmlFor="excel"
+                  className={`${
+                    error ? "border-red-500" : ""
+                  } w-full py-7 border flex flex-col gapy-2 cursor-pointer hover:border-primary transition-all duration-200 hover:bg-primary-foreground items-center justify-center border-dashed border-gray-300 p-4 rounded-xl`}
+                >
+                  <CloudUploadIcon strokeWidth={1} />
+                  <h1 className="text-sm font-medium text-gray-600">
+                    Upload Excel File{" "}
+                  </h1>
+                  <p className="text-xs text-gray-500">
+                    Only .xlsx, .xls and .csv files are accepted
+                  </p>
+                </label>
+                {file && (
+                  <p className="text-sm text-green-600">
+                    Uploaded: {file.name}
+                  </p>
                 )}
-              </Button>
+                {error && (
+                  <p className="text-sm text-red-600">
+                    Please select a valid Excel file.
+                  </p>
+                )}
+              </div>
+              <div className="flex max-sm:flex-col sm:justify-between gap-2 mt-5">
+                <Button
+                  variant="secondary"
+                  className="hover:text-primary"
+                  onClick={() =>
+                    jsonToExcel(["ata", "toa", "tee"], "demo.xlsx")
+                  }
+                >
+                  Download Demo Excel
+                </Button>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    className={"w-full"}
+                    onClick={handleCancel}
+                  >
+                    Back
+                  </Button>
+                  <Button onClick={handleUpload} className="w-full">
+                    {isPending ? (
+                      <LoaderCircle className="animate-spin" />
+                    ) : (
+                      "Upload Excel"
+                    )}
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        </CardContent>
+          </CardContent>
 
-        <CardFooter className="flex flex-col gap-3"></CardFooter>
-      </Card>
-
-      {isPending ? (
+          <CardFooter className="flex flex-col gap-3"></CardFooter>
+        </Card>
+      ) : isPending ? (
         <div className="flex items-center justify-center h-screen">
           <Loader />
         </div>
       ) : (
-        <ExcelTableView
-          tableData={tableData}
-          course={course}
-          setStep={setStep}
-        />
+        <ExcelTableView tableData={tableData} course={course} onBack={onBack} />
       )}
     </div>
   );

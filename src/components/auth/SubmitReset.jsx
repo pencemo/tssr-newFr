@@ -44,6 +44,7 @@ export function SubmitReset({ className ,email }) {
               navigate('/login')
             } else {
               toast.error(res.message);
+              setError(res.message);
             }
           },
           onError: () => {

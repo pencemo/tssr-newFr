@@ -91,7 +91,6 @@ export function CreateNotification() {
       },
     });
   }catch(error){
-    console.log(error)
     setError('Somthing went wrong')
   }finally{
     setLoading(false);

@@ -28,7 +28,6 @@ export const orderServices = {
     return response.data;
   },
   getOrderByStatus: async (page, limit, status, search) => {
-    console.log(page, limit, status, search);
     const response = await axiosInstance.get(
       API_ENDPOINTS.ORDER.GET_ORDER_BY_STATUS,
       {

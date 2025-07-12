@@ -17,6 +17,7 @@ import { excelDownload } from "@/lib/ExcelDownload";
 import { useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
 import { Download04Icon } from "hugeicons-react";
 import { Loader2, MoreVerticalIcon } from "lucide-react";
+import { toast } from "sonner";
 
 const EXPORT_FIELDS = [
   { id: "isActive", label: "Status" },
@@ -69,8 +70,7 @@ export function MenuButtons() {
     try {
       excelDownload(processedData);
     } catch (err) {
-      console.error("Download error:", err);
-      alert("Failed to download study center data.");
+      toast.error("Failed to download study center data.");
     }
   };
 

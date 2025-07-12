@@ -23,7 +23,7 @@ export default function NotificationCard() {
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">
-        {data && data.data ? data?.data?.slice(0,4).map((notification) => {
+        {data && data.data ? data?.data?.slice(0,3).map((notification) => {
           return (
             <div
               key={notification._id}

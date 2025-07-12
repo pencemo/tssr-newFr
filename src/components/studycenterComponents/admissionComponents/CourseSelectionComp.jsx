@@ -8,16 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { format, set, sub } from "date-fns";
+import { format, formatDate, set, sub } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import {  useOpenCourseAndBatchOfStudyCenter } from "@/hooks/tanstackHooks/useCourse";
 import { useState, useEffect } from "react";
@@ -27,84 +18,61 @@ import {  useCreateEnrollmentAndStudent } from "@/hooks/tanstackHooks/useEnrollm
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { uploadFile } from "@/lib/s3Service";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
-const CourseSelectionComp = ({ userData, setStep }) => {
-  const [student, setStudent] = useState(userData);
-  // console.log("Student Data:", student);
-  const [course, setCourse] = useState(null);
-  const [batch, setBatch] = useState(null);
-  const [courseError, setCourseError] = useState(false);
-  const [batchError, setBatchError] = useState(false);
-  const [validationError, setValidationError] = useState("");
-
+const CourseSelectionComp = ({ userData, onBack,onBack2, course }) => {
+  const [student, setStudent] = useState({});
+  const [isAccept, setAccept] = useState(false)
   const navigate = useNavigate();
-  const { data, isLoading } = useOpenCourseAndBatchOfStudyCenter();
   const { mutate , isPending } = useCreateEnrollmentAndStudent();
-  const courses = data?.courses || [];
-  const selectedCourse = courses.find((c) => c.courseId === course);
-  const batches = selectedCourse ? selectedCourse.batches : [];
 
   // Optional: Sync updated course/batch/year to local state if needed elsewhere
   const [enrollmentData, setEnrollmentData] = useState({
-    courseId: null,
-    batchId: null,
     studentId: student._id,
   });
 
+  useEffect(() => {
+    setStudent({
+      ...userData,
+      ...course
+    });
+  }, [userData, course]);
 
   // Sync when selections change
   useEffect(() => {
     setEnrollmentData({
-      courseId: course,
-      batchId: batch,
       studentId: student._id,
     });
-  }, [course, batch, student._id]);
-
-  // Inside component
+  }, [student._id]);
+ 
+  console.log(userData);
 
   // handleSubmit with validation
   const handleSubmit = async() => {
-    let hasError = false;
+    console.log(course);
+    // return console.log(student);
+    let studentWithUrls
+    if(!userData._id){
+      const [profileImageUrl, sslcUrl] = await Promise.all([
+        uploadFile(userData.profileImage),
+        uploadFile(userData.sslc)
+      ]);
 
-    if (!course) {
-      setCourseError(true);
-      hasError = true;
-    } else {
-      setCourseError(false);
+      if(!profileImageUrl || !sslcUrl) {
+        toast.error("Failed to upload files. Please try again.");
+        return;
+      }
+      studentWithUrls = {
+        ...student,
+        profileImage: profileImageUrl.url,
+        sslc: sslcUrl.url,
+      };
+    }else{
+      studentWithUrls = student
     }
-
-    if (!batch) {
-      setBatchError(true);
-      hasError = true;
-    } else {
-      setBatchError(false);
-    }
-
-    if (hasError) {
-      setValidationError("⚠️ Please select all required fields.");
-      return;
-    }
-
-    setValidationError("");
-    const [profileImageUrl, sslcUrl] = await Promise.all([
-      uploadFile(userData.profileImage),
-      uploadFile(userData.sslc)
-    ]);
     
 
-    console.log("Profile Image URL:", profileImageUrl);
-    console.log("SSLC URL:", sslcUrl);
-
-    if(!profileImageUrl || !sslcUrl) {
-      toast.error("Failed to upload files. Please try again.");
-      return;
-    }
-    const studentWithUrls = {
-      ...student,
-      profileImage: profileImageUrl.url,
-      sslc: sslcUrl.url,
-    };
 
     mutate(
       { student: studentWithUrls, enrollmentData },
@@ -123,20 +91,11 @@ const CourseSelectionComp = ({ userData, setStep }) => {
       }
     );
   };
-
-  function HandleBack() {
-    setCourse(null);
-    setBatch(null);
-    setCourseError(false);
-    setStep(1);
-  }
-
-  if (isLoading) return <Loader />;
-
+  const image = student?._id ? student?.profileImage : student?.profileImage ? URL.createObjectURL(student?.profileImage) : 'https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg';
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-10 space-y-6">
+    <div className=" max-w-4xl mx-auto ">
       {/* Student Info Card */}
-      <Card className="w-full max-w-4xl bg-white border border-gray-200 shadow-md rounded-xl">
+      <Card className="w-full shadow-xl rounded-2xl">
         <CardHeader className="pb-4 border-b border-gray-200 px-6 pt-1">
           <CardTitle className="text-3xl font-semibold text-gray-800">
             Student Details
@@ -147,151 +106,99 @@ const CourseSelectionComp = ({ userData, setStep }) => {
         </CardHeader>
 
         <CardContent className="p-6">
-          <div className="flex flex-col lg:flex-row gap-6 md:gap-10">
+          <div className="flex flex-col  gap-6">
             {/* Avatar */}
-            <div className="flex justify-center lg:justify-start">
-              <Avatar className="w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 rounded-full border border-gray-300 overflow-hidden">
+            <div className="flex max-md:flex-col md:items-end gap-5 border-b pb-5">
+              <Avatar className="size-28 md:size-32 object-cover rounded-full border border-gray-300 overflow-hidden">
                 <AvatarImage
-                  src={student?.profileImage || "/default-avatar.png"}
-                  alt="@shadcn"
+                  src={image}
+                  alt="@profile image"
                   className="object-cover w-full h-full"
                 />
                 <AvatarFallback className="text-3xl font-semibold bg-gray-200 w-full h-full flex items-center justify-center">
                   JD
                 </AvatarFallback>
               </Avatar>
+              <div>
+              <h1 className="text-xl md:text-2xl font-semibold text-gray-800">{student?.name}</h1>
+              <h1 className="text-gray-600 text-sm">Mail:  {student?.email}</h1>
+              <h1 className="text-gray-600 text-sm">Contact No:  {student?.phoneNumber}</h1>
+              </div>
             </div>
 
             {/* Student Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-              {[
-                ["Name", student?.name],
-                ["Email", student?.email],
-                ["Phone Number", student?.phoneNumber],
-                ["Gender", student?.gender],
-                ["Adhaar Number", student?.adhaarNumber],
-                [
-                  "Admission Date",
-                  student?.dateOfAdmission
-                    ? format(new Date(student.dateOfAdmission), "dd MMM yyyy")
-                    : "N/A",
-                ],
-              ].map(([label, value]) => (
-                <div key={label} className="w-full">
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {label}
-                  </label>
-                  <input
-                    type="text"
-                    readOnly
-                    value={value}
-                    className="w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-base text-gray-700 shadow-sm focus:outline-none"
-                  />
-                </div>
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <DetailsInfo name="Adhaar Number" value={student?.adhaarNumber} />
+              <DetailsInfo name="DOB" value={format(new Date(userData?.dateOfBirth || ''), 'PPP')} />
+              <DetailsInfo name="Age" value={student?.age} />
+              <DetailsInfo name="Gender" value={student?.gender} />
+              <DetailsInfo name="parentName" value={student?.parentName} />
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h1 className="col-span-full text-lg font-semibold text-gray-700">Address Details</h1>
+              <DetailsInfo name="State" value={student?.state} />
+              <DetailsInfo name="District" value={student?.district} />
+              <DetailsInfo name="Pincode" value={student?.pincode} />
+              <DetailsInfo name="Place" value={student?.place} /> 
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h1 className="col-span-full text-lg font-semibold text-gray-700">Acadamic Info</h1>
+              <DetailsInfo name="Qualification" value={student?.qualification} />
+              <DetailsInfo name="Date Of Admission" value={format(new Date(userData?.dateOfAdmission || ''), 'PPP')} />
+            </div>
+
+            <div>
+            <div className="mt-5 border-t py-4">
+          <h1 className="text-lg font-semibold text-gray-700 ">Student,s Declaration</h1>
+            <p className="text-sm text-gray-600 mt-1">Hereby solemnly declare that the above information provided by me are true to the best of my knowledge and belief. I shall obey the rules and regulation of TSSR COUNCIL study centre, now in force and as amended or altered from time to time. I accept all decision of the TSSR COUNCIL authorities in all matters of training conducted discipline are no right of question them in any court of law.</p>
+          <div className="flex gap-2 mt-3">
+            <Checkbox id="checkbox" checked={isAccept} onCheckedChange={(value)=>setAccept(value)} />
+            <Label htmlFor="checkbox">I agree to the declaration above.</Label>
+          </div>
+        </div>
+            </div>
+
+            
           </div>
         </CardContent>
-      </Card>
-
-      {/* Course Selection Card */}
-      <Card className="w-full max-w-4xl bg-white border border-gray-200 shadow-md rounded-xl">
-        <CardHeader>
-          <CardTitle className="text-xl sm:text-2xl text-gray-800">
-            Select Course Details
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-            {/* Course Select */}
-            <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Course
-              </label>
-              <Select
-                onValueChange={(value) => {
-                  setCourse(value);
-                  setCourseError(false);
-                }}
-              >
-                <SelectTrigger
-                  className={`w-full ${courseError ? "border-red-500" : ""}`}
-                >
-                  <SelectValue placeholder="Select a course" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Courses</SelectLabel>
-                    {courses.map((course) => (
-                      <SelectItem key={course.courseId} value={course.courseId}>
-                        {course.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Batch Select */}
-            <div className="w-full">
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Batch
-              </label>
-              <Select
-                onValueChange={(value) => {
-                  setBatch(value);
-                  setBatchError(false);
-                }}
-              >
-                <SelectTrigger
-                  className={`w-full ${batchError ? "border-red-500" : ""}`}
-                >
-                  <SelectValue placeholder="Select a batch" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Batches</SelectLabel>
-                    {batches.map((batch) => (
-                      <SelectItem key={batch._id} value={batch._id}>
-                        {batch.month}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-
-        <CardFooter className="flex flex-col sm:flex-row sm:items-center sm:justify-between md:justify-between lg:justify-between gap-4 mt-4 w-full">
-          <div>
-            {validationError && (
-              <p className="text-sm text-red-600 text-center w-full">
-                {validationError}
-              </p>
-            )}
-          </div>
+        <CardFooter className="flex justify-end  w-full">
+          
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button
               variant="outline"
               className="w-full sm:w-auto"
-              onClick={HandleBack}
+              onClick={()=>{
+                userData?._id ? onBack2() : onBack()
+              }}
             >
-              Cancel
+              Back to edit
             </Button>
-            <Button className="w-full sm:w-auto" onClick={handleSubmit}>
+            <Button disabled={!isAccept} className="w-full sm:w-auto" onClick={handleSubmit}>
               {isPending ? (
                 <Loader className="animate-spin" />
               ) : (
-                "Confirm Selection"
+                "Submit Details"
               )}
-              {/* Confirm Selection */}
             </Button>
           </div>
         </CardFooter>
       </Card>
+
     </div>
   );
 };
 
 export default CourseSelectionComp;
+
+
+
+function DetailsInfo({name, value}) {
+  return (
+    <div className="space-x-1 grid md:grid-cols-5 border shadow-xs py-2 px-4 rounded-md">
+      <h1 className="text-sm font-medium text-gray-600 md:col-span-2">{name} : </h1>
+      <h2 className="text-sm font-medium text-gray-800 md:col-span-3">{value}</h2>
+    </div>
+  )
+}
+

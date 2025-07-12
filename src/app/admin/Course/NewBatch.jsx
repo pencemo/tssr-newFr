@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { useCreateBatch } from "@/hooks/tanstackHooks/useBatch";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const monthNames = [
   "January",
@@ -41,16 +42,15 @@ const monthNames = [
 
 export function NewBatch({ name, id }) {
     const [modelOpen, setModelOpen]=useState(false)
-  const [open, setOpen] = useState(false);
   const [month, setMonth] = useState('');
-  const {mutate}=useCreateBatch()
+  const {mutate, isPending}=useCreateBatch()
   const [error, setError] = useState(null)
 
   const handelCreateBatch = () => {
     if(month === ''){
         return setError("Month is required")
     }
-    mutate({data:{month, isAdmissionStarted: open,}, courseId: id}, {
+    mutate({data:{month, isAdmissionStarted: false,}, courseId: id}, {
       onSuccess: (data) => {
         if (data.success) {
           toast("Batch created", {
@@ -95,21 +95,11 @@ export function NewBatch({ name, id }) {
               </SelectContent>
             </Select>
           </div>
-          <div className="">
-            <div className="w-full border py-2 px-3 flex items-center justify-between rounded-xl">
-                <div>
-                    <h1 className="font-medium">Admission</h1>
-                    <p className="text-sm text-muted-foreground">
-                        Make it on to take admission
-                    </p>
-                </div>
-                <Switch checked={open} onCheckedChange={(value)=>setOpen(value)} />
-            </div>
-          </div>
+          
         {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
         <DialogFooter>
-          <Button onClick={handelCreateBatch}>Create batch</Button>
+          <Button onClick={handelCreateBatch}>{isPending ? <Loader2 className="animate-spin"/>:"Create batch"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

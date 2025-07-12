@@ -25,7 +25,6 @@ function CentreDetails() {
 
   useEffect(() => {
     if (user) {setMemberData(user.studycenterId);}
-    console.log(user);
   }, [user]);
 
   const isRenewalSoon = () => {

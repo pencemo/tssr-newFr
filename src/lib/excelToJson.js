@@ -23,3 +23,16 @@ export const excelToJson = (file) => {
     reader.readAsArrayBuffer(file);
   });
 };
+
+export const jsonToExcel = (data, filename = 'data.xlsx') => {
+  const wb = XLSX.utils.book_new();
+  
+  // Convert array to worksheet (each element becomes a column header)
+  const ws = XLSX.utils.aoa_to_sheet([data]);
+  
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  
+  // Write file
+  XLSX.writeFile(wb, filename);
+}

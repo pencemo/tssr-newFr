@@ -6,8 +6,6 @@ import React, { useState } from "react";
 const AdmissionForStudent = () => {
   const [step, setStep] = useState(1);
   const [userData, setUserData] = useState(null);
-  console.log(step);
-  console.log(userData);
 
   return (
     <div className="w-full h-full">

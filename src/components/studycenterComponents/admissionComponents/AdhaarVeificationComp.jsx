@@ -18,6 +18,9 @@ import { Loader } from "lucide-react";
 
 const AdhaarVeificationComp = ({
   setStep,
+  onNext,
+  onBack,
+  onFinel,
   setUserData,
 }) => {
   const [adhaarNumber, setAdhaarNumber] = useState("");
@@ -25,9 +28,10 @@ const AdhaarVeificationComp = ({
 
 
   const handleCheck = () => {
-    if (adhaarNumber.trim().length === 12) {
+    if (adhaarNumber.trim().length === 14) {
+      const cleanAadhaar = adhaarNumber.replace(/\D/g, '');
       mutate(
-        { adhaarNumber },
+        { cleanAadhaar },
         {
           onSuccess: (res) => {
             const data = res?.data;
@@ -40,25 +44,19 @@ const AdhaarVeificationComp = ({
 
             if (studentExists && enrolled) {
               // ✅ Case 1: Student found and already enrolled in some courses
-              toast("Student is already enrolled in a course.", {
-                description: "Adhaar Verified",
-              });
+              toast.error("Student is already enrolled in a course.");
             } else if (
               studentExists && !enrolled
             ) {
               // ✅ Case 2: Student exists but not enrolled in any course
-              toast("Proceed to New ENrollment.", {
-                description: "Adhaar Verified .",
-              });
+              toast.success("Proceed to New Enrollment." );
               setUserData(student);
-              setStep(3);
+              onFinel();
             } else {
               // ✅ Case 3: New student
-              toast("New student. Please proceed with admission.", {
-                description: "New student. Please proceed with admission.",
-              });
+              toast.success("New student. Please proceed with admission.");
               setUserData({ adhaarNumber });
-              setStep(2);
+              onNext();
             }
           },
           onError: () => {
@@ -69,7 +67,7 @@ const AdhaarVeificationComp = ({
         }
       );
     } else {
-      toast.error("Invalid Aadhaar", {
+      toast.warning("Invalid Aadhaar", {
         description: "Please enter a valid 12-digit Aadhaar number",
       });
     }
@@ -95,22 +93,29 @@ const AdhaarVeificationComp = ({
                 id="adhaar"
                 placeholder="Enter 12-digit Aadhaar number"
                 value={adhaarNumber}
-                onChange={(e) => setAdhaarNumber(e.target.value)}
-                maxLength={12}
+                onChange={(e) => {
+                  let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                      
+                      // Add space every 4 digits
+                      if (value.length > 0) {
+                        value = value.match(/.{1,4}/g)?.join(' ') || '';
+                      }
+                  setAdhaarNumber(value)
+                }}
+                maxLength={14}
                 className="h-11 text-base"
               />
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex items-center justify-center">
+        <CardFooter className="grid grid-cols-2 gap-2 px-6 ">
           <Button
             variant="outline"
-            onClick={() => setAdhaarNumber("")}
-            className=""
+            onClick={() => onBack()}
           >
-            Clear
+            Back
           </Button>
-          <Button onClick={handleCheck} className=" ">
+          <Button onClick={handleCheck}  >
             {isPending ? <Loader className="animate-spin" /> :
               "Verify & Continue"
             }

@@ -36,6 +36,8 @@ import CenterExams from "./app/studycenter/CenterExams/CenterExams";
 import HallTicket from "./components/studycenterComponents/examComponents/hallTicketPDF";
 import HallTicketSearch from "./app/studycenter/CenterExams/HallTicketSearch";
 import ResetPassword from "./app/Auth/resetPassword";
+import Enrollment from "./app/studycenter/Admission/Enrollment";
+import ManageStaff from "./app/admin/Staff/ManageStaff";
 
 
 function App() {
@@ -70,7 +72,7 @@ function App() {
             <Route index element={<ViewStudent />} />
             <Route path="view/:id" element={<OneStudent />} />
           </Route>
-          <Route path="results" element={<Dashbord />} />
+          <Route path="results" element={<NoData />} />
           {/* <Route path="store" element={<Store />} /> */}
           <Route path="orders" element={<Outlet />}>
             <Route index element={<Orders />} />
@@ -82,6 +84,7 @@ function App() {
           </Route>
           <Route path="settings" element={<AdminSettings />} />
           <Route path="notification" element={<AdminNotifications />} />
+          <Route path="staff" element={<ManageStaff />} />
         </Route>
 
         {/* Routes for studycenter functionality */}
@@ -112,9 +115,8 @@ function App() {
           <Route path="settings" element={<SettingsCentre />} />
           <Route path="notifications" element={<CenterNotification />} />
           <Route path="admission" element={<Outlet />}>
-            <Route index element={<AdmissionForStudent />} />
-            <Route path="excel" element={<AdmissionUsingExcel />} />
-            <Route path="results" element={<Dashbord />} />
+            <Route index element={<Enrollment />} />
+            {/* <Route index element={<AdmissionForStudent />} /> */}
           </Route>
         </Route>
       </Routes>

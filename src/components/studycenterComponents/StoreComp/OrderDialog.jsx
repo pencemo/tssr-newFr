@@ -32,7 +32,6 @@ const OrderDialog = ({ open, onOpenChange, product }) => {
       {
         onSuccess: (data) => {
           if (data.success) {
-            console.log(data);
             toast.success(data.message || "Order placed successfully!");
             onOpenChange(false); // close dialog
           } else {

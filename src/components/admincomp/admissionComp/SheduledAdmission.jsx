@@ -45,7 +45,6 @@ export function SheduledAdmission() {
   useEffect(() => {
     if (data && data.data) {
       setBatches(data.data);
-      console.log(data);
     }
     if (data) {
       setTotalPage(data.totalPage);

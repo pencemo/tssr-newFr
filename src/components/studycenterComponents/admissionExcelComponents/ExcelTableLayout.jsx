@@ -12,23 +12,25 @@ import {
 } from "@/components/ui/table";
 import { FileUploadDialog } from "./FileUploadDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { HiOutlineCheck, HiOutlineXMark } from "react-icons/hi2";
 
 export function ExcelTableLayout({
   title,
   students,
-  rowColor,
   enableUpload = false,
   onEditClick,
+  isError = false,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-x-auto">
-      <div className="px-4 py-2">
+    <div className={`bg-white rounded-2xl shadow border ${isError ? "border-red-400" : " "} overflow-x-auto`}>
+      <div className="px-4 py-3 flex items-center gap-2">
+      {isError ?<div className="bg-red-600 text-white rounded-full p-0.5">{<HiOutlineXMark size={12}/>}</div>:
+        <div className="bg-green-600 text-white rounded-full p-0.5">{<HiOutlineCheck size={12}/>}</div>}
         <h2 className="text-lg font-semibold">{title}</h2>
       </div>
       <Table className="min-w-full">
-        <TableCaption>{title} List</TableCaption>
-        <TableHeader>
-          <TableRow>
+        <TableHeader >
+          <TableRow >
             <TableHead>Image</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Gender</TableHead>
@@ -45,7 +47,7 @@ export function ExcelTableLayout({
         </TableHeader>
         <TableBody>
           {students.map((student, index) => (
-            <TableRow key={index} className={rowColor}>
+            <TableRow key={index} >
               <TableCell>
                 <Avatar>
                   <AvatarImage
@@ -85,7 +87,7 @@ export function ExcelTableLayout({
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
+        <TableFooter className={'bg-white'}>
           <TableRow>
             <TableCell colSpan={enableUpload ? 7 : 6}>Total Students</TableCell>
             <TableCell className="text-right">{students.length}</TableCell>
