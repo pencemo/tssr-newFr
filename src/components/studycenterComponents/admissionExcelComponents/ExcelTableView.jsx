@@ -69,8 +69,9 @@ const allValid = newStudents.every(
 
   return (
     <>
-      <div className="flex justify-between">
-        <h1>Students Data</h1>
+      <div className="">
+        <h1 className="text-2xl font-semibold text-gray-700">Students Data</h1>
+        <p>Here you can view all uploaded student data us tables, The New Student tabel is shwo all new students of aproved to admissin. here you must upload student photos and sslc certificate. The Available Students tabel is all students are alredy data availabel and aproved to admissin. the invalid student table is student data of regectd to admissin here you can show reson of the regection. when you compleat all file upload of studen you must read and agree studen Student,s Declaration then submit form  </p>
       </div>
       <div className="py-4 space-y-8">
         {newStudents.length > 0 && (

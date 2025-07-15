@@ -21,7 +21,9 @@ export function ExcelTableLayout({
   onEditClick,
   isError = false,
 }) {
-  //console.log("enable upload :", enableUpload);
+  if(isError){
+    console.log(students);
+  }
   return (
     <div
       className={`bg-white rounded-2xl shadow border ${
@@ -43,12 +45,13 @@ export function ExcelTableLayout({
       <Table className="min-w-full">
         <TableHeader>
           <TableRow>
-            <TableHead>Image</TableHead>
+            <TableHead className={'w-20'}>Image</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Gender</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Aadhaar</TableHead>
+            {isError&&<TableHead>Reason</TableHead>}
             {enableUpload && (
               <>
                 <TableHead>Upload Files</TableHead>
@@ -78,6 +81,7 @@ export function ExcelTableLayout({
               <TableCell>{student.phoneNumber}</TableCell>
               <TableCell>{student.email}</TableCell>
               <TableCell>{student.adhaarNumber}</TableCell>
+              {isError&&<TableCell className='text-base font-medium  max-w-sm  text-red-500'>{student.reason}</TableCell>}
 
               {enableUpload && (
                 <>
@@ -105,8 +109,7 @@ export function ExcelTableLayout({
         </TableBody>
         <TableFooter className={"bg-white"}>
           <TableRow>
-            <TableCell colSpan={enableUpload ? 6 : 5}>Total Students</TableCell>
-            <TableCell className="text-right">{students.length}</TableCell>
+            <TableCell >Total Students {students.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
