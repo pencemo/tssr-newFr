@@ -30,10 +30,10 @@ export const useCreateStudent = () => {
 export const useCreateEnrollmentAndStudent = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ student, enrollmentData }) => {
+    mutationFn: ({ student, course }) => {
       return enrollmentServices.createEnrollmentAndStudent({
         student,
-        enrollmentData,
+        course,
       });
     },
     onSuccess: () => {

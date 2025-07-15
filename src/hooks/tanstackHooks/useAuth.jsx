@@ -15,6 +15,7 @@ export const useSettings = () => {
   return useQuery({
     queryKey: ["settings"],
     queryFn: () => settingsService.getSettings(),
+    refetchOnWindowFocus:true
   });
 };
 

@@ -28,6 +28,7 @@ export function StaffList() {
     name: "",
     email: "",
     role: "",
+    password:""
 })
 
   // Debounce search input

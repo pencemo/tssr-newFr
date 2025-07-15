@@ -36,6 +36,23 @@ export const studentsService = {
     );
     return response.data;
   },
+  editStudentData: async (data) => {
+    const response = await axiosInstance.post(
+      API_ENDPOINTS.STUDENTS.UPDATE_STUDENT_DATA,
+      {
+        data
+      }
+    );
+    return response.data;
+  },
   
 }; 
 
+export const useUpdateStudent = () => {
+  // return useMutation({
+  //   mutationFn: async ({ id, data }) => {
+  //     const response = await axios.put(`/api/students/${id}`, data);
+  //     return response.data;
+  //   },
+  // });
+};

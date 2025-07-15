@@ -38,6 +38,8 @@ import HallTicketSearch from "./app/studycenter/CenterExams/HallTicketSearch";
 import ResetPassword from "./app/Auth/resetPassword";
 import Enrollment from "./app/studycenter/Admission/Enrollment";
 import ManageStaff from "./app/admin/Staff/ManageStaff";
+import { EditStudentForm } from "./app/studycenter/viewSutdent/EditStudentForm";
+import ManageNotifications from "./components/studycenterComponents/NotificationComp/ManageNotification";
 
 
 function App() {
@@ -71,6 +73,7 @@ function App() {
           <Route path="students" element={<Outlet />}>
             <Route index element={<ViewStudent />} />
             <Route path="view/:id" element={<OneStudent />} />
+            <Route path="edit/:id" element={<EditStudentForm />} />
           </Route>
           <Route path="results" element={<NoData />} />
           {/* <Route path="store" element={<Store />} /> */}
@@ -83,7 +86,11 @@ function App() {
             <Route path="create" element={<CreateExam />} />
           </Route>
           <Route path="settings" element={<AdminSettings />} />
-          <Route path="notification" element={<AdminNotifications />} />
+          {/* <Route path="notification" element={<AdminNotifications />} /> */}
+          <Route path="notification" element={<Outlet />}>
+            <Route index element={<AdminNotifications />} />
+            <Route path="manage" element={<ManageNotifications />} />
+          </Route>
           <Route path="staff" element={<ManageStaff />} />
         </Route>
 
@@ -100,8 +107,9 @@ function App() {
           <Route path="students" element={<Outlet />}>
             <Route index element={<ViewStudent />} />
             <Route path="view/:id" element={<OneStudent />} />
+            <Route path="edit/:id" element={<EditStudentForm />} />
           </Route>
-          <Route path="examination" element={<Outlet />} >
+          <Route path="examination" element={<Outlet />}>
             <Route index element={<CenterExams />} />
             <Route path="hallticket" element={<HallTicketSearch />} />
           </Route>

@@ -21,6 +21,13 @@ export const useAllNotifications = () => {
     refetchInterval: 60000 * 20,
   });
 };
+export const useGetAllNotificationsForEdit = () => {
+  return useQuery({
+    queryKey: ["Manage-notifications"],
+    queryFn: () => notificationService.getNotificationForEdit(),
+    keepPreviousData: true,
+  });
+};
 
 export const useDashboardData = () => {
   return useQuery({
@@ -35,5 +42,18 @@ export const useDashboardDataOfCenter = () => {
     queryKey: ["dashboard-center"],
     queryFn: () => notificationService.getDashbordDataOfCenter(),
     keepPreviousData: true,
+  });
+};
+
+
+export const useDeleteNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => {
+      return notificationService.deleteNotification(id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("notifications");
+    },
   });
 };

@@ -45,8 +45,6 @@ export const API_ENDPOINTS = {
     SHEDULED_ADMISSION: "api/batch/admissionScheduled",
     CHANGE_ADMISSION_STATUS: "api/batch/toggleBatchStatus",
   },
-
-  //STUDY CENTER API ENDPOINTS
   ENROLLMENT: {
     CHECK_ENROLLED: "/api/enrollment/checkEnrolledOrNot",
     CREATE_STUDENT: "/api/enrollment/createStudent",
@@ -59,6 +57,7 @@ export const API_ENDPOINTS = {
     ALL_STUDENTS_OF_STUDY_CENTER: "/api/students/getAllStudents",
     STUDENT_FOR_DL: "/api/students/getStudentsForDl",
     GET_ONE_STUDENT: "/api/students/getOneStudent",
+    UPDATE_STUDENT_DATA: "/api/students/editStudentDetails",
   },
   SETTINGS: {
     GET_SETTINGS: "/api/settings/getSettings",
@@ -82,6 +81,8 @@ export const API_ENDPOINTS = {
   NOTIFICATIONS: {
     GET_NOTIFICATIONS: "/api/notifications/getNotificationsOfEachUser",
     CREATE_NOTIFICATION: "/api/notifications/createNotification",
+    GET_NOTIFICATIONS_FOR_EDIT: "/api/notifications/getNoficationsForEdit",
+    DELETE_NOTIFICATION: "/api/notifications/deleteNotification",
   },
   DASHBOARD: {
     GET_DATA: "/api/dashboard/getDashboardData",

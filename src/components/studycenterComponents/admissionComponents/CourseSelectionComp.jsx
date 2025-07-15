@@ -21,7 +21,8 @@ import { uploadFile } from "@/lib/s3Service";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-const CourseSelectionComp = ({ userData, onBack,onBack2, course }) => {
+const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
+  console.log("COurse :",course);
   const [student, setStudent] = useState({});
   const [isAccept, setAccept] = useState(false)
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ const CourseSelectionComp = ({ userData, onBack,onBack2, course }) => {
 
 
     mutate(
-      { student: studentWithUrls, enrollmentData },
+      { student: studentWithUrls, course },
       {
         onSuccess: (res) => {
           if (res.success) {

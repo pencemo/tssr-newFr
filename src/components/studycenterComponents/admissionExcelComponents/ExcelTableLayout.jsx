@@ -21,23 +21,34 @@ export function ExcelTableLayout({
   onEditClick,
   isError = false,
 }) {
+  //console.log("enable upload :", enableUpload);
   return (
-    <div className={`bg-white rounded-2xl shadow border ${isError ? "border-red-400" : " "} overflow-x-auto`}>
+    <div
+      className={`bg-white rounded-2xl shadow border ${
+        isError ? "border-red-400" : " "
+      } overflow-x-auto`}
+    >
       <div className="px-4 py-3 flex items-center gap-2">
-      {isError ?<div className="bg-red-600 text-white rounded-full p-0.5">{<HiOutlineXMark size={12}/>}</div>:
-        <div className="bg-green-600 text-white rounded-full p-0.5">{<HiOutlineCheck size={12}/>}</div>}
+        {isError ? (
+          <div className="bg-red-600 text-white rounded-full p-0.5">
+            {<HiOutlineXMark size={12} />}
+          </div>
+        ) : (
+          <div className="bg-green-600 text-white rounded-full p-0.5">
+            {<HiOutlineCheck size={12} />}
+          </div>
+        )}
         <h2 className="text-lg font-semibold">{title}</h2>
       </div>
       <Table className="min-w-full">
-        <TableHeader >
-          <TableRow >
+        <TableHeader>
+          <TableRow>
             <TableHead>Image</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Gender</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Aadhaar</TableHead>
-            <TableHead>Reg. No</TableHead>
             {enableUpload && (
               <>
                 <TableHead>Upload Files</TableHead>
@@ -47,7 +58,7 @@ export function ExcelTableLayout({
         </TableHeader>
         <TableBody>
           {students.map((student, index) => (
-            <TableRow key={index} >
+            <TableRow key={index}>
               <TableCell>
                 <Avatar>
                   <AvatarImage
@@ -57,7 +68,9 @@ export function ExcelTableLayout({
                     }
                     alt="@shadcn"
                   />
-                  <AvatarFallback className="capitalize">{student.name[0]}</AvatarFallback>
+                  <AvatarFallback className="capitalize">
+                    {student.name[0]}
+                  </AvatarFallback>
                 </Avatar>
               </TableCell>
               <TableCell>{student.name}</TableCell>
@@ -65,31 +78,34 @@ export function ExcelTableLayout({
               <TableCell>{student.phoneNumber}</TableCell>
               <TableCell>{student.email}</TableCell>
               <TableCell>{student.adhaarNumber}</TableCell>
-              <TableCell>{student.registrationNumber}</TableCell>
 
               {enableUpload && (
                 <>
                   <TableCell>
-                    {student.profileImage === "" || student.sslc === "" ? (
-                      <Button
-                        onClick={() => {
-                          onEditClick(student);
-                        }}
-                      >
+                    {!student?.profileImage || !student?.sslc ? (
+                      <Button onClick={() => onEditClick(student)}>
                         Upload
                       </Button>
                     ) : (
-                      <Button disabled> Uploaded</Button>
+                      <Button disabled>Uploaded</Button>
                     )}
+
+                    {/* <Button
+                      onClick={() => {
+                        onEditClick(student);
+                      }}
+                    >
+                      Upload
+                    </Button> */}
                   </TableCell>
                 </>
               )}
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter className={'bg-white'}>
+        <TableFooter className={"bg-white"}>
           <TableRow>
-            <TableCell colSpan={enableUpload ? 7 : 6}>Total Students</TableCell>
+            <TableCell colSpan={enableUpload ? 6 : 5}>Total Students</TableCell>
             <TableCell className="text-right">{students.length}</TableCell>
           </TableRow>
         </TableFooter>

@@ -38,15 +38,17 @@ export function ExcelTableView({ tableData, course, onBack }) {
       return;
     }
 
-    const allValid = newStudents.every(
-      (student) => student.profileImage != "" && student.sslc != ""
-    );
+const allValid = newStudents.every(
+  (student) => student?.profileImage && student?.sslc
+);
+
     if (!allValid) {
       toast.warning(
         "Please upload profile image and SSLC file for all students."
       );
       return;
     }
+  
     mutate(
       { newStudents, pendingEnrollmentStudents, course },
       {
@@ -67,10 +69,9 @@ export function ExcelTableView({ tableData, course, onBack }) {
 
   return (
     <>
-        <div className="flex justify-between">
-          <h1>Students Data</h1>
-          
-        </div>
+      <div className="flex justify-between">
+        <h1>Students Data</h1>
+      </div>
       <div className="py-4 space-y-8">
         {newStudents.length > 0 && (
           <ExcelTableLayout
@@ -93,6 +94,7 @@ export function ExcelTableView({ tableData, course, onBack }) {
         {pendingEnrollmentStudents.length > 0 && (
           <ExcelTableLayout
             title="Available Students"
+            enableUpload={false}
             students={pendingEnrollmentStudents}
           />
         )}
@@ -105,21 +107,43 @@ export function ExcelTableView({ tableData, course, onBack }) {
           />
         )}
         {/* Terms and Submit */}
-        {(newStudents.length > 0 ||pendingEnrollmentStudents.length > 0 ) && (
+        {(newStudents.length > 0 || pendingEnrollmentStudents.length > 0) && (
           <div>
             <div className="mt-5 border-t py-4">
-          <h1 className="text-lg font-semibold text-gray-700 ">Student,s Declaration</h1>
-            <p className="text-sm text-gray-600 mt-1 max-w-4xl">Hereby solemnly declare that the above information provided by me are true to the best of my knowledge and belief. I shall obey the rules and regulation of TSSR COUNCIL study centre, now in force and as amended or altered from time to time. I accept all decision of the TSSR COUNCIL authorities in all matters of training conducted discipline are no right of question them in any court of law.</p>
-          <div className="flex items-center gap-2 mt-3">
-            <Checkbox id="checkbox" checked={isAccept} onCheckedChange={(value)=>setAccept(value)} />
-            <Label htmlFor="checkbox">I agree to the declaration above.</Label>
-          </div>
-        </div>
+              <h1 className="text-lg font-semibold text-gray-700 ">
+                Student,s Declaration
+              </h1>
+              <p className="text-sm text-gray-600 mt-1 max-w-4xl">
+                Hereby solemnly declare that the above information provided by
+                me are true to the best of my knowledge and belief. I shall obey
+                the rules and regulation of TSSR COUNCIL study centre, now in
+                force and as amended or altered from time to time. I accept all
+                decision of the TSSR COUNCIL authorities in all matters of
+                training conducted discipline are no right of question them in
+                any court of law.
+              </p>
+              <div className="flex items-center gap-2 mt-3">
+                <Checkbox
+                  id="checkbox"
+                  checked={isAccept}
+                  onCheckedChange={(value) => setAccept(value)}
+                />
+                <Label htmlFor="checkbox">
+                  I agree to the declaration above.
+                </Label>
+              </div>
+            </div>
 
             <div className="flex gap-3 justify-end mb-6">
-            <Button variant={'outline'} onClick={onBack}>Back</Button>
+              <Button variant={"outline"} onClick={onBack}>
+                Back
+              </Button>
               <Button disabled={!isAccept} onClick={handleSubmit} className="">
-              {isPending ?<Loader2 className="animate-spin"/> : "Submit Data"}
+                {isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Submit Data"
+                )}
               </Button>
             </div>
           </div>

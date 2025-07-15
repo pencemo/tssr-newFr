@@ -24,5 +24,13 @@ export const useStudentForDl = () => {
     },
   });
 }
+export const useEditStudentData = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return studentsService.editStudentData(data);
+    },
+  });
+}
+
 
 
