@@ -66,6 +66,7 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
   const instruction = [
     "Download the demo Excel file below.",
     "Enter all required student details in the same format.",
+    "Make sure dates are in the format DD-MM-YYYY, eg: 30-12-2023.",
     "Do not rename or modify any column headers.",
     "Upload the completed Excel file and wait for the upload to finish.",
     "On successful upload, you'll be redirected to the next step.",
@@ -76,6 +77,7 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
   const malayalam = [
     "താഴെയുള്ള ഡെമോ എക്സൽ ഫയൽ ഡൗൺലോഡ് ചെയ്യുക",
     "ആവശ്യമായ എല്ലാ വിദ്യാർത്ഥി വിശദാംശങ്ങളും അതേ ഫോർമാറ്റിൽ നൽകുക.",
+    "തീയതികൾ DD-MM-YYYY എന്ന ഫോർമാറ്റിലാണെന്ന് ഉറപ്പാക്കുക, ഉദാ: 30-12-2023.",
     "കോളം ഹെഡറുകളുടെ പേരുമാറ്റുകയോ പരിഷ്കരിക്കുകയോ ചെയ്യരുത്",
     "പൂർത്തിയാക്കിയ എക്സൽ ഫയൽ അപ്‌ലോഡ് ചെയ്ത് പൂർത്തിയാകുന്നതുവരെ കാത്തിരിക്കുക.",
     "അപ്‌ലോഡ് വിജയകരമായാൽ ഘട്ടത്തിലേക്ക് റീഡയറക്‌ട് ചെയ്യും.",

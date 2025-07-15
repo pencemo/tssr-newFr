@@ -8,30 +8,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { format, formatDate, set, sub } from "date-fns";
+import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import {  useOpenCourseAndBatchOfStudyCenter } from "@/hooks/tanstackHooks/useCourse";
 import { useState, useEffect } from "react";
-import { useOpenBatchesOfCourse } from "@/hooks/tanstackHooks/useBatch";
-import Loader from "@/components/ui/loader";
 import {  useCreateEnrollmentAndStudent } from "@/hooks/tanstackHooks/useEnrollment";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { uploadFile } from "@/lib/s3Service";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
-  console.log("COurse :",course);
+  
   const [student, setStudent] = useState({});
   const [isAccept, setAccept] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { mutate , isPending } = useCreateEnrollmentAndStudent();
-
-  // Optional: Sync updated course/batch/year to local state if needed elsewhere
-  const [enrollmentData, setEnrollmentData] = useState({
-    studentId: student._id,
-  });
+  const { mutate } = useCreateEnrollmentAndStudent();
 
   useEffect(() => {
     setStudent({
@@ -40,19 +34,10 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
     });
   }, [userData, course]);
 
-  // Sync when selections change
-  useEffect(() => {
-    setEnrollmentData({
-      studentId: student._id,
-    });
-  }, [student._id]);
- 
-  console.log(userData);
 
   // handleSubmit with validation
   const handleSubmit = async() => {
-    console.log(course);
-    // return console.log(student);
+    setIsLoading(true)
     let studentWithUrls
     if(!userData._id){
       const [profileImageUrl, sslcUrl] = await Promise.all([
@@ -91,8 +76,12 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
         },
       }
     );
+
+    setIsLoading(false);
   };
+  
   const image = student?._id ? student?.profileImage : student?.profileImage ? URL.createObjectURL(student?.profileImage) : 'https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg';
+  
   return (
     <div className=" max-w-4xl mx-auto ">
       {/* Student Info Card */}
@@ -176,8 +165,8 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
               Back to edit
             </Button>
             <Button disabled={!isAccept} className="w-full sm:w-auto" onClick={handleSubmit}>
-              {isPending ? (
-                <Loader className="animate-spin" />
+              {isLoading ? (
+                <Loader2 className="animate-spin" />
               ) : (
                 "Submit Details"
               )}

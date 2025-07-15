@@ -44,7 +44,7 @@ const AdhaarVeificationComp = ({
 
             if (studentExists && enrolled) {
               // ✅ Case 1: Student found and already enrolled in some courses
-              toast.error("Student is already enrolled in a course.");
+              toast.error("Student is already enrolled in 2 courses.");
             } else if (
               studentExists && !enrolled
             ) {
@@ -55,7 +55,7 @@ const AdhaarVeificationComp = ({
             } else {
               // ✅ Case 3: New student
               toast.success("New student. Please proceed with admission.");
-              setUserData({ adhaarNumber });
+              setUserData({ adhaarNumber : cleanAadhaar });
               onNext();
             }
           },
@@ -73,17 +73,31 @@ const AdhaarVeificationComp = ({
     }
   };
   
+  const instruction = [
+    "Enter your 12-digit Aadhaar number to verify your identity.",
+    "It will be used to check your enrollment status.",
+    "If you're a new student, you can proceed with admission.",
+    "If you're already enrolled in two courses, you cannot proceed.",
+    "If your data exists but you're not enrolled: you will be shown your data",
+    "Ensure the Aadhaar number is valid and belongs to you."
+  ]
 
   return (
-    <div className="flex items-center justify-center w-full h-full p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
+    <div className="max-w-3xl mx-auto w-full h-full p-4">
+      <Card className="w-full ">
+        <CardHeader >
           <CardTitle className="text-2xl">Verify Aadhaar</CardTitle>
           <CardDescription className="text-base">
             Check student enrollment using Aadhaar number
           </CardDescription>
         </CardHeader>
         <CardContent>
+        <div className="mb-5 space-y-0.5">
+          <h1 className="text-xl font-semibold mb-1">Instruction</h1>
+          {instruction.map((item, index) =>{
+            return <p className=" text-gray-700" key={index}>{index+1}. {item}</p>
+          })}
+        </div>
           <div className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="adhaar" className="text-base">
@@ -108,7 +122,8 @@ const AdhaarVeificationComp = ({
             </div>
           </div>
         </CardContent>
-        <CardFooter className="grid grid-cols-2 gap-2 px-6 ">
+        <CardFooter className="w-full flex md:justify-end  ">
+          <div className="grid grid-cols-2 gap-2 ">
           <Button
             variant="outline"
             onClick={() => onBack()}
@@ -120,6 +135,7 @@ const AdhaarVeificationComp = ({
               "Verify & Continue"
             }
           </Button>
+          </div>
         </CardFooter>
       </Card>
     </div>

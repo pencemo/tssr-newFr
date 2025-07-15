@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NotificationIcon } from "./GetIcon";
 import { useDeleteNotifications, useGetAllNotificationsForEdit } from "@/hooks/tanstackHooks/useNotifications";
 import Loader from "@/components/ui/loader";
@@ -26,13 +24,8 @@ function ManageNotification() {
   const { data, error, isLoading } = useGetAllNotificationsForEdit();
   const navigate = useNavigate('')
   const { mutate, isPending } = useDeleteNotifications();
-  console.log("data:", data);
   const [deletingId, setDeletingId] = useState(null);
 
-  useEffect(() => {
-    const count = data?.data?.length || 0;
-
-  }, [data]);
 
 const handleDeleteNotification = (id, title) => {
   setDeletingId(id);
