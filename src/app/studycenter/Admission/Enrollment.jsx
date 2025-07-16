@@ -29,6 +29,7 @@ const renderStep = () => {
           onBack={() => setMode("start")}
           onFinel={()=> setMode("course")}
           setUserData={setUserData}
+          course={course}
         />
       );
 

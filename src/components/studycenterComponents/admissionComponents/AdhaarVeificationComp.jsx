@@ -17,7 +17,7 @@ import { useCheckEnrolledOrNot } from "@/hooks/tanstackHooks/useEnrollment";
 import { Loader } from "lucide-react";
 
 const AdhaarVeificationComp = ({
-  setStep,
+  course,
   onNext,
   onBack,
   onFinel,
@@ -33,7 +33,7 @@ const AdhaarVeificationComp = ({
     if (adhaarNumber.trim().length === 14) {
       const cleanAadhaar = adhaarNumber.replace(/\D/g, '');
       mutate(
-        { cleanAadhaar },
+        { adhaarNumber:cleanAadhaar, ...course },
         {
           onSuccess: (res) => {
             const data = res?.data;

@@ -5,9 +5,8 @@ export const enrollmentServices = {
   checkEnrolledOrNot: async (adhaarNumber) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.ENROLLMENT.CHECK_ENROLLED,
-      {
-        adhaarNumber,
-      }
+      adhaarNumber,
+      
     );
     return response.data;
   },

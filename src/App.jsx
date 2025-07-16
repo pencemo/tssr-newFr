@@ -42,6 +42,7 @@ import { EditStudentForm } from "./app/studycenter/viewSutdent/EditStudentForm";
 import ManageNotifications from "./components/studycenterComponents/NotificationComp/ManageNotification";
 import CoursesStudyCente from "./app/studycenter/Course/CoursesStudyCente";
 import RequestCourse from "./app/admin/Course/RequestCourse";
+import ApprovelPendingStudent from "./app/studycenter/viewSutdent/ApprovelPendingStudent";
 
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
           <Route path="admission" element={<AdmissionSection />} />
           <Route path="students" element={<Outlet />}>
             <Route index element={<ViewStudent />} />
+            <Route path="pending" element={<ApprovelPendingStudent />} />
             <Route path="view/:id" element={<OneStudent />} />
             <Route path="edit/:id" element={<EditStudentForm />} />
           </Route>
@@ -107,6 +109,7 @@ function App() {
           <Route index element={<DashbordStudy />} />
           <Route path="students" element={<Outlet />}>
             <Route index element={<ViewStudent />} />
+            <Route path="pending" element={<ApprovelPendingStudent />} />
             <Route path="view/:id" element={<OneStudent />} />
             <Route path="edit/:id" element={<EditStudentForm />} />
           </Route>

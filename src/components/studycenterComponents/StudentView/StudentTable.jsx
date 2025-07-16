@@ -47,7 +47,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
             <TableRow key={i}>
               <TableCell className="font-medium">{i + 1}</TableCell>
               <TableCell className="font-medium">
-                <Avatar>
+                <Avatar className={' border'}>
                   <AvatarImage
                     className="object-cover"
                     src={

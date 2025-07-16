@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
-import { useCourseOfStudyCenter, useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
-import { useNavigate } from "react-router-dom";
+import {
+  useCourseOfStudyCenter,
+  useGetStudyCenterForExcel,
+} from "@/hooks/tanstackHooks/useStudyCentre";
 import { StudentTable } from "@/components/studycenterComponents/StudentView/StudentTable";
 import StudentFilter from "@/components/studycenterComponents/StudentView/StudentFilter";
 import { useStudentOfStudyCenter } from "@/hooks/tanstackHooks/useStudents";
@@ -11,6 +13,7 @@ import NoData from "@/components/ui/noData";
 import { StudentDl } from "@/components/studycenterComponents/StudentView/StudentDl";
 import Pagination from "@/components/ui/Pagination";
 import { HiOutlineXMark } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 export function ViewStudent() {
   const [search, setSearch] = useState("");
@@ -18,22 +21,22 @@ export function ViewStudent() {
   const [currentPage, setCurrentPage] = useState(1);
   const [students, setStudents] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
-  const { data:course } = useCourseOfStudyCenter()
-  const {data:studycenter}=useGetStudyCenterForExcel()
+  const { data: course } = useCourseOfStudyCenter();
+  const { data: studycenter } = useGetStudyCenterForExcel();
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     course: "",
     batch: "",
     year: "",
     sort: "",
-    studyCentre: ""
+    studyCentre: "",
   });
-  const navigate = useNavigate();
 
-  // Debounce search input
+   
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
-      setCurrentPage(1); // Reset to page 1 on new search
+      setCurrentPage(1);  
     }, 1000);
 
     return () => {
@@ -43,13 +46,13 @@ export function ViewStudent() {
 
   const { data, error, isLoading } = useStudentOfStudyCenter(
     currentPage,
-    10,
+    20,
     debouncedSearch,
     filters.course,
     filters.batch,
     filters.year,
     filters.sort,
-    filters.studyCentre,
+    filters.studyCentre
   );
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export function ViewStudent() {
       ...prev,
       [filterName]: value,
     }));
-    setCurrentPage(1); // Reset to page 1 when filters change
+    setCurrentPage(1);
   };
 
   if (error) {
@@ -80,10 +83,8 @@ export function ViewStudent() {
   return (
     <div className=" w-full h-full">
       <div className="space-y-6 w-full h-full">
-        <div>
           <h1 className="text-2xl font-bold">Students Data</h1>
-        </div>
-        <div className=" ">
+          <div className="flex justify-between items-center gap-x-2">
           <Input
             value={search}
             onChange={(e) => {
@@ -93,31 +94,32 @@ export function ViewStudent() {
             placeholder="Search Student"
             className="max-w-sm max-sm:max-w-full"
           />
-          
-        </div>
-        
+          <Button onClick={()=>navigate('pending')} className=" ">Pending Aprovel</Button>
+          </div>
+
         <div className="w-full flex max-md:flex-col  md:justify-between gap-2 ">
-           
-        <StudentFilter
-              courses={course?.data}
-              studycenter={studycenter?.data}
-              filters={filters}
-              onFilterChange={handleFilterChange}
-              
-            />
+          <StudentFilter
+            courses={course?.data}
+            studycenter={studycenter?.data}
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
           <div className="grid grid-cols-2 gap-2">
-          <Button onClick={() =>{
+            <Button
+              onClick={() => {
                 setFilters({
                   course: "",
                   batch: "",
                   year: "",
                   sort: "",
-                  studyCentre: ''
-                }
-                )
-              }} variant='outline'  >
-                <HiOutlineXMark size={26}/></Button> 
-              <StudentDl/>
+                  studyCentre: "",
+                });
+              }}
+              variant="outline"
+            >
+              <HiOutlineXMark size={26} />
+            </Button>
+            <StudentDl />
           </div>
         </div>
         {isLoading ? (
@@ -126,14 +128,18 @@ export function ViewStudent() {
           </div>
         ) : students.length > 0 ? (
           <>
-            
             <div className="rounded-md border">
               <StudentTable data={students} />
-              <Pagination totalData={data?.totalData} currentPage={currentPage} totalPage={totalPage} setCurrentPage={setCurrentPage} />
+              <Pagination
+                totalData={data?.totalData}
+                currentPage={currentPage}
+                totalPage={totalPage}
+                setCurrentPage={setCurrentPage}
+              />
             </div>
           </>
         ) : (
-          <NoData/>
+          <NoData />
         )}
       </div>
     </div>
