@@ -40,6 +40,8 @@ import Enrollment from "./app/studycenter/Admission/Enrollment";
 import ManageStaff from "./app/admin/Staff/ManageStaff";
 import { EditStudentForm } from "./app/studycenter/viewSutdent/EditStudentForm";
 import ManageNotifications from "./components/studycenterComponents/NotificationComp/ManageNotification";
+import CoursesStudyCente from "./app/studycenter/Course/CoursesStudyCente";
+import RequestCourse from "./app/admin/Course/RequestCourse";
 
 
 function App() {
@@ -68,6 +70,7 @@ function App() {
           <Route path="course" element={<Outlet />}>
             <Route index element={<Courses />} />
             <Route path="subjects" element={<SubjectList />} />
+            <Route path="request" element={<RequestCourse />} />
           </Route>
           <Route path="admission" element={<AdmissionSection />} />
           <Route path="students" element={<Outlet />}>
@@ -76,7 +79,6 @@ function App() {
             <Route path="edit/:id" element={<EditStudentForm />} />
           </Route>
           <Route path="results" element={<NoData />} />
-          {/* <Route path="store" element={<Store />} /> */}
           <Route path="orders" element={<Outlet />}>
             <Route index element={<Orders />} />
             <Route path="products" element={<Store />} />
@@ -86,7 +88,6 @@ function App() {
             <Route path="create" element={<CreateExam />} />
           </Route>
           <Route path="settings" element={<AdminSettings />} />
-          {/* <Route path="notification" element={<AdminNotifications />} /> */}
           <Route path="notification" element={<Outlet />}>
             <Route index element={<AdminNotifications />} />
             <Route path="manage" element={<ManageNotifications />} />
@@ -122,10 +123,8 @@ function App() {
           </Route>
           <Route path="settings" element={<SettingsCentre />} />
           <Route path="notifications" element={<CenterNotification />} />
-          <Route path="admission" element={<Outlet />}>
-            <Route index element={<Enrollment />} />
-            {/* <Route index element={<AdmissionForStudent />} /> */}
-          </Route>
+          <Route path="courses" element={<CoursesStudyCente />} />
+          <Route path="admission" element={<Enrollment />}/>
         </Route>
       </Routes>
     </Router>

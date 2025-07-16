@@ -57,10 +57,16 @@ const data = {
       title: "Courses",
       url: "course",
       icon: Mortarboard02Icon,
-      items: [{
+      items: [
+        {
         title: "Subjects",
         url: "course/subjects",
-      }]
+      },
+        {
+        title: "Requests",
+        url: "course/request",
+      },
+    ]
       
     },
     {

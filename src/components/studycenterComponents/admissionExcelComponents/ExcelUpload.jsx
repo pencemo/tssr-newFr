@@ -80,7 +80,7 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
     "തീയതികൾ DD-MM-YYYY എന്ന ഫോർമാറ്റിലാണെന്ന് ഉറപ്പാക്കുക, ഉദാ: 30-12-2023.",
     "കോളം ഹെഡറുകളുടെ പേരുമാറ്റുകയോ പരിഷ്കരിക്കുകയോ ചെയ്യരുത്",
     "പൂർത്തിയാക്കിയ എക്സൽ ഫയൽ അപ്‌ലോഡ് ചെയ്ത് പൂർത്തിയാകുന്നതുവരെ കാത്തിരിക്കുക.",
-    "അപ്‌ലോഡ് വിജയകരമായാൽ ഘട്ടത്തിലേക്ക് റീഡയറക്‌ട് ചെയ്യും.",
+    "അപ്‌ലോഡ് വിജയകരമായാൽ അടുത്ത ഘട്ടത്തിലേക്ക് റീഡയറക്‌ട് ചെയ്യും.",
     "പട്ടികയിലെ അപ്‌ലോഡ് ചെയ്‌ത ഡാറ്റ അവലോകനം ചെയ്യുക.",
     "ഓരോ വിദ്യാർത്ഥിയുടെയും ഫോട്ടോയും SSLC സർട്ടിഫിക്കറ്റും അപ്‌ലോഡ് ചെയ്യുക.",
     "ഫോം സബ്മിറ്റ് ചെയ്യുക.",
@@ -107,14 +107,14 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
               {!translate
                 ? instruction.map((item, index) => {
                     return (
-                      <p key={index} className="text-sm text-gray-700 ">
+                      <p key={index} className="  text-gray-700 ">
                         {index + 1}. {item}
                       </p>
                     );
                   })
                 : malayalam.map((item, index) => {
                     return (
-                      <p key={index} className="text-sm text-gray-700 ">
+                      <p key={index} className=" text-gray-700 malayalam-font">
                         {index + 1}. {item}
                       </p>
                     );

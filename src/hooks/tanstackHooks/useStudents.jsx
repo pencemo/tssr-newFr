@@ -25,10 +25,15 @@ export const useStudentForDl = () => {
   });
 }
 export const useEditStudentData = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
       return studentsService.editStudentData(data);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["oneStudent"]);
+      queryClient.invalidateQueries(["sudetnsOfStudyCenter"]);
+    }
   });
 }
 

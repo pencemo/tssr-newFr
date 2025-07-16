@@ -17,6 +17,7 @@ import { AddCourse } from "@/components/admincomp/courseComp/AddCourse";
 import { useAllSubjects } from "@/hooks/tanstackHooks/useSubjects";
 import { useAllCourse, useCreateCourse } from "@/hooks/tanstackHooks/useCourse";
 import { toast } from "sonner";
+import { useAuth } from "@/Context/authContext";
 
 export function Courses() {
   const [search, setSearch] = useState("");
@@ -26,6 +27,7 @@ export function Courses() {
   const [course, setCourse] = useState([]);
   const navigate = useNavigate();
   const { mutate } = useCreateCourse();
+  const {user}=useAuth()
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -73,7 +75,7 @@ export function Courses() {
   }
 
   return (
-    <div className=" w-full h-full">
+    <div className=" w-full h-full mt-5">
       {selected ? (
         <div>
           <Batches data={selected} subjects={subjects} setData={setSelected} />
@@ -91,7 +93,7 @@ export function Courses() {
               className="max-w-sm max-sm:max-w-full"
             />
             <div>
-              <div className=" grid grid-cols-2 gap-2 ">
+              {user.isAdmin && <div className=" grid grid-cols-2 gap-2 ">
                 <Button
                   className={"w-full border"}
                   variant='secondary'
@@ -110,7 +112,7 @@ export function Courses() {
                   setSelected={setSelectedCourse}
                 />
                 {/* <Button className={'max-sm:w-full'} onClick={()=>navigate('/admin/studycentre/add')}>Add Course</Button> */}
-              </div>
+              </div>}
             </div>
           </div>
 

@@ -1,7 +1,3 @@
-
-
-"use client";
-
 import { useState } from "react";
 import {
   Table,
@@ -30,7 +26,7 @@ import {
 export function TableExams({
   data,
   search,
-  onEdit,
+  onSetExamId,
   loading,
   selected,
   onDeleteBatch,
@@ -77,7 +73,7 @@ export function TableExams({
   return (
     <div className="space-y-4">
       {/* Main Exam Schedules Table */}
-      <div className="rounded-lg border overflow-hidden">
+      <div className="rounded-xl border overflow-hidden">
         <Table>
           <TableHeader className="bg-muted/50">
             <TableRow className="hover:bg-muted/50">
@@ -178,14 +174,10 @@ export function TableExams({
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-8 text-destructive border-destructive/20 hover:bg-destructive hover:text-destructive-foreground bg-transparent"
+                          className="h-8 text-destructive border-destructive/20 hover:bg-destructive hover:text-white bg-transparent"
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Just a placeholder button for now - no functionality
-                            console.log(
-                              "Delete exam schedule:",
-                              exam.examScheduleId
-                            );
+                            onSetExamId(exam.examScheduleId)
                           }}
                           disabled={isLoading}
                         >
@@ -242,8 +234,8 @@ export function TableExams({
                                       </span>
                                       <Button
                                         variant="ghost"
-                                        size="sm"
-                                        className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                        size="icon"
+                                        className=" text-destructive hover:text-destructive hover:bg-destructive/10"
                                         onClick={() =>
                                           handleDeleteBatch(exam, batch)
                                         }

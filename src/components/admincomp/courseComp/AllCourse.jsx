@@ -10,8 +10,8 @@ function AllCourse({data, setSelected}) {
         return (
           <Card  key={i} className='  overflow-hidden pt-0 hover:shadow-lg shadow transition-all duration-300'>
             <CardHeader className='relative  py-4 border-b'>
-              <CardTitle className=''>{item.name}</CardTitle>
-              <CardDescription>Category : <span className='text-black'>{item.category}</span></CardDescription>
+              <CardTitle className='capitalize'>{item.name?.toLowerCase()}</CardTitle>
+              <CardDescription>Category : <span className='text-black capitalize'>{item?.category?.toLowerCase()}</span></CardDescription>
               <div className='absolute top-4 right-5'>
                 <BookOpen02Icon size={20} strokeWidth={1} className='text-muted-foreground'/>
               </div>
@@ -30,7 +30,7 @@ function AllCourse({data, setSelected}) {
                       <Book02Icon size={16}/>
                       Subjects :
                     </span>
-                    <h1 className=' font-medium'> {item.subjects.length} Subjects</h1>
+                    <h1 className=' font-medium'> {item?.subjects?.length} Subjects</h1>
                   </div>
                 </div>
               </CardContent>

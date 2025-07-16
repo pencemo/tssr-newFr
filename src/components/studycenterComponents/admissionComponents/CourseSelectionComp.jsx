@@ -117,14 +117,14 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
             </div>
 
             {/* Student Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1 ">
               <DetailsInfo name="Adhaar Number" value={student?.adhaarNumber} />
               <DetailsInfo name="DOB" value={format(new Date(userData?.dateOfBirth || ''), 'PPP')} />
               <DetailsInfo name="Age" value={student?.age} />
               <DetailsInfo name="Gender" value={student?.gender} />
               <DetailsInfo name="parentName" value={student?.parentName} />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
             <h1 className="col-span-full text-lg font-semibold text-gray-700">Address Details</h1>
               <DetailsInfo name="State" value={student?.state} />
               <DetailsInfo name="District" value={student?.district} />
@@ -132,7 +132,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
               <DetailsInfo name="Place" value={student?.place} /> 
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
               <h1 className="col-span-full text-lg font-semibold text-gray-700">Acadamic Info</h1>
               <DetailsInfo name="Qualification" value={student?.qualification} />
               <DetailsInfo name="Date Of Admission" value={format(new Date(userData?.dateOfAdmission || ''), 'PPP')} />
@@ -185,9 +185,9 @@ export default CourseSelectionComp;
 
 function DetailsInfo({name, value}) {
   return (
-    <div className="space-x-1 grid md:grid-cols-5 border shadow-xs py-2 px-4 rounded-md">
+    <div className="space-x-1 grid md:grid-cols-5 ">
       <h1 className="text-sm font-medium text-gray-600 md:col-span-2">{name} : </h1>
-      <h2 className="text-sm font-medium text-gray-800 md:col-span-3">{value}</h2>
+      <h2 className=" font-medium text-gray-800 md:col-span-3">{value}</h2>
     </div>
   )
 }

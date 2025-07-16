@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/datePicker";
 import { states } from "@/lib/list";
-import { CloudUploadIcon, Upload04Icon } from "hugeicons-react";
+import { CloudUploadIcon, ImageAdd02Icon, Upload04Icon } from "hugeicons-react";
 
 export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
   const [selectedState, setSelectedState] = useState("");
@@ -178,9 +178,16 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
             <div className="col-span-full flex items-end gap-2 mb-5">
+              <label htmlFor="profileImage" className="rounded-full overflow-hidden">
               <div className="size-32 border rounded-full overflow-hidden">
-                <img src={image} className="w-full h-full object-cover" alt="" />
+                {formData.profileImage ?
+                <img src={image} className="w-full h-full object-cover" alt="" />:
+                <div className="w-full h-full flex items-center transition-all justify-center bg-gray-100 hover:bg-gray-200">
+                  <ImageAdd02Icon size={20} />
+                </div>
+              }
               </div>
+              </label>
               <div className="flex flex-col items-start">
                 <input onChange={handleFileUpload} id="profileImage" name="profileImage" type="file" className="sr-only" accept="image/*" />
                 <label htmlFor="profileImage" className={`border py-2 px-3 inline-flex gap-1 items-center rounded-md cursor-pointer text-sm font-medium ${errors.profileImage && formData.profileImage == null ? "border-red-500" : ""}`}><Upload04Icon size={20}/> Upload Image </label>

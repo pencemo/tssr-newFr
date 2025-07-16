@@ -6,6 +6,10 @@ export const examSevice = {
     const response = await axiosInstance.post(API_ENDPOINTS.EXAM.SCHEDULE_EXAM, data);
     return response.data;
   },
+  deleteExam: async (data) => {
+    const response = await axiosInstance.post(API_ENDPOINTS.EXAM.DELETE_SCHEDULED_EXAM, data);
+    return response.data;
+  },
   getScheduledExam: async () => {
     const response = await axiosInstance.get(API_ENDPOINTS.EXAM.GET_SCHEDULED_EXAMS);
     return response.data;

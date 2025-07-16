@@ -41,7 +41,7 @@ export function AddCourse({formData, setFormData, subject, submit, type, selecte
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className='' asChild>
-        <Button className={'w-full'}>{type === 'add' ? "Add " : "Edit"} Course</Button>
+        <Button className={' '}>{type === 'add' ? "Add " : "Edit"} Course</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -1,36 +1,25 @@
 
 import * as React from "react";
 import {
-  Settings,
   LifeBuoy,
-  Map,
-  PieChart,
   Send,
-  Settings2,
-  SquareTerminal,
 } from "lucide-react";
 import logo from "../../../assets/Logo.svg";
 
 import {
-  AlignBoxBottomRightIcon,
-  Book02Icon,
-  Bookmark03Icon,
+  Award04Icon,
   FileDownloadIcon,
-  GraduateMaleIcon,
   Home04Icon,
-  InformationDiamondIcon,
   Mortarboard02Icon,
   Notification03Icon,
   PenTool03Icon,
   Settings02Icon,
   Store02Icon,
-  Ticket03Icon,
   UserAdd01Icon,
 } from "hugeicons-react";
 import { NavMain } from "@/components/studycenterComponents/sideBar/nav-main";
 import { NavProjects } from "@/components/studycenterComponents/sideBar/nav-projects";
 import { NavUser } from "@/components/studycenterComponents/sideBar/nav-user";
-import { TeamSwitcher } from "@/components/studycenterComponents/sideBar/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -72,6 +61,11 @@ const data = {
       url: "examination",
       icon: PenTool03Icon,
     },
+    {
+      title: "Courses",
+      url: "courses",
+      icon: Award04Icon,
+    }, 
     // {
     //   title: "Results",
     //   url: "results",
@@ -133,9 +127,6 @@ export function AppSidebar({ ...props }) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
-                {/* <div>
-                  <img className="w-32" src={logo} alt="" />
-                </div> */}
                 <div className="border p-0.5 text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <img
                     className="w-full"

@@ -9,7 +9,6 @@ import StudentFilter from "@/components/studycenterComponents/StudentView/Studen
 import { useStudentOfStudyCenter } from "@/hooks/tanstackHooks/useStudents";
 import NoData from "@/components/ui/noData";
 import { StudentDl } from "@/components/studycenterComponents/StudentView/StudentDl";
-import { useAuth } from "@/Context/authContext";
 import Pagination from "@/components/ui/Pagination";
 import { HiOutlineXMark } from "react-icons/hi2";
 
@@ -21,7 +20,6 @@ export function ViewStudent() {
   const [totalPage, setTotalPage] = useState(0);
   const { data:course } = useCourseOfStudyCenter()
   const {data:studycenter}=useGetStudyCenterForExcel()
-  const {user}=useAuth()
   const [filters, setFilters] = useState({
     course: "",
     batch: "",
@@ -57,7 +55,6 @@ export function ViewStudent() {
   useEffect(() => {
     if (data && data.data) {
       setStudents(data.data);
-      console.log(data);
     }
     if (data) {
       setTotalPage(data.totalPages);

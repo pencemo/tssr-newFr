@@ -11,16 +11,16 @@ import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { NewBatch } from "./NewBatch";
 import { Button } from "@/components/ui/button";
-import { useBatchesOfCourse, useUpdateStatusOfBatch } from "@/hooks/tanstackHooks/useBatch";
+import { useBatchesOfCourse } from "@/hooks/tanstackHooks/useBatch";
 import Loader from "@/components/ui/loader";
-import { Switch } from "@/components/ui/switch";
-import { CancelSquareIcon, CheckmarkSquare01Icon } from "hugeicons-react";
-import { format } from "date-fns";
+import { useAuth } from "@/Context/authContext";
+
 
 function Batches({ data, subjects, setData }) {
   const [selected, setSelected] = useState([]);
   const [batch, setBatch] = useState([])
   const { mutate } = useUpdateCourse();
+  const {user}=useAuth()
   const { data: batches, error, isLoading } = useBatchesOfCourse(data._id);
   const [formData, setFormData] = useState({
     name: "",
@@ -74,9 +74,9 @@ function Batches({ data, subjects, setData }) {
           <p className="text-gray-800 text-sm ">Category : <span className="font-medium">{data.category}</span></p>
           <p className="text-gray-800 text-sm ">Duration : <span className="font-medium">{data.duration}</span></p>
         </div>
-        <div className="grid grid-cols-2 gap-1">
+        <div className="flex items-center gap-1">
           <Button variant='outline' onClick={()=>setData(null)}>Back</Button>
-          <AddCourse
+          {user.isAdmin&& <AddCourse
             formData={formData}
             setFormData={setFormData}
             subject={subjects?.data}
@@ -84,13 +84,13 @@ function Batches({ data, subjects, setData }) {
             type="edit"
             selected={selected}
             setSelected={setSelected}
-          />
+          />}
         </div>
       </div>
       <div className="py-8 px-6 ">
         <div className="flex justify-between items-center mb-4 max-md:flex-col">
           <h1 className="text-xl font-semibold">Available batches</h1>
-          <NewBatch id={data._id} name={data.name} />
+          {user.isAdmin && <NewBatch id={data._id} name={data.name} />}
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-4 gap-4">
           {isLoading ? (

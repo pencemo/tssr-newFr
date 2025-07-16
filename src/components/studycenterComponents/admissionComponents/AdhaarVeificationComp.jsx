@@ -25,9 +25,11 @@ const AdhaarVeificationComp = ({
 }) => {
   const [adhaarNumber, setAdhaarNumber] = useState("");
   const { mutate ,isPending } = useCheckEnrolledOrNot();
+  const [error, setError]=useState(null);
 
 
   const handleCheck = () => {
+    setError(null)
     if (adhaarNumber.trim().length === 14) {
       const cleanAadhaar = adhaarNumber.replace(/\D/g, '');
       mutate(
@@ -37,6 +39,7 @@ const AdhaarVeificationComp = ({
             const data = res?.data;
             if (!data) {
               toast.error("Invalid response from server.");
+              setError("Invalid response from server.")
               return;
             }
 
@@ -44,6 +47,7 @@ const AdhaarVeificationComp = ({
 
             if (studentExists && enrolled) {
               // ✅ Case 1: Student found and already enrolled in some courses
+              setError('Student is already enrolled in 2 courses.')
               toast.error("Student is already enrolled in 2 courses.");
             } else if (
               studentExists && !enrolled
@@ -60,6 +64,7 @@ const AdhaarVeificationComp = ({
             }
           },
           onError: () => {
+            setError("Error while checking enrollment status.")
             toast.error("Error", {
               description: "Failed to check enrollment status",
             });
@@ -67,6 +72,7 @@ const AdhaarVeificationComp = ({
         }
       );
     } else {
+      setError("Invalid Aadhaar number.")
       toast.warning("Invalid Aadhaar", {
         description: "Please enter a valid 12-digit Aadhaar number",
       });
@@ -121,6 +127,7 @@ const AdhaarVeificationComp = ({
               />
             </div>
           </div>
+          {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
         </CardContent>
         <CardFooter className="w-full flex md:justify-end  ">
           <div className="grid grid-cols-2 gap-2 ">

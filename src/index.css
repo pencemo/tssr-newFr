@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400..800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -166,4 +167,9 @@
       opacity: 0;
     }
   }
+}
+
+.malayalam-font {
+  font-family: "Baloo Chettan 2", sans-serif;
+  font-optical-sizing: auto;
 }

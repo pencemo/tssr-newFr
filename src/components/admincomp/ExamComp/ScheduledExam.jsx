@@ -1,8 +1,5 @@
 
-
-"use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
 import { Alert } from "@/components/ui/Alert";
@@ -10,8 +7,10 @@ import { toast } from "sonner";
 import { TableExams } from "./TableExams";
 import {
   useCloseScheduledExam,
+  useDeleteExam,
   useGetScheduledEXam,
 } from "@/hooks/tanstackHooks/useExam";
+import { PasswordDelete } from "@/components/ui/passwordDelete";
 
 export function ScheduledExams() {
   const [search, setSearch] = useState("");
@@ -19,12 +18,21 @@ export function ScheduledExams() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate, isPending } = useCloseScheduledExam();
   const { data, error, isLoading } = useGetScheduledEXam();
+  const [isError, setError]=useState(null)
+  const [examId, setExamId]=useState(null)
+  const [examModelOpen, setExamModelOpen]=useState(false)
+  const {mutate:deleteExam, isPending:deleteExamPending} = useDeleteExam()
 
-  console.log("scheduled exam :", data);
+  useEffect(() => {
+    if (isError) {
+      setError(null);
+    } 
+  }, [examModelOpen,isModalOpen])
 
-  const handleEdit = (rowData) => {
-    setSelectedRow(rowData);
-    setIsModalOpen(true);
+
+  const handleSetExamId = (id) => {
+    setExamId(id);
+    setExamModelOpen(true);
   };
 
   // New function to handle batch deletion
@@ -36,29 +44,58 @@ export function ScheduledExams() {
   const onClose = () => {
     setIsModalOpen(false);
     setSelectedRow(null);
+    setExamModelOpen(false)
   };
 
-  const handleUpdateStatus = () => {
+  const handleUpdateStatus = (password) => {
+
+    setError(null)
     const batchId = selectedRow?.batchId;
     const examScheduleId = selectedRow?.examScheduleId;
 
-    console.log("selected row batchid:", selectedRow);
-    console.log("selected row examId:", examScheduleId);
+    if(password === "") return setError('Please enter password')
 
     mutate(
-      { batchId, examScheduleId },
+      { batchId, examScheduleId, password },
       {
         onSuccess: (data) => {
           if (data.success) {
             toast.success("Batch deleted successfully");
             onClose();
           } else {
-            toast.error("Something went wrong");
+            setError(data.message)
+            toast.error(data.message);
           }
         },
         onError: (error) => {
           toast.error("Failed to delete batch");
-          console.error("Delete error:", error);
+          setError("Something went wrong")
+        },
+      }
+    );
+  };
+
+  const handelDeleteExam = (password) => {
+
+    setError(null)
+
+    if(password === "") return setError('Please enter password')
+
+    deleteExam(
+      { examScheduleId: examId, password },
+      {
+        onSuccess: (data) => {
+          if (data.success) {
+            toast.success("Exam deleted successfully");
+            onClose();
+          } else {
+            setError(data.message)
+            toast.error(data.message);
+          }
+        },
+        onError: (error) => {
+          toast.error("Failed to delete exam");
+          setError("Something went wrong")
         },
       }
     );
@@ -95,20 +132,31 @@ export function ScheduledExams() {
             <Loader />
           </div>
         ) : data?.data?.length > 0 ? (
-          <div className="rounded-md border">
+          <div className="rounded-2xl bord er">
             <TableExams
               data={data?.data}
-              onEdit={handleEdit}
+              onSetExamId={handleSetExamId}
               onDeleteBatch={handleDeleteBatch}
               search={search}
               loading={isPending}
               selected={selectedRow}
               onClose={onClose}
             />
-            <Alert
-              deleteFn={handleUpdateStatus}
-              isOpen={isModalOpen}
-              setIsOpen={setIsModalOpen}
+            {/* batchDelet */}
+            <PasswordDelete
+            deleteFn={handleUpdateStatus}
+            isOpen={isModalOpen}
+            loading={isPending}
+            setIsOpen={setIsModalOpen}
+            error={isError}
+            /> 
+            {/* exam Delete */}
+            <PasswordDelete
+            deleteFn={handelDeleteExam}
+            isOpen={examModelOpen}
+            loading={deleteExamPending}
+            setIsOpen={setExamModelOpen}
+            error={isError}
             />
           </div>
         ) : (

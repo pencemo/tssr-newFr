@@ -39,7 +39,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
             <TableHead>Year</TableHead>
             <TableHead>Reg. NO</TableHead>
             <TableHead>View</TableHead>
-            {settingData.editStudentDataPermission && <TableHead>Edit</TableHead>}
+            {(user.isAdmin ||settingData.editStudentDataPermission ) && <TableHead>Edit</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>

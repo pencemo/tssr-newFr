@@ -25,6 +25,18 @@ export const useCloseScheduledExam = () => {
   });
 };
 
+export const useDeleteExam = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => {
+      return examSevice.deleteExam(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("exam-sceduled");
+    },
+  });
+};
+
 export const useGetScheduledEXam = () => {
   return useQuery({
     queryKey: ["exam-sceduled"],

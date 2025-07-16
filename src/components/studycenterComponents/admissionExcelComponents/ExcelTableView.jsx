@@ -7,7 +7,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useBulkEnrollStudents } from "@/hooks/tanstackHooks/useEnrollment";
-import { Loader2 } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export function ExcelTableView({ tableData, course, onBack }) {
   const [newStudents, setNewStudents] = useState([]);
@@ -67,11 +73,71 @@ const allValid = newStudents.every(
     );
   };
 
+  const inst = [
+    {
+      head: "New Students",
+      items: [
+        "Shows students who are newly approved for admission.",
+        "You must upload their photo and SSLC certificate here."
+      ]
+    },
+    {
+      head: "Available Students",
+      items: [
+        "Lists students whose data already exists and are approved for admission.",
+      ]
+    },
+    {
+      head: "Invalid Students",
+      items: [
+        "Contains student records that were rejected for admission.",
+        "The reason for rejection will be displayed here."
+      ]
+    },
+  ]
+
   return (
     <>
       <div className="">
         <h1 className="text-2xl font-semibold text-gray-700">Students Data</h1>
-        <p>Here you can view all uploaded student data us tables, The New Student tabel is shwo all new students of aproved to admissin. here you must upload student photos and sslc certificate. The Available Students tabel is all students are alredy data availabel and aproved to admissin. the invalid student table is student data of regectd to admissin here you can show reson of the regection. when you compleat all file upload of studen you must read and agree studen Student,s Declaration then submit form  </p>
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full border-b "
+          
+        >
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Click to view Instructions</AccordionTrigger>
+        <AccordionContent className=" space-y-1">
+          
+          <h1 className="text-base font-semibold">You can view all uploaded student data in the following tables:</h1>
+          {inst.map((item, index) =>{
+            return (
+              <div className="mt-2" key={index}>
+                <div className="flex items-center space-x-2">
+
+                <Check size={16}/>
+                <h1 className="text-base font-semibold text-gray-700 ">{item.head}</h1>
+                </div>
+                {item.items.map((item, index) => {
+                  return (
+                    <p key={index} className="text-sm  text-gray-600">
+                      - {item}
+                    </p>
+                  );
+                })}
+              </div>
+            )
+          })}
+          <h1 className="text-base font-semibold mt-5">After uploading all required files for a student, you must</h1>
+          <div className="text-gray-600">
+          <p>Ensure all uploaded files are clear and correct.</p>
+          <p>Double-check that student information matches the documents.</p>
+          <p>Read and agree the Student Declaration.</p>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
       </div>
       <div className="py-4 space-y-8">
         {newStudents.length > 0 && (

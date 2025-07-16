@@ -90,10 +90,18 @@ export const API_ENDPOINTS = {
   },
   EXAM: {
     SCHEDULE_EXAM: "/api/exam/scheduleExam",
+    DELETE_SCHEDULED_EXAM: "/api/exam/deleteExamSchedule",
     GET_SCHEDULED_EXAMS: "/api/exam/getScheduledExamBatches",
     CLOSE_SCHEDULED_EXAM: "/api/exam/closeScheduledExam",
     GET_EXAM_OF_STUDY_CENTER: "/api/exam/getScheduledExamBatchesOfStudyCenter",
     DOWNLOAD_HALL_TICKET: "/api/hallticket/DownloadhallTicket",
   },
+  REQUEST_COURSE: {
+    GET_COURSE_FOR_REQUEST: "/api/request/getNotBookedCourses",
+    GET_REQUEST_COURSE_FOR_CENTER: "/api/request/getRequestedCoursesOfStudycenter",
+    GET_REQUEST_COURSE_FOR_ADMIN: "/api/request/getRequestedCoursesForAdmin",
+    CHENGE_STATUS_OF_REQUEST_COURSE: "/api/request/changeStatus",
+    REQUEST_COURSE: "/api/request/requestACourse",
+  }
 };
  

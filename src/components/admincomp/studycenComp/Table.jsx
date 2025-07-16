@@ -24,11 +24,10 @@ export function TableComp({ data }) {
           {[
             "Name",
             "ATC Id",
-            // "Email",
+            "Email",
             "Phone",
-            "Status",
             "Expired At",
-            "",
+            "Status",
             "",
           ].map((item, i) => (
             <TableHead key={i} className="">
@@ -43,7 +42,7 @@ export function TableComp({ data }) {
             <TableCell className="font-medium">{i + 1}</TableCell>
             <TableCell className="font-medium">{item.name}</TableCell>
             <TableCell>{item.atcId}</TableCell>
-            {/* <TableCell>{item.email}</TableCell> */}
+            <TableCell>{item.email}</TableCell>
             <TableCell>{item.phoneNumber}</TableCell>
             <TableCell className="">
               {format(new Date(item.renewalDate), "dd MMM yyyy")}
@@ -55,7 +54,6 @@ export function TableComp({ data }) {
                 <Badge variant="destructive" className='rounded-full w-full max-w-24 bg-red-500'>Not Active</Badge>
               )}
             </TableCell>
-            <TableCell className="">View data</TableCell>
             <TableCell className="">
               <Button
               variant='outline'
