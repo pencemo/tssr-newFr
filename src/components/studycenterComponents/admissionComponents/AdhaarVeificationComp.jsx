@@ -42,23 +42,23 @@ const AdhaarVeificationComp = ({
               setError("Invalid response from server.")
               return;
             }
-
+            console.log(res);
             const { studentExists, enrolled, student } = data;
 
             if (studentExists && enrolled) {
               // ✅ Case 1: Student found and already enrolled in some courses
-              setError('Student is already enrolled in 2 courses.')
-              toast.error("Student is already enrolled in 2 courses.");
+              setError(res.message)
+              toast.error(res.message);
             } else if (
               studentExists && !enrolled
             ) {
               // ✅ Case 2: Student exists but not enrolled in any course
-              toast.success("Proceed to New Enrollment." );
+              toast.success(res.message);
               setUserData(student);
               onFinel();
             } else {
               // ✅ Case 3: New student
-              toast.success("New student. Please proceed with admission.");
+              toast.success(res.message);
               setUserData({ adhaarNumber : cleanAadhaar });
               onNext();
             }

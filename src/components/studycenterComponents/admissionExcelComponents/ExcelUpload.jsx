@@ -47,7 +47,7 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
     }
 
     const data = await excelToJson(file);
-    mutate(data, {
+    mutate({data, course}, {
       onSuccess: (res) => {
         if (res.success) {
           setTableData(res);

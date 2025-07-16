@@ -84,7 +84,7 @@ export function ViewStudent() {
     <div className=" w-full h-full">
       <div className="space-y-6 w-full h-full">
           <h1 className="text-2xl font-bold">Students Data</h1>
-          <div className="flex justify-between items-center gap-x-2">
+          <div className="flex justify-between items-center max-sm:flex-col gap-2">
           <Input
             value={search}
             onChange={(e) => {
@@ -94,7 +94,7 @@ export function ViewStudent() {
             placeholder="Search Student"
             className="max-w-sm max-sm:max-w-full"
           />
-          <Button onClick={()=>navigate('pending')} className=" ">Pending Aprovel</Button>
+          <Button onClick={()=>navigate('pending')} className="max-sm:w-full ">Pending Aprovel</Button>
           </div>
 
         <div className="w-full flex max-md:flex-col  md:justify-between gap-2 ">
@@ -128,7 +128,7 @@ export function ViewStudent() {
           </div>
         ) : students.length > 0 ? (
           <>
-            <div className="rounded-md border">
+            <div className="rounded-2xl border">
               <StudentTable data={students} />
               <Pagination
                 totalData={data?.totalData}
