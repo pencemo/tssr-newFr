@@ -71,7 +71,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate(`view/${item.enrollmentId}`)}
+                  onClick={() => navigate(`view?id=${item.enrollmentId}&isEnroll=true`)}
                 >
                   View student
                 </Button>

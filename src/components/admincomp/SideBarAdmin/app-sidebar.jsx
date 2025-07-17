@@ -79,6 +79,12 @@ const data = {
       title: "Students",
       url: "students",
       icon: GraduateMaleIcon,
+      items:[
+        {
+          title: "Verification",
+          url: "/admin/students/pending",
+        }
+      ]
       
     },
     {

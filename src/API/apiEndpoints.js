@@ -102,6 +102,10 @@ export const API_ENDPOINTS = {
     GET_REQUEST_COURSE_FOR_ADMIN: "/api/request/getRequestedCoursesForAdmin",
     CHENGE_STATUS_OF_REQUEST_COURSE: "/api/request/changeStatus",
     REQUEST_COURSE: "/api/request/requestACourse",
+  },
+  VERIFICATION_STUDENT: {
+    GET_VERIFICATION_STUDENT: "/api/approval/getPendingAndRejectedStudents",
+    UPDATE_STATUS_OF_VERIFICATION: "/api/approval/updateStatusOfPendingApproval",
   }
 };
  

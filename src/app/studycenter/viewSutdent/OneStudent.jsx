@@ -3,17 +3,18 @@ import Loader from '@/components/ui/loader'
 import { useOneStudent } from '@/hooks/tanstackHooks/useStudents'
 import { format } from 'date-fns'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { User, Phone, Mail, MapPin, GraduationCap, FileText, Download, CheckCircle, XCircle, Clock } from "lucide-react"
 import { Call02Icon, Location01Icon, MailOpen01Icon, StudentCardIcon } from 'hugeicons-react'
 import StudentPDF from './StudentPDF'
 
 function OneStudent() {
-  const {id} = useParams()
+  // const {id} = useParams()
+  const [searchParams ] = useSearchParams();
+  const id = searchParams.get('id');
   const {data, error, isLoading} = useOneStudent(id) 
 
   if(isLoading) return <div className='w-full h-full'><Loader/></div>

@@ -43,6 +43,12 @@ const data = {
       title: "Students",
       url: "students",
       icon: Mortarboard02Icon,
+      items:[
+        {
+          title: "Verification",
+          url: "/admin/students/pending",
+        }
+      ]
     },
     {
       title: "Admission",
