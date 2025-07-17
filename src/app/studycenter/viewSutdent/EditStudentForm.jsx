@@ -162,7 +162,7 @@ export function EditStudentForm( ) {
 
       // setUserData(formData);
       mutate(
-        { ...formData, id },
+        { ...formData, id : data._id },
         {
           onSuccess: (res) => {
             if (res.success) {

@@ -10,9 +10,11 @@ import { useAllVarificationStudents, useUpdateStatusofVerification } from "@/hoo
 import NoData from "@/components/ui/noData";
 import Loader from "@/components/ui/loader";
 import { toast } from "sonner";
+import { useAuth } from "@/Context/authContext";
 
 function StudentsVerification() {
   const [search, setSearch] = useState("");
+  const {user}=useAuth()
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
@@ -69,10 +71,10 @@ function StudentsVerification() {
           Students Verification
         </h1>
         <div className="flex gap-2 items-center">
-       <div className="space-x-2">
+      {user?.isAdmin &&  <div className="space-x-2">
           <Button onClick={()=>handleSubmit(selectedIds, 'approved')} disabled={!selectedIds.length>0} variant="outline">Approve</Button>
           <Button onClick={()=>handleSubmit(selectedIds, 'rejected')} disabled={!selectedIds.length>0} variant="destructive">Reject</Button>
-        </div>
+        </div>}
 
         </div>
       </div>

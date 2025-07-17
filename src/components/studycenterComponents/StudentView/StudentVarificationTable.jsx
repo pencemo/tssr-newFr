@@ -43,7 +43,7 @@ export function StudentVarificationTable({ data, status, selectedIds, setSelecte
       }
     };
   
-    
+    const route = user?.isAdmin? "admin":'studycenter'
   
     return (
       <Table className="border-b">
@@ -105,7 +105,7 @@ export function StudentVarificationTable({ data, status, selectedIds, setSelecte
                   :<Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate(`edit/${item.enrollmentId}`)}
+                  onClick={() => navigate(`/${route}/students/edit?id=${item?._id}&isEnroll=false`)}
                 >
                   Edit student
                 </Button>}
