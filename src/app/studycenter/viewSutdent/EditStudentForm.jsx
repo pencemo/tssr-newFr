@@ -12,7 +12,7 @@ import {
 import { DatePicker } from "@/components/ui/datePicker";
 import { states } from "@/lib/list";
 import { CloudUploadIcon, Upload04Icon } from "hugeicons-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useEditStudentData, useOneStudent } from "@/hooks/tanstackHooks/useStudents";
 import { toast } from "sonner";
 import Loader from "@/components/ui/loader";
@@ -22,8 +22,10 @@ export function EditStudentForm( ) {
     const [selectedState, setSelectedState] = useState("");
     const navigate = useNavigate();
 
-  const { id } = useParams();
-    const { data, error, isLoading } = useOneStudent(id);
+    const [searchParams ] = useSearchParams();
+    const id = searchParams.get('id');
+    const isEnrolled = searchParams.get('isEnroll');
+    const { data, error, isLoading } = useOneStudent(id, isEnrolled);
     const { mutate , isPending} = useEditStudentData()
 
     const [formData, setFormData] = useState({

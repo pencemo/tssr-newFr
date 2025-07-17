@@ -15,7 +15,8 @@ function OneStudent() {
   // const {id} = useParams()
   const [searchParams ] = useSearchParams();
   const id = searchParams.get('id');
-  const {data, error, isLoading} = useOneStudent(id) 
+  const isEnrolled = searchParams.get('isEnroll');
+  const {data, error, isLoading} = useOneStudent(id, isEnrolled) 
 
   if(isLoading) return <div className='w-full h-full'><Loader/></div>
   if(error) return <div>Error</div>

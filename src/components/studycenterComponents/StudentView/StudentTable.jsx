@@ -82,7 +82,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => navigate(`edit/${item.enrollmentId}`)}
+                    onClick={() => navigate(`edit?id=${item.enrollmentId}&isEnroll=false`)}
                   >
                     Edit student
                   </Button>

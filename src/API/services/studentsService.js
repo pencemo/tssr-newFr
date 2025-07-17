@@ -16,12 +16,13 @@ export const studentsService = {
     );
     return response.data;
   },
-  getOneStudent: async (id) => {
+  getOneStudent: async (id, isEnrolled) => {
     const response = await axiosInstance.get(
       API_ENDPOINTS.STUDENTS.GET_ONE_STUDENT,
       {
         params: {
-         id
+         id,
+         isEnrolled
         },
       }
     );

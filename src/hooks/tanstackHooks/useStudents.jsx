@@ -8,10 +8,10 @@ export const useStudentOfStudyCenter = (page, limit, search, couresId, batchId, 
       keepPreviousData: true,
     });
   };
-export const useOneStudent = (id) => {
+export const useOneStudent = (id, isEnrolled) => {
     return useQuery({
-      queryKey: ["oneStudent", id],
-      queryFn: () => studentsService.getOneStudent(id),
+      queryKey: ["oneStudent", id, isEnrolled],
+      queryFn: () => studentsService.getOneStudent(id, isEnrolled),
       keepPreviousData: false,
     });
   };

@@ -78,7 +78,7 @@ function App() {
             <Route index element={<ViewStudent />} />
             <Route path="pending" element={<StudentsVerification />} />
             <Route path="view" element={<OneStudent />} />
-            <Route path="edit/:id" element={<EditStudentForm />} />
+            <Route path="edit" element={<EditStudentForm />} />
           </Route>
           <Route path="results" element={<NoData />} />
           <Route path="orders" element={<Outlet />}>
