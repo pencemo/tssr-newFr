@@ -23,9 +23,9 @@ export function EditStudentForm( ) {
     const navigate = useNavigate();
 
     const [searchParams ] = useSearchParams();
-    const id = searchParams.get('id');
+    const paramsId = searchParams.get('id');
     const isEnrolled = searchParams.get('isEnroll');
-    const { data, error, isLoading } = useOneStudent(id, isEnrolled);
+    const { data, error, isLoading } = useOneStudent(paramsId, isEnrolled);
     const { mutate , isPending} = useEditStudentData()
 
     const [formData, setFormData] = useState({
@@ -48,7 +48,6 @@ export function EditStudentForm( ) {
   });
 
   const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -162,12 +161,12 @@ export function EditStudentForm( ) {
 
       // setUserData(formData);
       mutate(
-        { ...formData, id : data._id },
+        { ...formData, id : data.data._id, isEnrolled, approvalId: paramsId },
         {
           onSuccess: (res) => {
             if (res.success) {
                 toast.success("Student data updated successfully");
-                 navigate("/studycenter/students");
+                 navigate(-1);
             } else {
               toast.error("Something went wrong");
             }
@@ -181,26 +180,8 @@ export function EditStudentForm( ) {
 
   const handleBackToVerification = () => {
     
-    // setFormData({
-    //   name: "",
-    //   age: "",
-    //   dateOfBirth: new Date(),
-    //   gender: "",
-    //   phoneNumber: "",
-    //   state: "",
-    //   district: "",
-    //   place: "",
-    //   pincode: "",
-    //   email: "",
-    //   dateOfAdmission: new Date(),
-    //   parentName: "",
-    //   qualification: "",
-    //   sslc: null,
-    //   profileImage: null,
-    //   adhaarNumber: "",
-    // });
       setErrors({});
-      navigate("/studycenter/students");
+      navigate(-1);
   };
 
   const districtOptions =

@@ -255,8 +255,8 @@ export default function StudentPDF({ studentData }) {
     <div className="">
       <div className="">
         <div className=" ">
-          <Button variant="outline" onClick={handlePrint}>
-            <Printer className="w-5 h-5 mr-2" />
+          <Button variant="outline" className={'h-8'} onClick={handlePrint}>
+            <Printer className="w-5 h-5 " />
             Print Data
           </Button>
         </div>

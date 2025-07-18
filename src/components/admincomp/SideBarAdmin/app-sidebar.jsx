@@ -82,7 +82,7 @@ const data = {
       items:[
         {
           title: "Verification",
-          url: "/admin/students/pending",
+          url: "/admin/students/verification",
         }
       ]
       

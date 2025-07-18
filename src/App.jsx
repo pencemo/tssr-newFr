@@ -76,7 +76,7 @@ function App() {
           <Route path="admission" element={<AdmissionSection />} />
           <Route path="students" element={<Outlet />}>
             <Route index element={<ViewStudent />} />
-            <Route path="pending" element={<StudentsVerification />} />
+            <Route path="verification" element={<StudentsVerification />} />
             <Route path="view" element={<OneStudent />} />
             <Route path="edit" element={<EditStudentForm />} />
           </Route>
@@ -109,7 +109,7 @@ function App() {
           <Route index element={<DashbordStudy />} />
           <Route path="students" element={<Outlet />}>
             <Route index element={<ViewStudent />} />
-            <Route path="pending" element={<StudentsVerification />} />
+            <Route path="verification" element={<StudentsVerification />} />
             <Route path="view" element={<OneStudent />} />
             <Route path="edit" element={<EditStudentForm />} />
           </Route>

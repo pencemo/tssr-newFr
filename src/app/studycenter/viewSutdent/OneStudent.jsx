@@ -3,7 +3,7 @@ import Loader from '@/components/ui/loader'
 import { useOneStudent } from '@/hooks/tanstackHooks/useStudents'
 import { format } from 'date-fns'
 import React from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,7 +16,8 @@ function OneStudent() {
   const [searchParams ] = useSearchParams();
   const id = searchParams.get('id');
   const isEnrolled = searchParams.get('isEnroll');
-  const {data, error, isLoading} = useOneStudent(id, isEnrolled) 
+  const {data, error, isLoading} = useOneStudent(id, isEnrolled)
+  const navigate = useNavigate()
 
   if(isLoading) return <div className='w-full h-full'><Loader/></div>
   if(error) return <div>Error</div>
@@ -24,6 +25,14 @@ function OneStudent() {
   const student = data?.data
 
   const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
+    if(typeof isCompleted === "string"){
+      return (
+        <Badge variant="secondary"  >
+        <Clock className="w-3 h-3 mr-1" />
+        {isCompleted}
+      </Badge>
+      )
+    }
     if (isCertificateIssued) {
       return (
         <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
@@ -61,13 +70,13 @@ function OneStudent() {
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header Section */}
         <Card className="overflow-hidden p-0">
-          <div className="bg-primary px-6 py-10 flex justify-between">
+          <div className="bg-primary px-6 py-10 flex max-sm:flex-col gap-2 justify-between">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
               <div className="relative">
                 <img
                   src={student.profileImage || "/placeholder.svg"}
                   alt={student.name}
-                  className="w-24 h-24 rounded-full border-4 border-white object-cover"
+                  className="w-24 h-24 rounded-full bg-white border-2 border-white/80 object-cover"
                 />
               </div>
               <div className="flex-1">
@@ -76,12 +85,15 @@ function OneStudent() {
                 <div className="flex flex-wrap gap-2">
                   {getStatusBadge(student.isCompleted, student.isPassed, student.isCertificateIssued)}
                   <Badge variant="outline" className="bg-white/10 text-white border-white/20">
-                    {student.ourseName}
+                    {student.courseName}
                   </Badge>
                 </div>
               </div>
             </div>
+            <div className='flex items-center gap-2'>
             <StudentPDF studentData={student}/>
+            <Button onClick={()=>navigate(-1)} className='h-8' variant='outline'>Back</Button>
+            </div>
           </div>
         </Card>
 
@@ -183,7 +195,7 @@ function OneStudent() {
               <CardContent className="space-y-3">
                 <div>
                   <label className="text-sm text-gray-500">Course</label>
-                  <p className="text-gray-900 font-medium">{student.ourseName}</p>
+                  <p className="text-gray-900 font-medium">{student.courseName}</p>
                 </div>
                 <div>
                   <label className="text-sm text-gray-500">Batch Month</label>
@@ -212,6 +224,7 @@ function OneStudent() {
                 <CardTitle>Status Overview</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
+                {typeof student.isCompleted != "string" ?<>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Course Completed</span>
                   {student.isCompleted ? (
@@ -236,6 +249,12 @@ function OneStudent() {
                     <XCircle className="w-5 h-5 text-red-500" />
                   )}
                 </div>
+                </>:
+                <div>
+                <h1 className='text-sm text-muted-foreground'>Waiting for approval
+                </h1>
+                </div>
+                }
               </CardContent>
             </Card>
 
@@ -275,10 +294,10 @@ function OneStudent() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-sm text-gray-500">
               <div>
                 <p>Student ID: {student._id}</p>
-                <p>Created: {format(new Date(student.createdAt), 'PPP')}</p>
+                {/* <p>Created: {format(new Date(student.createdAt), 'PPP')}</p> */}
               </div>
               <div className="text-right">
-                <p>Last Updated: {format(new Date(student.updatedAt), 'PPP')}</p>
+                {/* <p>Last Updated: {format(new Date(student.updatedAt), 'PPP')}</p> */}
                 <p>Academic Year: {student.year}</p>
               </div>
             </div>

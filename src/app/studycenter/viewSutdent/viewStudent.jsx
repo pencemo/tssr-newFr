@@ -94,7 +94,7 @@ export function ViewStudent() {
             placeholder="Search Student"
             className="max-w-sm max-sm:max-w-full"
           />
-          <Button onClick={()=>navigate('pending')} className="max-sm:w-full ">Pending Aprovel</Button>
+          <Button onClick={()=>navigate('verification')} className="max-sm:w-full ">Verifications</Button>
           </div>
 
         <div className="w-full flex max-md:flex-col  md:justify-between gap-2 ">
