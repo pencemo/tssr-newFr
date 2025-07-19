@@ -109,7 +109,7 @@ export function StudentVarificationTable({
               </Badge>
             </TableCell>
             <TableCell>{item.courseId.name}</TableCell>
-            <TableCell>{item.batchId.monthName}</TableCell>
+            <TableCell>{item.batchId.month}</TableCell>
             <TableCell>{item.year}</TableCell>
             <TableCell>
             <Button

@@ -15,8 +15,8 @@ function StoreCollections({data}) {
   return (
     <>
     <div className='mt-10 grid grid-cols-4 gap-4'>
-      {data.map((item) =>{
-        return <ItemCard setEdit={handleSelectEdit} item={item} />
+      {data.map((item, i) =>{
+        return <ItemCard key={i} setEdit={handleSelectEdit} item={item} />
       })}
     </div>
     <EditProduct edit={edit} isOpen={isOpen} setOpen={setOpen} />

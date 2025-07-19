@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useBulkEnrollStudents } from "@/hooks/tanstackHooks/useEnrollment";
-import { Check, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, Loader2 } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -99,7 +99,12 @@ const allValid = newStudents.every(
   return (
     <>
       <div className="">
+        <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold text-gray-700">Students Data</h1>
+        <Button size='icon' variant='outline' onClick={onBack}>
+          <ArrowLeft/>
+        </Button>
+        </div>
         <Accordion
           type="single"
           collapsible

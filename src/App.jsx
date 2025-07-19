@@ -43,6 +43,7 @@ import ManageNotifications from "./components/studycenterComponents/Notification
 import CoursesStudyCente from "./app/studycenter/Course/CoursesStudyCente";
 import RequestCourse from "./app/admin/Course/RequestCourse";
 import StudentsVerification from "./app/studycenter/viewSutdent/StudentsVerification";
+import AddNewStaff from "./app/admin/Staff/AddNewStaff";
 
 
 function App() {
@@ -94,7 +95,10 @@ function App() {
             <Route index element={<AdminNotifications />} />
             <Route path="manage" element={<ManageNotifications />} />
           </Route>
-          <Route path="staff" element={<ManageStaff />} />
+          <Route path="staff" element={<Outlet />}>
+            <Route index element={<ManageStaff />} />
+            <Route path="add-staff" element={<AddNewStaff />} />
+          </Route>
         </Route>
 
         {/* Routes for studycenter functionality */}

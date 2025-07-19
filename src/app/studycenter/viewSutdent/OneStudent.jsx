@@ -23,7 +23,7 @@ function OneStudent() {
   if(error) return <div>Error</div>
   
   const student = data?.data
-
+console.log(data);
   const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
     if(typeof isCompleted === "string"){
       return (
@@ -81,7 +81,7 @@ function OneStudent() {
               </div>
               <div className="flex-1">
                 <h1 className="text-2xl font-semibold text-white ">{student.name}</h1>
-                <p className="text-sm mb-3 text-white ">Registration No: {student.registrationNumber}</p>
+                <p className="text-sm mb-3 text-white ">Admission No: {student.admissionNumber}</p>
                 <div className="flex flex-wrap gap-2">
                   {getStatusBadge(student.isCompleted, student.isPassed, student.isCertificateIssued)}
                   <Badge variant="outline" className="bg-white/10 text-white border-white/20">

@@ -1,88 +1,85 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react";
 import Loader from "@/components/ui/loader";
-import { useChangeStatusAdmission, useOpenAdmissinList } from "@/hooks/tanstackHooks/useAdmission";
 import { Alert } from "@/components/ui/Alert";
 import { toast } from "sonner";
 import { StaffTable } from "./StaffTable";
 import Pagination from "@/components/ui/Pagination";
-import { AddStaff } from "./AddStaff";
+import { HiOutlinePlus } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
+import { useDeleteStaff, useGetAllStaffs } from "@/hooks/tanstackHooks/useStaffs";
+import EditStaff from "./EditStaff";
+import { PasswordDelete } from "@/components/ui/passwordDelete";
+import { Download } from "lucide-react";
+import DownloadStaff from "./DownloadStaff";
 
 export function StaffList() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [batchs, setBatches] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
-  const [selectedRow, setSelectedRow] = useState(null)
+  const [edit, setEdit] = useState(null)
+  const [isdelete, setDelete]=useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {mutate}=useChangeStatusAdmission()
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    role: "",
-    password:""
-})
+  const [isError, setError]=useState(null)
+  const navigate = useNavigate()
+  const {mutate, isPending}=useDeleteStaff()
 
-  // Debounce search input
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
-      setCurrentPage(1); // Reset to page 1 on new search
-    }, 1000); // delay in ms
+      setCurrentPage(1);  
+    }, 1000); 
 
     return () => {
       clearTimeout(handler);
     };
   }, [search]);
 
-  const { data, error, isLoading } = useOpenAdmissinList(currentPage, debouncedSearch);
+  const { data, error, isLoading } = useGetAllStaffs(currentPage,20, debouncedSearch);
 
-  
 
   useEffect(() => {
-    if (data && data.data) {
-      setBatches(data.data);
-    }
     if (data) {
-      setTotalPage(data.totalPage);
+      setTotalPage(data.totalPages);
     }
   }, [data]);
 
-  const handleEdit = (rowData) => {
-    setSelectedRow(rowData)
+  const onSetDelete = (id) => {
+    setDelete(id)
     setIsModalOpen(true)
   }
 
-  const onClose = () => {
-    setIsModalOpen(false)
-    setSelectedRow(null)
-  }
+  useEffect(()=>{
+    setError(null)
+  }, [isModalOpen])
 
-  const handleUpdateStatus = () => {
-    const id = selectedRow?._id
+
+  const handelDelete = (password) => {
+    const data = {
+      id: isdelete,
+      password,
+    }
     mutate(
-      { id },
+      data,
       {
         onSuccess: (data) => {
           if (data.success) {
-            toast("Batch updated", {
-              description: "Batch updated successfully",
-            });
-            onClose()
+            toast.success(data.message)
+            setIsModalOpen(false)
+            setDelete(null)
+            setError(null)
           } else {
-            toast("Somthing went wrong", {
-              description: data.message,
-            });
+            toast.error(data.message);
+            setError(data.message)
           }
         },
+        onError: (error) => {
+          toast.error('Somthing went wrong');
+          setError(error.message)
+        }
       }
     );
   };
@@ -91,6 +88,10 @@ export function StaffList() {
     return <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
     Error to fetch data
   </div>;
+  }
+
+  if(edit){
+    return <EditStaff setEdit={setEdit} data={edit}/>
   }
 
   return (
@@ -107,20 +108,27 @@ export function StaffList() {
             placeholder="Search users..."
             className="max-w-sm max-sm:max-w-full"
           />
-          <AddStaff formData={formData} setFormData={setFormData} />
+          <div className="sm:flex grid grid-cols-2 items-center gap-2 max-sm:w-full">
+          <Button onClick={()=>navigate("add-staff")}>
+            Add Staff <HiOutlinePlus strokeWidth={2}  />
+          </Button>
+          <DownloadStaff/>
+            
+          </div>
         </div>
 
         {isLoading ? (
           <div className="w-full h-full">
             <Loader />
           </div>
-        ) : batchs.length > 0 ?
-          <div className="rounded-md border">
+        ) : data?.staffs?.length > 0 ?
+          <div className="rounded-2xl overflow-hidden border">
             <StaffTable
-              data={batchs}
-              onEdit={handleEdit}
+              data={data.staffs}
+              onEdit={(rowData)=>setEdit(rowData)}
+              onDelete={onSetDelete}
             />
-            <Alert deleteFn={handleUpdateStatus} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+            <PasswordDelete loading={isPending} error={isError} deleteFn={handelDelete}  isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
             
             <Pagination currentPage={currentPage} totalPage={totalPage} setCurrentPage={setCurrentPage} />
           </div>:

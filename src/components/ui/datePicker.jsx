@@ -18,7 +18,7 @@ export function DatePicker({date, setDate, length = 25, year = new Date().getFul
   // Generate years for the selector (10 years before and after current year)
   const years = React.useMemo(() => {
     // const currentYear = year
-    return Array.from({ length }, (_, i) => year -1 + i)
+    return Array.from({ length:length  }, (_, i) => year -1 + i)
   }, [])
 
   // Month names for the selector

@@ -198,7 +198,7 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
           <Loader />
         </div>
       ) : (
-        <ExcelTableView tableData={tableData} course={course} onBack={onBack} />
+        <ExcelTableView tableData={tableData} course={course} onBack={()=>setTableData([])} />
       )}
     </div>
   );

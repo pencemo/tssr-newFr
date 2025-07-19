@@ -23,7 +23,6 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
     const { user } = useAuth()
     const { data:settings } = useSettings();
     const settingData = settings?.data;
-    console.log(settingData);
     const navigate = useNavigate()
     return (
       <Table className="border-b">
@@ -37,7 +36,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
             <TableHead>Course</TableHead>
             <TableHead>Batch</TableHead>
             <TableHead>Year</TableHead>
-            <TableHead>Reg. NO</TableHead>
+            <TableHead>Admission NO</TableHead>
             <TableHead>View</TableHead>
             {(user.isAdmin ||settingData.editStudentDataPermission ) && <TableHead>Edit</TableHead>}
           </TableRow>
@@ -66,7 +65,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
               <TableCell>{item.courseName}</TableCell>
               <TableCell>{item.batchMonth}</TableCell>
               <TableCell>{item.year}</TableCell>
-              <TableCell>{item.registrationNumber}</TableCell>
+              <TableCell>{item.admissionNumber}</TableCell>
               <TableCell>
                 <Button
                   variant="outline"

@@ -27,7 +27,7 @@ export function EditStudentForm( ) {
     const isEnrolled = searchParams.get('isEnroll');
     const { data, error, isLoading } = useOneStudent(paramsId, isEnrolled);
     const { mutate , isPending} = useEditStudentData()
-
+    console.log(selectedState);
     const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -102,6 +102,16 @@ export function EditStudentForm( ) {
   useEffect(() => {
     if (data) {
       const student = data.data;
+      const properState =
+      states.find((s) => s.state.toLowerCase() === student.state?.toLowerCase())?.state || "";
+
+    const properDistrict =
+      states
+        .find((s) => s.state.toLowerCase() === student.state?.toLowerCase())
+        ?.districts.find(
+          (d) => d.toLowerCase() === student.district?.toLowerCase()
+        ) || "";
+
       setFormData({
         name: student.name || "",
         age: student.age?.toString() || "",
@@ -110,8 +120,8 @@ export function EditStudentForm( ) {
           : new Date(),
         gender: student.gender || "",
         phoneNumber: student.phoneNumber || "",
-        state: student.state || "",
-        district: student.district || "",
+        state: properState || "",
+        district: properDistrict || "",
         place: student.place || "",
         pincode: student.pincode || "",
         email: student.email || "",
@@ -125,8 +135,8 @@ export function EditStudentForm( ) {
         adhaarNumber: student.adhaarNumber || "",
       });
 
-      setSelectedState(student.state || "");
-    }
+      setSelectedState(properState || "");
+    } 
   }, [data]);
 
   const validate = () => {
@@ -286,7 +296,7 @@ export function EditStudentForm( ) {
                 onValueChange={(val) =>
                   setFormData({ ...formData, gender: val })
                 }
-                value={formData.gender}
+                value={formData.gender.toLocaleLowerCase()}
               >
                 <SelectTrigger
                   className={`w-full ${
@@ -298,9 +308,9 @@ export function EditStudentForm( ) {
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Male">Male</SelectItem>
-                  <SelectItem value="Female">Female</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -332,7 +342,7 @@ export function EditStudentForm( ) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>State</Label>
-              <Select onValueChange={handleStateChange} value={selectedState}>
+              <Select onValueChange={handleStateChange} value={formData?.state}>
                 <SelectTrigger
                   className={`w-full ${
                     errors.state && formData.state === ""

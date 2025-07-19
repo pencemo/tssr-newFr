@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Table,
   TableBody,
@@ -101,10 +101,10 @@ export function TableExams({
                 loading && selected?.examScheduleId === exam.examScheduleId;
 
               return (
-                <>
+                <Fragment key={exam.examScheduleId}>
                   {/* Main Exam Row */}
                   <TableRow
-                    key={exam.examScheduleId}
+                    
                     className={`
                       cursor-pointer transition-colors hover:bg-muted/50
                       ${isLoading ? "opacity-40 pointer-events-none" : ""}
@@ -280,7 +280,7 @@ export function TableExams({
                       </TableCell>
                     </TableRow>
                   )}
-                </>
+                </Fragment>
               );
             })}
 

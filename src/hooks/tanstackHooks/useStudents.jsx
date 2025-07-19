@@ -28,7 +28,6 @@ export const useEditStudentData = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
-      console.log(data);
       return studentsService.editStudentData(data);
     },
     onSuccess: () => {

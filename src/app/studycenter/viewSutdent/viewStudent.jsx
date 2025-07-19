@@ -128,7 +128,7 @@ export function ViewStudent() {
           </div>
         ) : students.length > 0 ? (
           <>
-            <div className="rounded-2xl border">
+            <div className="rounded-2xl border overflow-hidden">
               <StudentTable data={students} />
               <Pagination
                 totalData={data?.totalData}
