@@ -9,13 +9,17 @@ import { Button } from "@/components/ui/button";
 import { useUpdateSutdyCenter } from "@/hooks/tanstackHooks/useStudyCentre";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { EditAdminPopup } from "./EditAdminPopup";
 
-export function EditStudy({ data, course }) {
+export function EditStudy({ data, course, users }) {
+  
    
   const [isError, setError] = useState(false);
+  const [admins, setAdmins] = useState([])
   const [date, setDate] = useState(null);
   const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
+  const [centerAdmin, setCenterAdmin]=useState({})
   const {mutate}=useUpdateSutdyCenter()
   const [formData, setFormData] = useState({
     name: "",
@@ -40,7 +44,8 @@ export function EditStudy({ data, course }) {
     setFormData({ ...formData, ...data });
     setDate(new Date(data.renewalDate));
     setSelected(data.courses);
-  }, [data]);
+    setAdmins(users);
+  }, [data, users]);
 
   const handleChange = useMemo(
     () => (e) => {
@@ -51,6 +56,7 @@ export function EditStudy({ data, course }) {
     },
     []
   );
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,21 +73,69 @@ export function EditStudy({ data, course }) {
     ) {
       setError(true);
     }
-    mutate({formData, id : data._id}, {
+    const submitData = {
+      ...formData,
+      users: admins,
+    }
+    mutate({formData: {submitData}, id : data._id}, {
       onSuccess: (data) => { 
         if(data.success){
-          toast("Study centre updated", {
-            description: 'Study centre updated successfully',});
-          // handleCancel()
+          toast.success("data.message");
           navigate('/admin/studycentre')
         }else{
           toast("Somthing went wrong", {
             description: data.message,});
-            setError(data.message)
         }
       }
     })
   }
+
+  // Add in EditStudy component
+const [adminDialogOpen, setAdminDialogOpen] = useState(false);
+const [adminDialogMode, setAdminDialogMode] = useState("add"); // "add" or "edit"
+const [editingIndex, setEditingIndex] = useState(null); // track which admin is being edited
+
+const openAddAdmin = () => {
+  setCenterAdmin({ name: "", email: "", phoneNumber: "", password: "" });
+  setAdminDialogMode("add");
+  setAdminDialogOpen(true);
+};
+
+const openEditAdmin = (admin, index) => {
+  setCenterAdmin(admin);
+  setAdminDialogMode("edit");
+  setEditingIndex(index);
+  setAdminDialogOpen(true);
+};
+
+const handleSetAdmin = (updatedAdmin) => {
+  if (!updatedAdmin.name || !updatedAdmin.email || !updatedAdmin.phoneNumber) {
+    setError(true);
+    return;
+  }
+
+  if (adminDialogMode === "edit") {
+    const updatedAdmins = [...admins];
+    updatedAdmins[editingIndex] = updatedAdmin;
+    setAdmins(updatedAdmins);
+  } else {
+    const isDuplicate = admins.some(
+      (a) =>
+        a.email === updatedAdmin.email ||
+        a.phoneNumber === updatedAdmin.phoneNumber
+    );
+    if (isDuplicate) {
+      toast.error("Admin already exists");
+      return;
+    }
+    setAdmins([...admins, updatedAdmin]);
+  }
+
+  // Reset
+  setCenterAdmin({});
+  setEditingIndex(null);
+  setAdminDialogOpen(false);
+};
 
   return (
     <div className=" space-y-3 mt-6">
@@ -185,6 +239,37 @@ export function EditStudy({ data, course }) {
           }
           title="Approvel Status"
           description="Status of the Study Centre"
+        />
+      </div>
+
+      <div className="mt-6 mb-4 border-t pt-4 flex max-md:flex-col gap-2 justify-between">
+        <div>
+        <h1 className="text-lg font-medium ">Center Admins</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage admins of center
+        </p>
+          
+        </div>
+          <Button onClick={openAddAdmin}>Add new admin</Button>
+      </div>
+      <div>
+        <div className="space-y-2">
+        {admins?.map((admin, index) => (
+          <div key={index} className="grid sm:grid-cols-4 items-center md:grid-cols-1 lg:grid-cols-4 gap-2 border py-2 px-4 rounded-lg hover:bg-primary-foreground transition-all">
+            <h1 className="text-sm font-medium">{admin.name}</h1>
+            <h1 className="text-sm text-muted-foreground">{admin.email}</h1>
+            <h1 className="text-sm text-muted-foreground">{admin.phoneNumber}</h1>
+            <Button className='justify-self-end' size='sm' variant='outline' onClick={() => openEditAdmin(admin, index)}>Edit admin</Button>
+          </div>
+        ))}
+        </div>
+        <EditAdminPopup
+          isOpen={adminDialogOpen}
+          setIsOpen={setAdminDialogOpen}
+          admin={centerAdmin}
+          onSubmit={handleSetAdmin}
+          isError={isError}
+          mode={adminDialogMode}
         />
       </div>
       <div className="mt-6 mb-4 border-t">

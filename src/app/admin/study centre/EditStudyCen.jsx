@@ -24,7 +24,7 @@ function EditStudyCen() {
         </p>
       </div>
       <div>
-      <EditStudy data={data?.data} course={course?.data}/>
+      <EditStudy data={data?.data} users={data?.user} course={course?.data}/>
     </div>
       
     </div>
