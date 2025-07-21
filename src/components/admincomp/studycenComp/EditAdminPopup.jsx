@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { useEffect, useState } from "react"
 
 export function EditAdminPopup({ isOpen, setIsOpen, admin, onSubmit, mode}) {
@@ -89,6 +90,10 @@ const handleSave = () => {
             : "Leave password empty if you don’t want to change it"
         }
       />
+      {mode != "add" && <div className="flex justify-between items-center border py-2 px-3 rounded-md">
+        <Label>Status of Admin</Label>
+        <Switch checked={localAdmin?.isActive} onCheckedChange={(vlaue)=>setLocalAdmin({...localAdmin, isActive: vlaue})} />
+      </div>}
     </div>
     <DialogFooter>
       <DialogClose asChild>

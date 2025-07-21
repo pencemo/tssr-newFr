@@ -77,10 +77,10 @@ export function EditStudy({ data, course, users }) {
       ...formData,
       users: admins,
     }
-    mutate({formData: {submitData}, id : data._id}, {
+    mutate({formData: submitData, id : data._id}, {
       onSuccess: (data) => { 
         if(data.success){
-          toast.success("data.message");
+          toast.success(data.message);
           navigate('/admin/studycentre')
         }else{
           toast("Somthing went wrong", {
