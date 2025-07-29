@@ -72,7 +72,7 @@ function StudentsVerification() {
       <div className="flex justify-between items-center   gap-2">
         <h1 className="text-lg md:text-2xl font-bold">Students Verification</h1>
         <div className="flex gap-2 items-center">
-          {user?.isAdmin && status === "pending" && (
+          {user?.isAdmin && (
             <div className="space-x-2">
               <Button
                 size="sm"

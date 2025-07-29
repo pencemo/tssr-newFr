@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react";
 import Loader from "@/components/ui/loader";
 import { TableList } from "./TableList";
 import { useChangeStatusAdmission, useOpenAdmissinList } from "@/hooks/tanstackHooks/useAdmission";
 import { Alert } from "@/components/ui/Alert";
 import { toast } from "sonner";
+import Pagination from "@/components/ui/Pagination";
 
 export function OpenADList() {
   const [search, setSearch] = useState("");
@@ -116,45 +110,8 @@ export function OpenADList() {
               onEdit={handleEdit}
             />
             <Alert deleteFn={handleUpdateStatus} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
-            <div className="flex items-center sm:justify-end justify-between space-x-2 py-4 px-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronsLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-sm">
-                Page {currentPage} of {totalPage}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPage))
-                }
-                disabled={currentPage === totalPage}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(totalPage)}
-                disabled={currentPage === totalPage}
-              >
-                <ChevronsRight className="h-4 w-4" />
-              </Button>
-            </div>
+            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage} />
+            
           </div>:
           <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
           No data found

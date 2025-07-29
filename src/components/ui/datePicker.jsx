@@ -102,6 +102,7 @@ export function DatePicker({date, setDate, length = 25, year = new Date().getFul
           initialFocus
           month={calendarDate}
           onMonthChange={setCalendarDate}
+          captionLayout="dropdown"
         />
       </PopoverContent>
     </Popover>

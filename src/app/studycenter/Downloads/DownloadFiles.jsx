@@ -1,5 +1,5 @@
 import FileDownload from "@/components/studycenterComponents/DownloadsFile/FileDownload";
-import { AttendanceReg } from "@/components/studycenterComponents/DownloadsFile/AttendanceReg";
+import { DocDownload } from "@/components/studycenterComponents/DownloadsFile/DocDownload";
 import React from "react";
 
 function DownloadFiles() {
@@ -15,10 +15,10 @@ function DownloadFiles() {
         desc="Download the attendance register for the current semester"
         icon=''
         comp={
-          <AttendanceReg
+          <DocDownload
             name="Attendance Register"
+            date={true}
             fields={[
-              "Date",
               "Subject 1",
               "Subject 2",
               "Subject 3",
@@ -34,7 +34,7 @@ function DownloadFiles() {
         title="Attendence Report"
         desc="Download the Attendence Report for the current semester"
         comp={
-          <AttendanceReg
+          <DocDownload
             name="Attendence Report"
             fields={[
               "Working  Days",
@@ -49,11 +49,11 @@ function DownloadFiles() {
         title="Internal Mark"
         desc="Download the Internal Mark for the current semester"
         comp={
-          <AttendanceReg
+          <DocDownload
             mark={[4,4,4,4,4,20]}
             name="Internal Mark"
             fields={[
-              "Attendan",
+              "Attendance",
               "Assignment",
               'Seminar',
               "Internal Exam 1",
@@ -67,7 +67,7 @@ function DownloadFiles() {
         title="Reports"
         desc="Download the Reports for the current semester"
         comp={
-          <AttendanceReg
+          <DocDownload
             mark={[25,25,25,25,100]}
             name="Reports"
             fields={[

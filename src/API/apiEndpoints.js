@@ -16,6 +16,8 @@ export const API_ENDPOINTS = {
     DELETE: "/api/studyCenters/:id",
     COURSE_OF_STUDY_CENTER: "/api/studycenter/getCoursesOfStudyCenter",
     GET_STUDYCENTER_FOR_EXCEL: "/api/studycenter/getAllStudyCenterForExcel",
+    GET_REQ_CENTER: "/api/externalApi/getNotApprovedStudyCenter",
+    UPDATE_CENTER: "/api/externalApi/updateAtcRequest",
   },
   COURSE: {
     GET_ALL: "/api/course/getAllCourses",

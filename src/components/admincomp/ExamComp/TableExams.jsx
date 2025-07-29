@@ -22,6 +22,7 @@ import {
   BookOpen,
   Users,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export function TableExams({
   data,
@@ -32,7 +33,7 @@ export function TableExams({
   onDeleteBatch,
 }) {
   const [expandedRows, setExpandedRows] = useState(new Set());
-
+  const [serchFilter, setSearchFilter] = useState("");
   // Filter exam schedules based on search
   const filteredData = data.filter((exam) => {
     const lowerSearch = search.toLowerCase();
@@ -97,6 +98,7 @@ export function TableExams({
           <TableBody>
             {filteredData.map((exam, index) => {
               const isExpanded = expandedRows.has(exam.examScheduleId);
+              const filterdExamBatches = exam.batches.filter((batch) => batch.courseName.toLowerCase().includes(serchFilter.toLowerCase()) || batch.batchMonth.toLowerCase().includes(serchFilter.toLowerCase()))
               const isLoading =
                 loading && selected?.examScheduleId === exam.examScheduleId;
 
@@ -199,16 +201,17 @@ export function TableExams({
                     <TableRow>
                       <TableCell colSpan={7} className="p-0">
                         <div className="p-4 bg-muted/20 border-t">
-                          <div className="mb-3">
-                            <h4 className="font-semibold flex items-center gap-2">
+                          <div className="mb-3 flex justify-between gap-1.5 max-sm:flex-col items-center">
+                            <h4 className="font-semibold flex  items-center gap-2">
                               <BookOpen className="h-4 w-4" />
                               Exam Batches
                             </h4>
+                            <Input  onChange={e=>setSearchFilter(e.target.value)} className='max-w-sm'placeholder="Search..."/>
                           </div>
 
                           {/* Batches Grid - Responsive */}
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {exam.batches.map((batch) => {
+                            {filterdExamBatches.map((batch) => {
                               const isBatchLoading =
                                 loading &&
                                 selected?.batchId === batch.batchId &&
@@ -228,7 +231,7 @@ export function TableExams({
                                     <CardTitle className="text-sm font-medium flex items-center justify-between">
                                       <span className="flex items-center gap-2">
                                         <BookOpen className="h-4 w-4 text-muted-foreground" />
-                                        <span className="truncate">
+                                        <span className="text-wrap">
                                           {batch.courseName}
                                         </span>
                                       </span>

@@ -57,5 +57,17 @@ export const studyCentreService = {
     );
     return response.data;
   },
+  getRequesCenter: async () => {
+    const response = await axiosInstance.get(
+      API_ENDPOINTS.STUDY_CENTERS.GET_REQ_CENTER,
+    );
+    return response.data;
+  },
+  updateRequestCenter: async () => {
+    const response = await axiosInstance.post(
+      API_ENDPOINTS.STUDY_CENTERS.UPDATE_CENTER,
+    );
+    return response.data;
+  },
 };
 

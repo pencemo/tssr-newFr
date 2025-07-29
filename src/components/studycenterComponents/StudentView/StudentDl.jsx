@@ -72,7 +72,8 @@ export function StudentDl() {
     course: "",
     batch: "",
     year: "",
-    studyCenter: ""
+    studyCenter: "",
+    studycenterId: ""
   });
 
   const handleFilterChange = (filterName, value) => {

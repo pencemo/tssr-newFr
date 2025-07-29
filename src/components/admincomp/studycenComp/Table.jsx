@@ -13,6 +13,7 @@ import { EditStudy } from "./EditStudy";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import CopyToClipbord from "@/components/ui/CopyToClipbord";
 
 export function TableComp({ data }) {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export function TableComp({ data }) {
           <TableRow key={i}>
             <TableCell className="font-medium">{i + 1}</TableCell>
             <TableCell className="font-medium">{item.name}</TableCell>
-            <TableCell>{item.atcId}</TableCell>
+            <TableCell><CopyToClipbord text={item.atcId}/></TableCell>
             <TableCell>{item.email}</TableCell>
             <TableCell>{item.phoneNumber}</TableCell>
             <TableCell className="">

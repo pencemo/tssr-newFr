@@ -44,6 +44,8 @@ import CoursesStudyCente from "./app/studycenter/Course/CoursesStudyCente";
 import RequestCourse from "./app/admin/Course/RequestCourse";
 import StudentsVerification from "./app/studycenter/viewSutdent/StudentsVerification";
 import AddNewStaff from "./app/admin/Staff/AddNewStaff";
+import PDFDesign from "./components/studycenterComponents/DownloadsFile/PDFDesign";
+import CenterRequest from "./app/admin/study centre/CenterRequest";
 
 
 function App() {
@@ -65,7 +67,7 @@ function App() {
           <Route index element={<Dashbord />} />
           <Route path="studycentre" element={<Outlet />}>
             <Route index element={<StudyCentre />} />
-            <Route path="req" element={<Dashbord />} />
+            <Route path="req" element={<CenterRequest />} />
             <Route path="add" element={<NewStudy />} />
             <Route path="edit/:id" element={<EditStudyCen />} />
           </Route>
@@ -82,6 +84,7 @@ function App() {
             <Route path="edit" element={<EditStudentForm />} />
           </Route>
           <Route path="results" element={<NoData />} />
+          <Route path="downloads" element={<DownloadFiles />} />
           <Route path="orders" element={<Outlet />}>
             <Route index element={<Orders />} />
             <Route path="products" element={<Store />} />
@@ -133,6 +136,7 @@ function App() {
           <Route path="courses" element={<CoursesStudyCente />} />
           <Route path="admission" element={<Enrollment />}/>
         </Route>
+          <Route path="pdf" element={<PDFDesign />}/>
       </Routes>
     </Router>
   );

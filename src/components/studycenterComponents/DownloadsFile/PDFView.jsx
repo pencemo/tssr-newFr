@@ -210,6 +210,17 @@ const PDFView = ({ data, head, name, mark }) => {
              })}
            </View>
             }
+             <View style={styles.tableRow}>
+             <View style={{ ...styles.tableColHeaderMark, width: "5%" }}>
+               <Text>Date</Text>
+             </View>
+             <View style={{ ...styles.tableColHeaderMark, width: "15%" }}>
+               <Text></Text>
+             </View>
+             <View style={{ ...styles.tableColHeaderMark, width: "20%" }}>
+               <Text></Text>
+             </View>
+           </View>
 
             {/* Table Rows */}
             {data?.data.map((student, index) => (

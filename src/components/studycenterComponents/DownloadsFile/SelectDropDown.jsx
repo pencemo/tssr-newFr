@@ -8,11 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCourseOfStudyCenter } from "@/hooks/tanstackHooks/useStudyCentre";
+import { useCourseOfStudyCenter, useGetStudyCenterForExcel } from "@/hooks/tanstackHooks/useStudyCentre";
+import { useAuth } from "@/Context/authContext";
 
 function SelectDropDown({ filters, setFilters , error}) {
   const { data: course } = useCourseOfStudyCenter();
   const [batchs, setBatches] = useState([]);
+  const {data: center}=useGetStudyCenterForExcel()
+  const {user}=useAuth()
 
   const handleFilterChange = (filterName, value) => {
     setFilters((prev) => ({
@@ -27,6 +30,15 @@ function SelectDropDown({ filters, setFilters , error}) {
   return (
     <div className="space-y-3">
       {/* Sort Option */}
+      {user.isAdmin && <DlFilter
+          data={center?.data || []}
+          text={"Select Center"}
+          value={filters?.studycenterId}
+          onChange={(value) => handleFilterChange("studycenterId", value)}
+          lebal={"studycenterId"}
+          error={false}
+          isObject={true}
+        />}
       <div className="w-full space-y-3 ">
         <DlFilter
           data={course ? course.data : []}
@@ -53,6 +65,7 @@ function SelectDropDown({ filters, setFilters , error}) {
           lebal={"Batch"}
           error={error && filters.batch === ""}
         />
+        
         <DlFilter
           data={oldYears}
           text={"Select Year"}
@@ -91,7 +104,7 @@ function DlFilter({
             {isObject ? (
               data.map((item, index) => (
                 <SelectItem key={index} value={item.courseId || item._id}>
-                  {item.courseName || item.month}
+                  {item.courseName || item.month || item.name }
                 </SelectItem>
               ))
             ) : (

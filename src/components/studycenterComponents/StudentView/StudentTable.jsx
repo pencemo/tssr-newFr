@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/Context/authContext";
 import { useSettings } from "@/hooks/tanstackHooks/useAuth";
+import CopyToClipbord from "@/components/ui/CopyToClipbord";
   
   
   export function StudentTable({data}) {
@@ -65,7 +66,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
               <TableCell>{item.courseName}</TableCell>
               <TableCell>{item.batchMonth}</TableCell>
               <TableCell>{item.year}</TableCell>
-              <TableCell>{item.admissionNumber}</TableCell>
+              <TableCell> <CopyToClipbord text={item.admissionNumber}/></TableCell>
               <TableCell>
                 <Button
                   variant="outline"

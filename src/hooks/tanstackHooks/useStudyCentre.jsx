@@ -40,17 +40,26 @@ return useMutation({
 });
 }
 
-// export const useLogin = () => {
-//   const queryClient= useQueryClient();
-// return useMutation({
-//   mutationFn: (data) => {
-//     return authService.login(data);
-//   },
-//   onSuccess: () => {
-//     queryClient.invalidateQueries("user");
-//   },
-// });
-// }
+export const useUpdateSutdyCenterRequest = () => {
+  const queryClient= useQueryClient();
+return useMutation({
+  mutationFn: (data) => {
+    return studyCentreService.updateRequestCenter(data);
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries("requestCentre");
+  },
+});
+}
+
+
+export const useGetRequestCenter = () => {
+  return useQuery({
+    queryKey: ["requestCentre",],
+    queryFn: () => studyCentreService.getRequesCenter(),
+    keepPreviousData: true,
+  });
+};
 
 
 export const useGetStudyCenterForExcel = () => {

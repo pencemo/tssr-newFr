@@ -36,7 +36,7 @@ export function TableList({ data, model, onEdit, button }) {
         {data.map((item, i) => (
           <TableRow key={i}>
             <TableCell className="font-medium">{i + 1}</TableCell>
-            <TableCell className="font-medium">{item.courseId.name}</TableCell>
+            <TableCell className="font-medium md:whitespace-normal md:max-w-60 break-words">{item.courseId.name}</TableCell>
             <TableCell>{item.courseId.category}</TableCell>
             <TableCell>{item.courseId.duration}</TableCell>
             <TableCell>{item.month}</TableCell>

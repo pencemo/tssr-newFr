@@ -2,8 +2,8 @@ import React from 'react'
 import { Button } from './button'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
-function Pagination(props) {
-  const { currentPage, setCurrentPage, totalPage, totalData=0 } = props
+function Pagination({currentPage, setCurrentPage, totalPage, totalData=0}) {
+  // const { currentPage, setCurrentPage, totalPage, totalData=0 } = props
   return (
 <div className='flex items-center py-4 px-3 justify-between'>
   <div>

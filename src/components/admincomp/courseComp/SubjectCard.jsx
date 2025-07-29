@@ -24,8 +24,8 @@ export default function SubjectCard({ name, code, isActive, onToggle }) {
     <Card className=" border-primary bg-primary-foreground  shadow-none transition-shadow w-full  ">
       <CardHeader className="  px-4 border-b relative">
         <div>
-          <CardTitle className="text-xl font-semibold truncate">
-            {name}
+          <CardTitle className="text-xl font-semibold capitalize">
+            {name.toLowerCase()}
           </CardTitle>
           <CardDescription className="text-xs mt-1">
             Code: <span className="font-medium text-black">{code}</span>
