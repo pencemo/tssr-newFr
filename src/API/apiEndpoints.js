@@ -115,6 +115,12 @@ export const API_ENDPOINTS = {
     UPDATE_STAFF: "/api/staff/updateStaff",
     DELETE_STAFF: "/api/staff/deleteStaff",
     GET_ALL_STAFF_FOR_DL: "/api/staff/getAllStaffForDl",
+  },
+  GALLERY: {
+    GET_ALL_POST: "/api/gallery/fetchAllGalleryPosts",
+    CREATE_POST: "/api/gallery/addGallery",
+    EDIT_POST: "/api/gallery/editGallery",
+    DELETE_POST: "/api/gallery/deleteGallery",
   }
 };
  

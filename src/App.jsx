@@ -46,6 +46,8 @@ import StudentsVerification from "./app/studycenter/viewSutdent/StudentsVerifica
 import AddNewStaff from "./app/admin/Staff/AddNewStaff";
 import PDFDesign from "./components/studycenterComponents/DownloadsFile/PDFDesign";
 import CenterRequest from "./app/admin/study centre/CenterRequest";
+import Gallery from "./app/admin/Gallery/Gallery";
+import HTverification from "./page/HTverification";
 
 
 function App() {
@@ -85,6 +87,7 @@ function App() {
           </Route>
           <Route path="results" element={<NoData />} />
           <Route path="downloads" element={<DownloadFiles />} />
+          <Route path="gallery" element={<Gallery />} />
           <Route path="orders" element={<Outlet />}>
             <Route index element={<Orders />} />
             <Route path="products" element={<Store />} />
@@ -137,6 +140,7 @@ function App() {
           <Route path="admission" element={<Enrollment />}/>
         </Route>
           <Route path="pdf" element={<PDFDesign />}/>
+          <Route path="/ht-verification/:id" element={<HTverification />}/>
       </Routes>
     </Router>
   );

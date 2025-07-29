@@ -4,6 +4,8 @@ import logo from '../../../assets/logo.svg'
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { QRCodeSVG } from "qrcode.react";
+const url = import.meta.env.VITE_APP_URL
 
 export const HallTicket = forwardRef(({studentData}, ref)=> {
   
@@ -76,13 +78,13 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
         </div>
         <div className="w-full flex flex-col items-center gap-2 col-span-2 ">
           <img className="w-32 h-40  object-cover border-2 " src={studentData?.profileImage} alt="" />
-            <img className="w-28" src="https://images.seeklogo.com/logo-png/21/1/qr-code-logo-png_seeklogo-217342.png" alt="" />
-          
+            {/* <img className="w-28" src="https://images.seeklogo.com/logo-png/21/1/qr-code-logo-png_seeklogo-217342.png" alt="" /> */}
+            <QRCodeSVG value={`${url}/ht-verification/${studentData?.registrationNo}`} size={110} />
         </div>
         </div>
 
         {/* Instructions */}
-        <div className="mb-5">
+        <div className="mb-5 mt-2">
           <h3 className="font-bold text-[17px] border-b inline-block pb-1 mb-3">
             INSTRUCTION FOR THE CANDIDATES APPEARING ON EXAMINATION
           </h3>

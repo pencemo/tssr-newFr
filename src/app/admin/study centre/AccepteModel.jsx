@@ -33,7 +33,6 @@ export function AccepteModel({isOpen, setOpen, selectedId}) {
   }
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      <form onSubmit={handleSubmit}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Set Date</DialogTitle>
@@ -51,10 +50,9 @@ export function AccepteModel({isOpen, setOpen, selectedId}) {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">{isPending ? <Loader2 className="animate-spin"/> : "Accepte"}</Button>
+            <Button onClick={handleSubmit}>{isPending ? <Loader2 className="animate-spin"/> : "Accepte"}</Button>
           </DialogFooter>
         </DialogContent>
-      </form>
     </Dialog>
   )
 }

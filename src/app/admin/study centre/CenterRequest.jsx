@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { AccepteModel } from './AccepteModel'
 import { Alert } from '@/components/ui/Alert'
 import { toast } from 'sonner'
+import NoData from '@/components/ui/noData'
 
 function CenterRequest() {
     const [isAcceptModelOpen, setIsAcceptModelOpen]=useState(false)
@@ -45,11 +46,12 @@ function CenterRequest() {
       <div>
         <h1 className='text-2xl font-bold text-gray-700'>ATC Requests</h1>
       </div>
-      <div className='border rounded-xl overflow-hidden mt-6'>
+      {data?.data.length >0 ? <div className='border rounded-xl overflow-hidden mt-6'>
         <ATCreqTable onAccept={handleAccept} onReject={handleReject}  data={data?.data || []}/>
+      </div>: <NoData/>
+      }
         <AccepteModel selectedId={selectedId} isOpen={isAcceptModelOpen} setOpen={setIsAcceptModelOpen}/>
         <Alert deleteFn={handleSubmit} isOpen={isRejectModelOpen}  setIsOpen={setIsRejectModelOpen} discription={"Are you sure you want to reject this study center request?. This action cannot be undone and delete data from database..!"}/>
-      </div>
     </div>
   )
 }

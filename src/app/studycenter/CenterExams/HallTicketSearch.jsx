@@ -13,7 +13,7 @@ function HallTicketSearch() {
 
   const getStudentData=async()=>{
     setStudentData(null)
-    mutate({registrationNo}, {
+    mutate({admissionNumber:registrationNo}, {
       onSuccess: (data)=>{
         if(data.success){
           setStudentData(data.data)

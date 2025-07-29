@@ -63,9 +63,9 @@ export const studyCentreService = {
     );
     return response.data;
   },
-  updateRequestCenter: async () => {
+  updateRequestCenter: async (data) => {
     const response = await axiosInstance.post(
-      API_ENDPOINTS.STUDY_CENTERS.UPDATE_CENTER,
+      API_ENDPOINTS.STUDY_CENTERS.UPDATE_CENTER,data
     );
     return response.data;
   },
