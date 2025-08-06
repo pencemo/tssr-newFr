@@ -109,6 +109,12 @@ const data = {
       title: "Results",
       url: "results",
       icon: CheckmarkBadge02Icon, 
+      items: [
+        {
+          title: "Add Result",
+          url: "results/upload",
+        }
+      ]
       
     },
     {

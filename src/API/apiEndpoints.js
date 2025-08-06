@@ -61,6 +61,10 @@ export const API_ENDPOINTS = {
     GET_ONE_STUDENT: "/api/students/getOneStudent",
     UPDATE_STUDENT_DATA: "/api/students/editStudentDetails",
   },
+  RESULT: {
+    GET_STUDETN_FOR_RESULT: "/api/students/getStudentDetailsForResultUploadExcel",
+    UPLOAD_RESULT: "/api/result/storeResultFromExcel",
+  },
   SETTINGS: {
     GET_SETTINGS: "/api/settings/getSettings",
     UPDATE_ACCOUNT_INFO: "/api/settings/updateAdminAndUserField",
@@ -92,6 +96,7 @@ export const API_ENDPOINTS = {
   },
   EXAM: {
     SCHEDULE_EXAM: "/api/exam/scheduleExam",
+    GET_ALL_EXAMS: "/api/exam/getAllExamSchedules",
     DELETE_SCHEDULED_EXAM: "/api/exam/deleteExamSchedule",
     GET_SCHEDULED_EXAMS: "/api/exam/getScheduledExamBatches",
     CLOSE_SCHEDULED_EXAM: "/api/exam/closeScheduledExam",

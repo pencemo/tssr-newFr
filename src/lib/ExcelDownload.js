@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
 
-export const excelDownload = (jsonData, fileName = "data") => {
+export const excelDownload = async(jsonData, fileName = "data") => {
   // Flatten nested arrays and stringify objects
   const flattenedData = jsonData.map((item) => {
     const flattenedItem = {};

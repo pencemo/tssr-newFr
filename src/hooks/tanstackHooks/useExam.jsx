@@ -65,3 +65,10 @@ export const useDlHallTicket = () => {
   });
 };
 
+export const useGetAllExams = () => {
+  return useQuery({
+    queryKey: ["all-exam"],
+    queryFn: () => examSevice.getAllExams(),
+    keepPreviousData: true,
+  });
+};

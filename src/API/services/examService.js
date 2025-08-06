@@ -26,6 +26,10 @@ export const examSevice = {
     const response = await axiosInstance.post(API_ENDPOINTS.EXAM.DOWNLOAD_HALL_TICKET, data);
     return response.data;
   },
+  getAllExams: async () => {
+    const response = await axiosInstance.get(API_ENDPOINTS.EXAM.GET_ALL_EXAMS );
+    return response.data;
+  },
   
 
 

@@ -42,6 +42,8 @@ import PDFDesign from "./components/studycenterComponents/DownloadsFile/PDFDesig
 import CenterRequest from "./app/admin/study centre/CenterRequest";
 import Gallery from "./app/admin/Gallery/Gallery";
 import HTverification from "./page/HTverification";
+import ResultPage from "./app/admin/Result/ResultPage";
+import UploadResult from "./app/admin/Result/UploadResult";
 
 
 function App() {
@@ -79,7 +81,10 @@ function App() {
             <Route path="view" element={<OneStudent />} />
             <Route path="edit" element={<EditStudentForm />} />
           </Route>
-          <Route path="results" element={<NoData />} />
+          <Route path="results" element={<Outlet />} >
+            <Route index element={<ResultPage />} />
+            <Route path="upload" element={<UploadResult />} />
+          </Route>
           <Route path="downloads" element={<DownloadFiles />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="orders" element={<Outlet />}>
