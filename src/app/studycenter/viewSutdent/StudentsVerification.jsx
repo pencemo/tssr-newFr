@@ -21,6 +21,7 @@ function StudentsVerification() {
   const [totalPage, setTotalPage] = useState(0);
   const [status, setStatus] = useState("pending");
   const [selectedIds, setSelectedIds] = useState([]);
+  const [loading, setLoading] = useState(null);
   const { mutate, isPending } = useUpdateStatusofVerification();
 
   useEffect(() => {
@@ -51,7 +52,10 @@ function StudentsVerification() {
     setSelectedIds([]);
   }, [status]);
 
-  const handleSubmit = (ids, status) => {
+  const handleSubmit = (ids, status, btn) => {
+    if(btn){
+      setLoading(btn)
+    }
     mutate(
       { pendingIds: ids, status },
       {
@@ -61,7 +65,14 @@ function StudentsVerification() {
           } else {
             toast.error(data.message);
           }
+          setLoading(null)
+           setSelectedIds([]);
         },
+        onError: (error) => {
+          toast.error(error.message);
+          setLoading(null)
+           setSelectedIds([]);
+        }
       }
     );
   };
@@ -76,19 +87,19 @@ function StudentsVerification() {
             <div className="space-x-2">
               <Button
                 size="sm"
-                onClick={() => handleSubmit(selectedIds, "approved")}
+                onClick={() => handleSubmit(selectedIds, "approved", "btn1")}
                 disabled={!selectedIds.length > 0}
                 variant="outline"
               >
-                {isPending ? <Loader2 className="animate-spin" /> : "Approve"}
+                {loading === 'btn1' ? <Loader2 className="animate-spin" /> : "Approve"}
               </Button>
               <Button
                 size="sm"
-                onClick={() => handleSubmit(selectedIds, "rejected")}
+                onClick={() => handleSubmit(selectedIds, "rejected", "btn2")}
                 disabled={!selectedIds.length > 0}
                 variant="destructive"
               >
-                {isPending ? <Loader2 className="animate-spin" /> : "Reject"}
+                {loading === "btn2" ? <Loader2 className="animate-spin" /> : "Reject"}
               </Button>
             </div>
           )}

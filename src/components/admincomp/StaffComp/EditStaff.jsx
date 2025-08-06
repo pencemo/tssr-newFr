@@ -24,11 +24,14 @@ import {
   import { toast } from "sonner";
   import { Loader2 } from "lucide-react";
   import { useNavigate } from "react-router-dom";
+import { deleteByUrl, useFirebaseUpload } from "@/hooks/useFirebaseUpload";
   
   function EditStaff({data, setEdit}) {
     const [error, setError] = useState(null);
     const [file, setFile] = useState(null);
+    const [isLoading, setLoading]=useState(false)
     const navigate = useNavigate();
+    const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
     const {mutate, isPending}=useUpdateStaff()
   
     const [staff, setStaff] = useState({
@@ -36,7 +39,7 @@ import {
       phoneNumber: "",
       email: "",
       gender: "",
-      dob: new Date(),
+      dob: "",
       age: "",
       address: {
         state: "",
@@ -47,7 +50,7 @@ import {
       department: "",
       qualification: "",
       designation: "",
-      profileImage: "zsdfsdafdf",
+      profileImage: "",
     });
 
     useEffect(() => {
@@ -131,19 +134,36 @@ import {
         department: "",
         qualification: "",
         designation: "",
-        profileImage: "zsdfsdafdf",
+        profileImage: "",
       });
       setFile(null);
       setError(null);
       setEdit(null)
     }
   
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       if (!validate()) {
         return console.log(staff);
       }
+      setLoading(true)
+
+      if (file) {
+        var { url, fullPath } = await uploadFile({
+          file,
+          path: `staff`,
+        });
   
-      mutate({data: staff, id: data._id}, {
+        if(!url){
+          setLoading(false)
+          toast.error("Failed to upload profile image.")
+          return
+        }
+        if(staff.profileImage){
+          await deleteByUrl(staff.profileImage)
+        }
+      }
+  
+      mutate({data: {...staff, profileImage: file ? url : staff.profileImage}, id: data._id}, {
         onSuccess: (data) => {
           if(data.success){
             toast.success(data.message)
@@ -153,6 +173,7 @@ import {
           }
         }
       })
+      setLoading(false)
     }
   
   
@@ -163,6 +184,8 @@ import {
   
     const districtOptions =
       states.find((s) => s.state === staff.address.state)?.districts || [];
+
+      const imgUrl = file ? URL.createObjectURL(file) : staff.profileImage;
   
     return (
       <div className="max-w-4xl mx-auto h-full">
@@ -177,9 +200,9 @@ import {
             <div className="flex items-end gap-4">
               <label htmlFor="profileImage" className="cursor-pointer">
                 <div className="size-28 border rounded-full overflow-hidden">
-                  {file ? (
+                  {file || staff.profileImage ? (
                     <img
-                      src={URL.createObjectURL(file)}
+                      src={imgUrl}
                       className="w-full h-full object-cover"
                       alt="Preview"
                     />
@@ -320,7 +343,7 @@ import {
           </CardContent> 
           <CardFooter className='justify-end gap-2'>
             <Button onClick={handleCancle} variant="outline">Cancel</Button>
-              <Button onClick={handleSubmit}>{isPending ? <Loader2 className="animate-spin"/> :"Submit Details"}</Button>
+              <Button onClick={handleSubmit}>{isPending || isLoading? <Loader2 className="animate-spin"/> :"Submit Details"}</Button>
           </CardFooter>
         </Card>
       </div>

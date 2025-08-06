@@ -81,7 +81,7 @@ function HTverification() {
                     <p>{studentData?.registrationNo}</p>
                   </div>
                   <div>
-                    <span className="font-medium">Registration:</span>
+                    <span className="font-medium">Aadhaar No:</span>
                     <p>{studentData?.adhaarNumber?.replace(/\d(?=\d{4})/g, 'X') || "-"}</p>
                   </div>
                   <div>
@@ -123,8 +123,7 @@ function HTverification() {
                   <BookOpen className="h-4 w-4 mt-1 text-muted-foreground" />
                   <div>
                     <p className="font-medium">{studentData?.courseName}</p>
-                    <p className="text-sm text-muted-foreground">Code: {studentData?.courseCode
-}</p>
+                    <p className="text-sm text-muted-foreground">Code: {studentData?.courseCode}</p>
                   </div>
                 </div>
 

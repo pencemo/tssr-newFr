@@ -16,11 +16,16 @@ import {
 import { useAllCourse } from "@/hooks/tanstackHooks/useCourse";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { Upload04Icon } from "hugeicons-react";
+import { useFirebaseUpload } from "@/hooks/useFirebaseUpload";
+import { Progress } from "@/components/ui/progress";
 
 function CreateStudy() {
   const {mutate}=useCreateSutdyCenter()
   const navigate= useNavigate()
+  const [file, setFile]=useState(null)
   const [isError, setError]=useState(false)
+  const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
   const [formData, setFormData] = useState({
     name: "",
     centerHead: "",
@@ -54,14 +59,40 @@ function CreateStudy() {
     navigate('/admin/studycentre')
   }
 
-  const handleSubmit = (e) => {
+  const handleFileUpload = (e) => {
+    const { files } = e.target;
+
+    if (files && files[0]) {
+      if (files[0].size > 1048576) {
+        toast.error("File size should be less than 1MB")
+        e.target.value = "";
+        return;
+      }
+
+      setFile(files[0]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false)
     if(!formData.name || !formData.centerHead || !formData.email || !formData.phoneNumber || !formData.state || !formData.district || !formData.place || !formData.pincode || !formData.courses.length === 0 || !formData.authEmail || !formData.password){
       setError(true)
       return
     }
-    mutate(formData, {
+
+    if(file){
+      var { url } = await uploadFile({
+        file: file,
+        path: "logo",
+      });
+
+      if(!url){
+        toast.error("Failed to upload profile image.")
+        return
+      }
+    }
+    mutate({...formData, logo: url? url : ""}, {
       onSuccess: (data) => { 
         if(data.success){
           toast("Study centre created", {
@@ -86,8 +117,40 @@ function CreateStudy() {
             Submit details of study centre
           </p>
         </div>
+        <div className="flex items-end gap-2 py-3 mt-5">
+        <div className="size-32 border rounded-full overflow-hidden">
+                <img
+                  src={file? URL.createObjectURL(file) : "/images/default.jpg"}
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+              </div>
+        <div className="flex flex-col items-start">
+                <input
+                  onChange={handleFileUpload}
+                  id="profileImage"
+                  name="profileImage"
+                  type="file"
+                  className="sr-only"
+                  accept="image/*"
+                />
+                <label
+                  htmlFor="profileImage"
+                  className={`border py-2 px-3 inline-flex gap-1 items-center rounded-md cursor-pointer text-sm font-medium  `}
+                >
+                  <Upload04Icon size={20} /> Upload Logo
+                </label>
+                <p className="text-xs text-gray-500 mt-1">
+                  Maximum file size is 1MB. Accepted: JPG, JPEG
+                </p>
+                {/* {errors.profileImage && (
+                  <p className="text-sm text-red-600 ">{errors.profileImage}</p>
+                )} */}
+              </div>
+        </div>
         <FrDtils formData={formData} setFormData={setFormData} isError={isError} />
         {isError && <p className="text-sm text-red-500">Please fill all the fields</p>}
+        {uploading && <Progress value={progress} className={'w-full bg-accent'}/>}
         <div className="flex items-center justify-end mt-6 gap-2">
         <Button onClick={handleCancel} variant='outline'>Cancel</Button>
         <Button onClick={handleSubmit}>Create Centre</Button>

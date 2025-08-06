@@ -14,16 +14,18 @@ import { useState, useEffect } from "react";
 import {  useCreateEnrollmentAndStudent } from "@/hooks/tanstackHooks/useEnrollment";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { uploadFile } from "@/lib/s3Service";
+// import { uploadFile } from "@/lib/s3Service";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
+import { useFirebaseUpload } from "@/hooks/useFirebaseUpload";
 
 const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
   
   const [student, setStudent] = useState({});
   const [isAccept, setAccept] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
+  const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
   const navigate = useNavigate();
   const { mutate } = useCreateEnrollmentAndStudent();
 
@@ -41,14 +43,23 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
     let studentWithUrls
     if(!userData._id){
       const [profileImageUrl, sslcUrl] = await Promise.all([
-        uploadFile(userData.profileImage),
-        uploadFile(userData.sslc)
+        // uploadFile(userData.profileImage),
+        // uploadFile(userData.sslc),
+        uploadFile({
+          file: userData.profileImage,
+          path: "students/profileImages",
+        }),
+        uploadFile({
+          file: userData.sslc,
+          path: "students/files",
+        })
       ]);
 
       if(!profileImageUrl || !sslcUrl) {
         toast.error("Failed to upload files. Please try again.");
         return;
       }
+      
       studentWithUrls = {
         ...student,
         profileImage: profileImageUrl.url,

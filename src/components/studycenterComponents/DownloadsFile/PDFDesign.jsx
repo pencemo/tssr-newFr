@@ -72,17 +72,10 @@ const datas = {
   year: 2025,
 };
 
-const head = [
-  "Attendan",
-  "Assignment",
-  "Seminar",
-  "Internal Exam 1",
-  "Internal Exam 2",
-  "Total Mark",
-];
 
 
-function PDFDesign({ headers=head, marks, data=datas, date=false , name }) {
+
+function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=false }) {
     
     const getStudents = () => {
         if(!data){
@@ -151,9 +144,14 @@ function PDFDesign({ headers=head, marks, data=datas, date=false , name }) {
                   key={index}
                   className={`col-span-1 ${
                     !isLast && "border-r"
-                  } border-black/70 py-2`}
+                  } border-black/70 py-2 relative flex items-center justify-center ${isLong && "h-24"}`}
                 >
-                  <h1 className="text-xs font-medium text-center">{item}</h1>
+                   {isLong ?
+                   <h1 className={`text-xs font-medium absolute bottom-1 left-2/3  origin-bottom-left rotate-[-90deg] w-20 `} >
+                    {item}
+                  </h1>:
+                  <h1 className={`text-xs font-medium text-center`}>{item}</h1>}
+                  {/* <h1 className={`text-xs font-medium text-center}`}>{item}</h1> */}
                 </div>
               );
             })}

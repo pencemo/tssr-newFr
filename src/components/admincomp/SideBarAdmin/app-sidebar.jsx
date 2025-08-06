@@ -23,7 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Book02Icon, Bookmark03Icon, FileDownloadIcon, GraduateMaleIcon, Home04Icon, Image02Icon, InformationSquareIcon, Mortarboard02Icon, NoteEditIcon, Notification03Icon, Settings02Icon, Ticket03Icon, UserAdd01Icon, UserMultipleIcon } from "hugeicons-react"
+import { Book02Icon, Bookmark03Icon, CheckmarkBadge02Icon, FileDownloadIcon, GraduateMaleIcon, Home04Icon, Image02Icon, InformationSquareIcon, Mortarboard02Icon, NoteEditIcon, Notification03Icon, Settings02Icon, Ticket03Icon, UserAdd01Icon, UserMultipleIcon } from "hugeicons-react"
 import { Link } from "react-router-dom"
 
 const data = {
@@ -105,12 +105,12 @@ const data = {
       icon: FileDownloadIcon, 
       
     },
-    // {
-    //   title: "Results",
-    //   url: "results",
-    //   icon: Bookmark03Icon,
+    {
+      title: "Results",
+      url: "results",
+      icon: CheckmarkBadge02Icon, 
       
-    // },
+    },
     {
       title: "Gallery",
       url: "gallery",

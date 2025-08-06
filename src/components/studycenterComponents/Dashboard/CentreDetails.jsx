@@ -43,6 +43,7 @@ function CentreDetails() {
         <CardHeader className="bg-prim ary border-b py-6">
           <div className="flex items-center justify-between">
             <div>
+            <img src={user?.studycenterId?.logo} className="w-20 md:w-24" alt="" />
               <CardTitle className="text-3xl font-bold text-gray-700">
                 {memberData.name}
               </CardTitle>
@@ -54,7 +55,7 @@ function CentreDetails() {
                 ID: {memberData.atcId}
               </h1>
             </div>
-            <div className="text-right">
+            <div className="text-right max-md:hidden">
               <Badge variant="secondary">Reg: {memberData.regNo}</Badge>
             </div>
           </div>

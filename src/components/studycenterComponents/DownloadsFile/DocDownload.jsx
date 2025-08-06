@@ -20,7 +20,7 @@ import { useStudentForDl } from "@/hooks/tanstackHooks/useStudents";
 import { useSettings } from "@/hooks/tanstackHooks/useAuth";
 import { excelDownload } from "@/lib/ExcelDownload";
 
-export function DocDownload({ name, fields, mark, date }) {
+export function DocDownload({ name, fields, mark, date, isLong }) {
   const contentRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [pdfData, setPdfData] = useState(null);
@@ -177,6 +177,7 @@ export function DocDownload({ name, fields, mark, date }) {
       <div className="sr-only">
         <div ref={contentRef}>
           <PDFDesign
+            isLong={isLong}
             date={date}
             marks={mark}
             headers={fields}

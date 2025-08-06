@@ -35,6 +35,7 @@ export function StudyCentre() {
   useEffect(() => {
     if (data && data.data) {
       setStudyCenters(data.data);
+      console.log(data);
     }
     if (data) {
       setTotalPage(data.totalPages);

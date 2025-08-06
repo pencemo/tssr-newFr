@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import { CreateNotification } from "@/components/admincomp/NotificationComp/CreateNotification";
 import { useNavigate } from "react-router-dom";
+import { deleteByUrl } from "@/hooks/useFirebaseUpload";
 
 function ManageNotification() {
   const { data, error, isLoading } = useGetAllNotificationsForEdit();
@@ -27,9 +28,12 @@ function ManageNotification() {
   const [deletingId, setDeletingId] = useState(null);
 
 
-const handleDeleteNotification = (id, title) => {
+const handleDeleteNotification = async (id, title) => {
   setDeletingId(id);
-
+  const imgUrl = data.data.find((item) => item._id === id)?.attachedFileUrl;
+  if (imgUrl) {
+    await deleteByUrl(imgUrl)
+  }
   mutate(
     { id },
     {

@@ -80,6 +80,88 @@ function DownloadFiles() {
           />
         }
       />
+      <FileDownload
+        title="Class Test Mark Sheet"
+        desc="Download the class test marksheet for the current semester"
+        comp={
+          <DocDownload
+            name="Class Test Mark Sheet"
+            fields={[
+              "Subject 1",
+              "Subject 2",
+              "Subject 3",
+              "Subject 4",
+              "Subject 5",
+              "Subject 6",
+              "Total",
+            ]}
+          />
+        }
+      />
+      <FileDownload
+        title="Commision Mark Sheet (PPTTC/MTTC)"
+        desc="Download the commision mark sheet for the current semester"
+        comp={
+          <DocDownload
+            name="Commision Mark Sheet"
+            mark={[100,100,100,100,400]}
+            fields={[
+              "Teaching",
+              "Commision & Viva",
+              "Reports",
+              "Craft",
+              "Total",
+            ]}
+          />
+        }
+      />
+      <FileDownload
+        title="Craft & practical work (PPTTC/MTTC)"
+        desc="Download the craft & practical work for the current semester"
+        comp={
+          <DocDownload
+            name="Craft & practical work"
+            isLong={true}
+            mark={[10,10,10,10,5,10,5,5,5,5,5,5,5,10,100]}
+            fields={[
+              "Teaching Rec",
+              "Assaignment",
+              "Seminar",
+              "Chart",
+              "Flash Card",
+              "Waste Material Work",
+              "Collection",
+              "Natural/ Scrap Album",
+              "Wall Friezez",
+              "Picture Album",
+              "Cutout",
+              "Records",
+              "LOTTO",
+              "Number Weel",
+              "Total",
+            ]}
+          />
+        }
+      />
+      <FileDownload
+        title="Teaching Practice Mark Sheet (PPTTC/MTTC)"
+        desc="Download the teaching practice mark sheet for the current semester"
+        comp={
+          <DocDownload
+            name="Teaching Practice Mark Sheet"
+            mark={[10,50,20,10,10,100]}
+            fields={[
+              "Introduction",
+              "Presentation",
+              "Teaching Aids",
+              "Language Clarity",
+              "Extra Curricular",
+              "Total"
+              
+            ]}
+          />
+        }
+      />
     </div>
     </div>
   );

@@ -23,6 +23,7 @@ export const useCreateStaff = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
+      // console.log(data);
       return staffService.createStaff(data);
     },
     onSuccess: () => {

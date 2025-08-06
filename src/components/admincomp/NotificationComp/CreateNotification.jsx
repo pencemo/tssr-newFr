@@ -24,6 +24,7 @@ export function CreateNotification() {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const { mutate, isPending } = useCreateNotifications();
+  const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
   const [isLoading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -61,17 +62,22 @@ export function CreateNotification() {
     }
     let fileUrl;
     if (file) {
-      fileUrl = await uploadFile(file);
-      if (!fileUrl) {
-        setError("Error uploading file");
-        return;
+      let { url } = await uploadFile({
+        file: file,
+        path: "files",
+      });
+      fileUrl = url
+
+      if(!url){
+        toast.error("Failed to upload File.")
+        return
       }
     }
 
     const data = {
       ...formData,
       category,
-      ...(fileUrl?.url && { attachedFileUrl: fileUrl.url }),
+      ...(fileUrl && { attachedFileUrl: fileUrl }),
       ...(selected?.length > 0 && { receiverId: selected }),
     };
 
@@ -185,9 +191,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCreateNotifications } from "@/hooks/tanstackHooks/useNotifications";
-import { uploadFile } from "@/lib/s3Service";
+// import { uploadFile } from "@/lib/s3Service";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useFirebaseUpload } from "@/hooks/useFirebaseUpload";
 
 const categorys = [
   "Exam Schedule",

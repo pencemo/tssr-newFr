@@ -24,13 +24,16 @@ import { useCreateStaff } from "@/hooks/tanstackHooks/useStaffs";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useFirebaseUpload } from "@/hooks/useFirebaseUpload";
+import { Progress } from "@/components/ui/progress";
 
 function AddNewStaff() {
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
+  const [isLoading, setLoading]=useState(false)
   const navigate = useNavigate();
   const {mutate, isPending}=useCreateStaff()
-
+  const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
   const [staff, setStaff] = useState({
     name: "",
     phoneNumber: "",
@@ -47,7 +50,7 @@ function AddNewStaff() {
     department: "",
     qualification: "",
     designation: "",
-    profileImage: "zsdfsdafdf",
+    profileImage: "",
   });
 
   const validate = () => {
@@ -70,8 +73,8 @@ function AddNewStaff() {
     if (!staff.qualification)
       newErrors = "Qualification is required.";
     if (!staff.department) newErrors = "Department is required.";
-    if (!staff.profileImage)
-      newErrors = "Profile image is required.";
+    // if (!staff.profileImage)
+    //   newErrors = "Profile image is required.";
 
     setError(newErrors);
     return newErrors === "";
@@ -134,12 +137,28 @@ function AddNewStaff() {
     navigate(-1)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) {
       return console.log(staff);
     }
+    setLoading(true)
 
-    mutate({data: [staff]}, {
+    if (file) {
+      var { url, fullPath } = await uploadFile({
+        file,
+        path: `staff`,
+      });
+
+      if(!url){
+        setLoading(false)
+        toast.error("Failed to upload profile image.")
+        return
+      }
+    }
+
+
+
+    mutate({data: [{...staff, profileImage: url}]}, {
       onSuccess: (data) => {
         if(data.success){
           toast.success("Staff added successfully.")
@@ -147,8 +166,14 @@ function AddNewStaff() {
         }else{
           toast.error(data.message)
         }
+        setLoading(false)
+      },
+      onError: (err) => {
+        setLoading(false)
+        toast.error("Failed to add staff.")
       }
     })
+    setLoading(false)
   }
 
 
@@ -312,11 +337,16 @@ function AddNewStaff() {
           {/* Submit Button */}
           <div className="">
             {error && <p className="text-red-500 text-sm">{error}</p>}
+            {uploading && 
+            <>
+            <p className="text-xs mb-1 text-muted-foreground">Image Uploading</p>
+            <Progress value={progress} className="w-full " />
+            </>}
           </div>
         </CardContent> 
         <CardFooter className='justify-end gap-2'>
           <Button onClick={handleCancle} variant="outline">Cancel</Button>
-            <Button onClick={handleSubmit}>{isPending ? <Loader2 className="animate-spin"/> :"Submit Details"}</Button>
+            <Button onClick={handleSubmit}>{isLoading || isPending ? <Loader2 className="animate-spin"/> :"Submit Details"}</Button>
         </CardFooter>
       </Card>
     </div>

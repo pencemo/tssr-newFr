@@ -17,6 +17,8 @@ import { useEditStudentData, useOneStudent } from "@/hooks/tanstackHooks/useStud
 import { toast } from "sonner";
 import Loader from "@/components/ui/loader";
 import { Loader2Icon } from "lucide-react";
+import { deleteByUrl, useFirebaseUpload } from "@/hooks/useFirebaseUpload";
+import { Progress } from "@/components/ui/progress";
 
 export function EditStudentForm( ) {
     const [selectedState, setSelectedState] = useState("");
@@ -25,9 +27,13 @@ export function EditStudentForm( ) {
     const [searchParams ] = useSearchParams();
     const paramsId = searchParams.get('id');
     const isEnrolled = searchParams.get('isEnroll');
+    const [profileImg, setProfileImg] = useState(null);
+    const [onLoading, setOnLoading] = useState(false);
+    const [sslc, setSslc] = useState(null);
     const { data, error, isLoading } = useOneStudent(paramsId, isEnrolled);
     const { mutate , isPending} = useEditStudentData()
-    console.log(selectedState);
+    const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
+    
     const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -56,7 +62,7 @@ export function EditStudentForm( ) {
     }));
   };
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = (e, setFile) => {
     const { name, files } = e.target;
 
     if (files && files[0]) {
@@ -69,10 +75,7 @@ export function EditStudentForm( ) {
         return;
       }
 
-      setFormData((prev) => ({
-        ...prev,
-        [name]: files[0],
-      }));
+      setFile(files[0]);
     }
   };
 
@@ -166,30 +169,67 @@ export function EditStudentForm( ) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
+    setOnLoading(true)
 
-      // setUserData(formData);
+
+    if(profileImg){
+      var { url:profileImgUrl, fullPath } = await uploadFile({
+        file: profileImg,
+        path: "students/profileImages",
+      });
+
+      if(!profileImgUrl){
+        toast.error("Failed to upload profile image.")
+        setOnLoading(false)
+        return
+      }
+    }
+
+    if(sslc){
+      var { url:sslcUrl, fullPath } = await uploadFile({
+        file: sslc,
+        path: "students/files",
+      });
+
+      if(!sslcUrl){
+        setOnLoading(false)
+        toast.error("Failed to upload SSLC file.")
+        return
+      }
+    }
+
+    
+
+    const editData = {
+      ...formData,
+      profileImage: profileImgUrl || formData.profileImage,
+      sslc: sslcUrl || formData.sslc,
+      id : data.data._id, isEnrolled, approvalId: paramsId
+    }
       mutate(
-        { ...formData, id : data.data._id, isEnrolled, approvalId: paramsId },
+        editData,
         {
           onSuccess: (res) => {
             if (res.success) {
                 toast.success("Student data updated successfully");
-                 navigate(-1);
+                navigate(-1);
             } else {
               toast.error("Something went wrong");
             }
+            setOnLoading(false)
           },
           onError: (err) => {
             toast.error(err.message);
+            setOnLoading(false)
           },
         }
       );
   };
 
   const handleBackToVerification = () => {
-    
+    setOnLoading(false)
       setErrors({});
       navigate(-1);
   };
@@ -197,12 +237,7 @@ export function EditStudentForm( ) {
   const districtOptions =
     states.find((s) => s.state === selectedState)?.districts || [];
 
-  const image = formData.profileImage
-    ? typeof formData.profileImage === "string"
-      ? formData.profileImage
-      : URL.createObjectURL(formData.profileImage)
-        : "https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg";
-    
+  const prImg = profileImg ? URL.createObjectURL(profileImg) : formData.profileImage ? formData.profileImage :"https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg";
     
     if (isLoading) {
         return (
@@ -229,14 +264,14 @@ export function EditStudentForm( ) {
             <div className="col-span-full flex items-end gap-2 mb-5">
               <div className="size-32 border rounded-full overflow-hidden">
                 <img
-                  src={image}
+                  src={prImg}
                   className="w-full h-full object-cover"
                   alt=""
                 />
               </div>
               <div className="flex flex-col items-start">
                 <input
-                  onChange={handleFileUpload}
+                  onChange={(e)=>handleFileUpload(e, setProfileImg)}
                   id="profileImage"
                   name="profileImage"
                   type="file"
@@ -437,18 +472,7 @@ export function EditStudentForm( ) {
                   errors.sslc && formData.sslc == null ? "border-red-500" : ""
                 } w-full py-7 border flex flex-col gapy-2 cursor-pointer hover:border-primary transition-all duration-200 hover:bg-primary-foreground items-center justify-center border-dashed border-gray-300 p-4 rounded-xl`}
               >
-                {formData.sslc ? (
-                  typeof formData.sslc === "string" ? (
-                    <h1 className="text-sm font-medium">
-                      {formData.sslc.split("/").pop()}
-                    </h1>
-                  ) : (
-                    <h1 className="text-sm font-medium">
-                      {formData.sslc.name}
-                    </h1>
-                  )
-                ) : (
-                  <>
+                <>
                     <CloudUploadIcon strokeWidth={1} />
                     <h1 className="text-sm font-medium text-gray-600">
                       Upload SSLC Certificate
@@ -456,20 +480,24 @@ export function EditStudentForm( ) {
                     <p className="text-xs text-gray-500">
                       Maximum file size is 1MB. Accepted file types: JPG, PDF
                     </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                    {sslc ? sslc?.name : formData.sslc? <a target="_blank" href={formData.sslc}>View sslc file</a> : ""}
+                    </p>
+                    
                     {errors.sslc && (
                       <p className="text-xs text-red-500">{errors.sslc}</p>
                     )}
                   </>
-                )}
               </label>
               <input
-                onChange={handleFileUpload}
+                onChange={(e)=>handleFileUpload(e, setSslc)}
                 type="file"
                 id="sslc"
                 name="sslc"
                 className="sr-only"
               />
             </div>
+            {uploading && <Progress className='w-full col-span-full bg-accent h-1' value={progress}/>}
           </div>
         </div>
 
@@ -490,7 +518,7 @@ export function EditStudentForm( ) {
             className="w-full sm:w-auto"
             disabled={isPending}
           >
-            {isPending ? <Loader2Icon className="animate-spin "/> : "Submit Enrollment"}
+            {isPending || onLoading ? <Loader2Icon className="animate-spin "/> : "Submit Enrollment"}
           </Button>
                   </div>
         </div>

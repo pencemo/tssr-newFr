@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { uploadFile } from "@/lib/s3Service";
+// import { uploadFile } from "@/lib/s3Service";
 import { toast } from "sonner";
+import { useFirebaseUpload } from "@/hooks/useFirebaseUpload";
+import { Progress } from "@/components/ui/progress";
 
 export function FileUploadDialog({
   student,
@@ -23,6 +25,7 @@ export function FileUploadDialog({
   setRow,
 }) {
   const [profileImage, setProfileImage] = useState(null);
+  const { uploadFile, progress,uploading: isUploading, error: uploadError } = useFirebaseUpload();
   const [sslcFile, setSslcFile] = useState(null);
   const [uploadErrors, setUploadErrors] = useState({
     profileImage: "",
@@ -54,21 +57,29 @@ export function FileUploadDialog({
 
     try {
       const [profileResult, sslcResult] = await Promise.all([
-        uploadFile(profileImage),
-        uploadFile(sslcFile),
+        // uploadFile(profileImage),
+        // uploadFile(sslcFile),
+        uploadFile({
+          file: profileImage,
+          path: "students/profileImages",
+        }),
+        uploadFile({
+          file: sslcFile,
+          path: "students/files",
+        })
       ]);
 
-      if (profileResult.status === "failed" || sslcResult.status === "failed") {
-        if (profileResult.status === "failed") {
+      if (profileResult.url === "" || sslcResult.url === "") {
+        if (profileResult.url === "") {
           setUploadErrors((prev) => ({
             ...prev,
-            profileImage: `Failed: ${profileResult.error}`,
+            profileImage: `Failed: Uploading Profile Image`,
           }));
         }
-        if (sslcResult.status === "failed") {
+        if (sslcResult.url === "") {
           setUploadErrors((prev) => ({
             ...prev,
-            sslcFile: `Failed: ${sslcResult.error}`,
+            sslcFile: `Failed: Uploading SSLC File`,
           }));
         }
         toast.warning("One or more files couldn't be uploaded.");
@@ -168,6 +179,7 @@ export function FileUploadDialog({
 
           {/* General form error */}
           {formError && <p className="text-sm text-red-600">{formError}</p>}
+          {isUploading&&<Progress value={progress} className="w-full" />}
         </div>
 
         <DialogFooter>

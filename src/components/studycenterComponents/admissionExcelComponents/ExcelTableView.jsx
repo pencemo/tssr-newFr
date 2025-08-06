@@ -48,6 +48,7 @@ const allValid = newStudents.every(
   (student) => student?.profileImage && student?.sslc
 );
 
+
     if (!allValid) {
       toast.warning(
         "Please upload profile image and SSLC file for all students."

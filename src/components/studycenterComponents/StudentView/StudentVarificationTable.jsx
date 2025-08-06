@@ -84,9 +84,8 @@ export function StudentVarificationTable({
                 <AvatarImage
                   className="object-cover"
                   src={
-                    item.profileImage
-                      ? item?.studentId?.profileImage
-                      : "https://github.com/shadcn.png"
+                    // item.profileImage
+                    item?.studentId?.profileImage
                   }
                   alt="@shadcn"
                 />

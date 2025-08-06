@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { CheckmarkSquare01Icon } from 'hugeicons-react'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { CheckmarkSquare01Icon, FileValidationIcon } from 'hugeicons-react'
 import React from 'react'
 
 function FileDownload({title, desc, comp}) {
@@ -10,16 +10,16 @@ function FileDownload({title, desc, comp}) {
             <CardHeader className='relative'>
 
                 <CardTitle>{title}</CardTitle>
-                <CardDescription className='max-w-'>{desc}</CardDescription>
-                <div className='absolute right-6 text-muted-foreground'>
-                    <CheckmarkSquare01Icon/>
-                </div>
+                <CardDescription className=' '>{desc}</CardDescription>
+                <CardAction>
+                    <FileValidationIcon className='text-muted-foreground' size={20}/>
+                </CardAction>
             </CardHeader>
             <CardContent>
                 
             </CardContent>
             <CardFooter>
-                {/* <FileDlPopup/> */}
+                {/* <FileDlPopup/> */} 
                 {comp}
             </CardFooter>
         </Card>

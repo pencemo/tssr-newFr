@@ -3,7 +3,8 @@ import ImageCard from '@/components/admincomp/GalleryComp/ImageCard'
 import { Alert } from '@/components/ui/Alert'
 import Loader from '@/components/ui/loader'
 import { useAllGalleryPost, useCreatePost, useDeletePost, useUpdatePost } from '@/hooks/tanstackHooks/useGallery'
-import React, { useState } from 'react'
+import { deleteByUrl } from '@/hooks/useFirebaseUpload'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 function Gallery() {
@@ -17,7 +18,7 @@ function Gallery() {
     const {mutate:updatePost}=useUpdatePost()
     const {mutate:deletePost}=useDeletePost()
     const [formData, setFormData] = useState({
-        image: "https://firebasestorage.googleapis.com/v0/b/tssr-79f4a.appspot.com/o/gallery%2F1748765638014?alt=media&token=8a1817e5-d012-447f-909b-52b97ffdac1a",
+        image: "",
         title: "",
         description: "",
     })
@@ -28,13 +29,24 @@ function Gallery() {
         setFormData(data)
     } 
 
+    useEffect(()=>{
+        if(!isOpen){
+            setEdit(false)
+        }
+    }, [isOpen]) 
+
     const handleDeleteOpen=(id)=>{
         setDelete(true)
         setDeleteId(id)
     }
 
-    const handleDelete=()=>{
+    const handleDelete= async()=>{
         const data = {id: deleteId}
+        const imgUrl = galleryPost.posts.find((item)=>item._id == deleteId)?.image
+        if(imgUrl){
+          await deleteByUrl(imgUrl)
+          console.log(imgUrl);
+        }
         deletePost(data, {
             onSuccess:(data)=>{
                 if(data.success){
@@ -42,6 +54,7 @@ function Gallery() {
                 }else{
                    toast.error(data.message) 
                 }
+                setDeleteId(null)
             }
         })
     }
