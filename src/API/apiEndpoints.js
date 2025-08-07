@@ -64,6 +64,8 @@ export const API_ENDPOINTS = {
   RESULT: {
     GET_STUDETN_FOR_RESULT: "/api/students/getStudentDetailsForResultUploadExcel",
     UPLOAD_RESULT: "/api/result/storeResultFromExcel",
+    GET_ALL_RESULT: "/api/result/getAllResults",
+    DELETE_RESULT: "/api/result/deleteResult",
   },
   SETTINGS: {
     GET_SETTINGS: "/api/settings/getSettings",

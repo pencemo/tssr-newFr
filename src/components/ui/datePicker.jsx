@@ -101,6 +101,7 @@ export function DatePicker({date, setDate, length = 25, year = new Date().getFul
           onSelect={setDate}
           initialFocus
           month={calendarDate}
+          // timeZone="IST"
           onMonthChange={setCalendarDate}
           captionLayout="dropdown"
         />

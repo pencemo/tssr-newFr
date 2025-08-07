@@ -2,13 +2,14 @@ import { Button } from '@/components/ui/button'
 import { useUploadResult } from '@/hooks/tanstackHooks/useResult'
 import { excelToJson } from '@/lib/excelToJson'
 import { Upload02Icon } from 'hugeicons-react'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
 function Upload() {
     const [excel, setExcel] = useState(null)
     const {mutate, isPending}=useUploadResult()
+    const inputRef = useRef(null)
 
     const fixedKeys = [
         "admissionNumber",
@@ -21,6 +22,13 @@ function Upload() {
         "grade",
         "remark",
       ];
+
+      const handleCancel = () => {
+        setExcel(null)
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
+    }
 
     const handleUpload = async () => {
         if(!excel){
@@ -50,7 +58,7 @@ function Upload() {
             onSuccess: (data) => {
                 if(data.success){
                     toast.success('Data uploaded successfully')
-                    setExcel(null)
+                    handleCancel()
                 }else{
                     toast.error(data.message)
                 }
@@ -60,10 +68,12 @@ function Upload() {
             }
         })
     }
+
+    
   return (
     <div className='w-full'>
         <div>
-            <input  onChange={(e)=>setExcel(e.target.files[0])} accept='.csv, .xlsx' type="file" className='sr-only' id="excelUpload" />
+            <input ref={inputRef}  onChange={(e)=>setExcel(e.target.files[0])} accept='.csv, .xlsx' type="file" className='sr-only' id="excelUpload" />
             <label htmlFor="excelUpload" className='w-full text-center flex flex-col items-center justify-center px-2 py-10 border border-dashed rounded-2xl hover:border-primary hover:bg-primary-foreground/50 cursor-pointer transition-all duration-300'>
                 <Upload02Icon className='text-primary'/>
                 <span className=' mt-2 text-sm text-muted-foreground'>Upload Excel file</span>
@@ -71,7 +81,7 @@ function Upload() {
             </label>
         </div>
         <div className='mt-3 flex justify-end gap-2'>
-            <Button onClick={()=>setExcel(null)} size="sm" variant='outline' >Cancel</Button>
+            <Button onClick={handleCancel} size="sm" variant='outline' >Cancel</Button>
             <Button onClick={handleUpload} size="sm" variant='' >
                 {isPending?'Uploading...':'Upload result'}
             </Button>
