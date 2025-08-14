@@ -14,6 +14,10 @@ export const resultService = {
     const response = await axiosInstance.post(API_ENDPOINTS.RESULT.DELETE_RESULT, data );
     return response.data;
   },
+  checkResult: async (data) => {
+    const response = await axiosInstance.post(API_ENDPOINTS.RESULT.RESULT_CHECK, data );
+    return response.data;
+  },
   getAllResult: async (search, page, limit) => {
     const response = await axiosInstance.get(API_ENDPOINTS.RESULT.GET_ALL_RESULT, 
       {

@@ -14,9 +14,12 @@ function CenterExams() {
 
   return (
     <div>
-      <div className="flex items-center justify-between pb-6 border-b mb-5">
+      <div className="flex items-center max-md:flex-col gap-2 justify-between pb-6 border-b mb-5">
         <h1 className="text-2xl font-bold ">Scheduled Exams</h1>
-        <Button onClick={()=>navigete('/studycenter/examination/hallticket')}>Hall Ticket</Button>
+        <div className="space-x-2">
+        <Button onClick={()=>navigete('/studycenter/examination/hallticket')} variant='outline'>Hall Ticket</Button>
+        <Button onClick={()=>navigete('/studycenter/examination/marklist')}>Mark List</Button>
+        </div>
       </div>
       {data?.data.length ? (
         <AllExams data={data?.data} />

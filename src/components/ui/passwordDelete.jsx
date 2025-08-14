@@ -33,7 +33,7 @@ export function PasswordDelete({isOpen, setIsOpen, deleteFn, error, loading}) {
           </DialogHeader>
           <div className="space-y-4">
               <Label htmlFor="password">Enter Password</Label>
-              <Input id="password" placeholder="Password" type='password' onChange={(e)=> setPassword(e.target.value)} />
+              <Input autoComplete="off" defaultValue="" id="password" placeholder="Password" type='password' onChange={(e)=> setPassword(e.target.value)} />
               {error&&<p className="text-red-500 text-sm">{error}</p>}
           </div>
           <DialogFooter>

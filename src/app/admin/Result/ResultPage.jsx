@@ -81,7 +81,7 @@ function ResultPage() {
 
   return (
     <div>
-      <div className='flex justify-between items-center mb-4'>
+      <div className='flex justify-between items-center mb-4 pb-4 border-b'>
         <h1 className='text-xl font-semibold'>Result Of Examination</h1>
         <Button onClick={()=>navigate('upload')}>Add Result</Button>
       </div>
@@ -98,7 +98,7 @@ function ResultPage() {
             className="max-w-sm max-sm:max-w-full"
           />
           <div className='space-x-2'>
-          <Button variant='outline' onClick={()=>setSelectedModelOpen(true)}>Delete Selected</Button>
+          <Button variant='outline' disabled={!selectedRow.length} onClick={()=>setSelectedModelOpen(true)}>Delete Selected</Button>
           <Button variant='destructive' onClick={()=>setIsModalOpen(true)}>Delete All</Button>
         </div>
         </div>

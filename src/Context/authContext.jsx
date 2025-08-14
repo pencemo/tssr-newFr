@@ -14,18 +14,12 @@ function AuthContext({children}) {
     const {data: notificationsData}=useAllNotifications()
 
     useEffect(()=>{
-        const getUser = async () => {
-            if(data){
-                if(data.success){
-                    setUser(data.data)
-                    setLoading(false)
-                }else{
-                    setLoading(false)
-                }
+        if(data){
+            if(data.success){
+                setUser(data.data)
             }
+            setLoading(false)
         }
-        
-        getUser()
     }, [data])
 
     function requestNotificationPermission() {
@@ -68,10 +62,13 @@ function AuthContext({children}) {
 
     }, [notificationsData])
 
-
+    const value = React.useMemo(
+        () => ({ user, setUser, loading, notificationCount, setNotificationCount }),
+        [user, loading, notificationCount]
+      );
 
   return (
-    <AuthContexP.Provider value={{user, setUser, loading, notificationCount, setNotificationCount}} >
+    <AuthContexP.Provider value={value} >
         {children}
     </AuthContexP.Provider>
   )

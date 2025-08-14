@@ -10,7 +10,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 
 export function ResultTable({ data, setSelectedIds, selectedIds }) {
-  console.log(data);
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]

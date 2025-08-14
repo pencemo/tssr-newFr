@@ -5,6 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { QRCodeSVG } from "qrcode.react";
+import sealimg from '../../../assets/sealpng.png'
 const url = import.meta.env.VITE_APP_URL
 
 export const HallTicket = forwardRef(({studentData}, ref)=> {
@@ -22,10 +23,10 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
         {/* Main Title */}
         <div className="border-b-2 border-black mb-6 pb-3 relative">
           <h2 className="text- font-medium text-center">
-            Office of the TSSR Council Central Board of Examination
+          Central Board Of Examination - TSSR COUNCIL
           </h2>
           <h2 className="text-xl font-bold uppercase text-center">
-            Hall Ticket for the Examination
+            Hall Ticket 
           </h2>
           
         </div>
@@ -136,11 +137,11 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
         </div>
 
         {/* Signatures */}
-        <div className="flex justify-between mt-10 text-sm text-muted-foreground">
+        <div className="flex justify-between mt-10 text-sm text-muted-foreg round">
             <p>Student Signature</p>
             <p>Principal Signature</p>
-            <img className="absolute  right-0 bottom-16  size-32 -rotate-45  mix-blend-multiply" src="https://t3.ftcdn.net/jpg/02/13/36/08/360_F_213360849_ZGrvvcEdAa3ak8taibQXCFMpFHdq2kER.jpg"  alt="" />
-            <div className="relative  ">
+            <img className="absolute  right-0 bottom-16  size-24 -rotate-45  mix-blend-multiply" src={sealimg}  alt="" />
+            <div className="relativ e  ">
             <p>TSST Council</p>
             </div>
         </div>
@@ -170,7 +171,7 @@ export default function HallTicketPDF({studentData}) {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     contentRef: componentRef,
-    documentTitle: `Student_Certificate`,
+    documentTitle: `Hall_Ticket`,
     pageStyle: `
       @page {
         size: A4;

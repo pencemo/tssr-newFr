@@ -48,6 +48,10 @@ export const useDeleteResults = () => {
   });
 }
 
-
-
-
+export const useResultCheck = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return resultService.checkResult(data);
+    }
+  });
+};

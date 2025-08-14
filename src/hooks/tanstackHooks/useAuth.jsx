@@ -8,6 +8,7 @@ export const useGetUser = () => {
     queryKey: ["user"],
     queryFn: () => authService.getUser(),
     keepPreviousData: true,
+    refetchOnMount: false,
   });
 };
 
@@ -15,7 +16,8 @@ export const useSettings = () => {
   return useQuery({
     queryKey: ["settings"],
     queryFn: () => settingsService.getSettings(),
-    refetchOnWindowFocus:true
+    refetchOnWindowFocus:true,
+    refetchOnMount: false,
   });
 };
 

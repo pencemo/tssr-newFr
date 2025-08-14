@@ -66,6 +66,7 @@ export const API_ENDPOINTS = {
     UPLOAD_RESULT: "/api/result/storeResultFromExcel",
     GET_ALL_RESULT: "/api/result/getAllResults",
     DELETE_RESULT: "/api/result/deleteResult",
+    RESULT_CHECK: "/api/result/fetchResult",
   },
   SETTINGS: {
     GET_SETTINGS: "/api/settings/getSettings",

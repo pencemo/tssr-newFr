@@ -3,12 +3,17 @@ import CourseSelectionComp from "@/components/studycenterComponents/admissionCom
 import { EnrollmentFormUI } from "@/components/studycenterComponents/admissionComponents/EnrollmentFormUI";
 import ExcelUpload from "@/components/studycenterComponents/admissionExcelComponents/ExcelUpload";
 import OpenBatches from "@/components/studycenterComponents/admissionExcelComponents/OpenBatches";
+import NotAccess from "@/components/ui/NotAccess";
+import { useSettings } from "@/hooks/tanstackHooks/useAuth";
 import React, {  useState } from "react";
 
 function Enrollment() {
   const [course, setCourse] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [mode, setMode]   = useState("start"); 
+  const [mode, setMode]   = useState("start");
+  const {data}=useSettings()
+
+  console.log(data);
 
 const renderStep = () => {
   switch (mode) {
@@ -68,6 +73,10 @@ const renderStep = () => {
       return null;
   }
 };
+
+if(!data?.data?.admissionPermission){
+  return <NotAccess/>
+}
 
 return <div className="w-full h-full">{renderStep()}</div>;
 }

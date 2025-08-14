@@ -10,7 +10,7 @@ import { useAuth } from '@/Context/authContext';
 function DashbordStudy() {
   const {data, error, isError, isLoading}=useDashboardDataOfCenter()
   const {user}=useAuth()
-  console.log(user);
+  
   if(error || isError) return <div>Error</div>
   if(isLoading) return <div className='w-full h-full'><Loader/></div>
   return (

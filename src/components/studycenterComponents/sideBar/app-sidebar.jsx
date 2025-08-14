@@ -54,34 +54,28 @@ const data = {
       title: "Admission",
       url: "/studycenter/admission",
       icon: UserAdd01Icon,
-      // items: [
-      //   {
-      //     title: "Admission (Excel)",
-      //     url: "/studycenter/admission/excel",
-      //   },
-      // ],
     },
 
     {
       title: "Examination",
       url: "examination",
       icon: PenTool03Icon,
+      items:[
+        {
+          title: "Hall Ticket",
+          url: "/studycenter/examination/hallticket",
+        },
+        {
+          title: "Mark List",
+          url: "/studycenter/examination/marklist",
+        },
+      ]
     },
     {
       title: "Courses",
       url: "courses",
       icon: Award04Icon,
     }, 
-    // {
-    //   title: "Results",
-    //   url: "results",
-    //   icon: Bookmark03Icon,
-    // },
-    // {
-    //   title: "Marksheet",
-    //   url: "marksheet",
-    //   icon: AlignBoxBottomRightIcon,
-    // },
     {
       title: "Downloads",
       url: "downloads",
