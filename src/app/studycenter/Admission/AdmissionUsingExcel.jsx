@@ -5,7 +5,6 @@ import React, { use, useState } from 'react'
 const AdmissionUsingExcel = () => {
   const [step, setStep] = useState(1);
   const [course, setCourse] = useState(null)
-  console.log(course);
   return (
     <div>
       {step === 1 && <OpenBatches setStep={setStep} setCourse={setCourse} />}

@@ -139,7 +139,7 @@ function AddNewStaff() {
 
   const handleSubmit = async () => {
     if (!validate()) {
-      return console.log(staff);
+      return 
     }
     setLoading(true)
 

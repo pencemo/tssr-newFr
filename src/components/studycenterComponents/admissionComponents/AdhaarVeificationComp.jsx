@@ -42,7 +42,6 @@ const AdhaarVeificationComp = ({
               setError("Invalid response from server.")
               return;
             }
-            console.log(res);
             const { studentExists, enrolled, student } = data;
 
             if (studentExists && enrolled) {

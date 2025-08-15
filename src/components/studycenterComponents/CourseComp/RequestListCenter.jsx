@@ -22,7 +22,6 @@ function RequestListCenter() {
         <Loader />
       </div>
     );
-  console.log(data);
   return (
     <div className="mt-5">
       {data.data.length > 0 ? (

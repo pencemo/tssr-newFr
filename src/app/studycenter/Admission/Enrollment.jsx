@@ -13,7 +13,6 @@ function Enrollment() {
   const [mode, setMode]   = useState("start");
   const {data}=useSettings()
 
-  console.log(data);
 
 const renderStep = () => {
   switch (mode) {

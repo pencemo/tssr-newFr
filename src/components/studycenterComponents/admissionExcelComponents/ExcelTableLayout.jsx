@@ -21,9 +21,7 @@ export function ExcelTableLayout({
   onEditClick,
   isError = false,
 }) {
-  if(isError){
-    console.log(students);
-  }
+
   return (
     <div
       className={`bg-white rounded-2xl shadow border ${

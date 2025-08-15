@@ -23,7 +23,6 @@ function OneStudent() {
   if(error) return <div>Error</div>
   
   const student = data?.data
-console.log(data);
   const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
     if(typeof isCompleted === "string"){
       return (

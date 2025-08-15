@@ -27,7 +27,6 @@ function HTverification() {
     useEffect(()=>{
       mutate({admissionNumber:id}, {
         onSuccess: (data) => {
-          console.log(data);
           if(data.success){
             setData(data.data)
             toast.success("Hall Ticket verified successfully")

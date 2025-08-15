@@ -45,7 +45,6 @@ function Gallery() {
         const imgUrl = galleryPost.posts.find((item)=>item._id == deleteId)?.image
         if(imgUrl){
           await deleteByUrl(imgUrl)
-          console.log(imgUrl);
         }
         deletePost(data, {
             onSuccess:(data)=>{

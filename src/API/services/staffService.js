@@ -31,7 +31,6 @@ export const staffService = {
   },
 
   updateStaff: async (staffId, data) => {
-    console.log(staffId, data);
     const response = await axiosInstance.post(
       API_ENDPOINTS.STAFF.UPDATE_STAFF,
       data,

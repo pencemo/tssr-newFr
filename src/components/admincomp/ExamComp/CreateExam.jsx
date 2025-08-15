@@ -79,7 +79,6 @@ export function CreateExam() {
 
   const handleSubmit = async () => {
     setError(false);
-
     if (formData.examName === "" || formData.batch === "" || formData.year === "" || !date.from  || !date.to || !time.from  || !time.to ) {
       setError(true);
       return;
@@ -131,6 +130,11 @@ const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
     "December",
   ];
 
+
+
+
+
+
   const handleAddCenter = ()=>{
     setAddError(false)
     if(selecteCenter.centerId == "" || selecteCenter.newLocation == ""){
@@ -154,52 +158,58 @@ const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
   // if(isSuccess) return <div>sucsess</div>
   return (
     <div className="w-full max-w-[50rem] shadow-md mx-auto border rounded-2xl p-5 md:p-8">
-        <div className="relative">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold">Schedule Exam</h2>
-            <p className="text-sm text-gray-500">
-              Scheduled new exam for selected batches of all course
-            </p>
-          </div>
-          <div onClick={()=>navigate(-1)} className="absolute hover:bg-accent cursor-pointer rounded-full p-1 text-gray-800 top-0 right-0">
-            <ChevronLeft/>
-          </div>
+      <div className="relative">
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold">Schedule Exam</h2>
+          <p className="text-sm text-gray-500">
+            Scheduled new exam for selected batches of all course
+          </p>
+        </div>
+        <div
+          onClick={() => navigate(-1)}
+          className="absolute hover:bg-accent cursor-pointer rounded-full p-1 text-gray-800 top-0 right-0"
+        >
+          <ChevronLeft />
+        </div>
 
-          <div className="grid gap-4 py-4">
-            <FormInputs
-              name="Exam Name"
-              id="examName"
-              onChange={handleChange}
-              value={formData.examName}
-              error={isError && formData.examName === ""}
-            />
+        <div className="grid gap-4 py-4">
+          <FormInputs
+            name="Exam Name"
+            id="examName"
+            onChange={handleChange}
+            value={formData.examName}
+            error={isError && formData.examName === ""}
+          />
 
-            <SelectTag
-              name="Batch of Exam"
-              id="batch"
-              options={monthNames}
-              setFormData={setFormData}
-              formData={formData}
-              error={isError && formData.batch === ""}
-            />
+          <SelectTag
+            name="Batch of Exam"
+            id="batch"
+            options={monthNames}
+            setFormData={setFormData}
+            formData={formData}
+            error={isError && formData.batch === ""}
+          />
 
-            <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
-              <div className="sm:col-span-3 ">
-                <Label htmlFor='courses'>Courses</Label>
-              </div>
-              <div className="sm:col-span-9">
-                
+          <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
+            <div className="sm:col-span-3 ">
+              <Label htmlFor="courses">Courses</Label>
+            </div>
+            <div className="sm:col-span-9">
               <div className="flex items-center gap-3 mb-2">
-              <Checkbox checked={isAllCourse} onCheckedChange={(value)=>{
-                setAllCourse(value)
-                if(value){
-                  setSelected([])
-                }
-              }} id="course" />
-              <Label htmlFor="course">All Courses</Label>
+                <Checkbox
+                  checked={isAllCourse}
+                  onCheckedChange={(value) => {
+                    setAllCourse(value);
+                    if (value) {
+                      setSelected([]);
+                    }
+                  }}
+                  id="course"
+                />
+                <Label htmlFor="course">All Courses</Label>
               </div>
-               <div>
-               <MultiSelect
+              <div>
+                <MultiSelect
                   disabled={isAllCourse}
                   options={courses?.data}
                   selected={selected}
@@ -207,60 +217,84 @@ const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
                   placeholder="Select Courses"
                   error={isError && selected.length === 0 && !isAllCourse}
                 />
-                <p className="text-xs text-muted-foreground mt-2"><span className="font-medium text-gray-700">Note:</span> If you select "All Courses", individual course selection will be disabled.</p>
-               </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  <span className="font-medium text-gray-700">Note:</span> If
+                  you select "All Courses", individual course selection will be
+                  disabled.
+                </p>
               </div>
             </div>
+          </div>
 
-            <SelectTag
-              name="Admission Year"
-              id="year"
-              options={years}
-              setFormData={setFormData}
-              formData={formData}
-              error={isError && formData.year === ""}
-            />
+          <SelectTag
+            name="Admission Year"
+            id="year"
+            options={years}
+            setFormData={setFormData}
+            formData={formData}
+            error={isError && formData.year === ""}
+          />
 
-            <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
-              <div className="sm:col-span-3 ">
-                <Label htmlFor={"date"}>Exam Date</Label>
-              </div>
-              <div className="sm:col-span-9">
-                {/* State Dropdown */}
-
-                <DatePickerWithRange
-                  setDate={setDate}
-                  date={date}
-                  error={isError}
-                />
-              </div>
+          <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
+            <div className="sm:col-span-3 ">
+              <Label htmlFor={"date"}>Exam Date</Label>
             </div>
+            <div className="sm:col-span-9">
+              {/* State Dropdown */}
 
-            <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
-              <div className="sm:col-span-3 ">
-                <Label htmlFor={"time"}>Exam Time</Label>
-              </div>
-              <div className="sm:col-span-9 grid grid-cols-2 gap-3">
+              <DatePickerWithRange
+                setDate={setDate}
+                date={date}
+                error={isError}
+              />
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
+            <div className="sm:col-span-3 ">
+              <Label htmlFor={"time"}>Exam Time</Label>
+            </div>
+            {/* <div className="sm:col-span-9 grid grid-cols-2 gap-3">
                 <TimePicker error={isError && !time.from} time={time.from} setTime={setTime} type={'from'} label="Start Time"/>
                 <TimePicker error={isError && !time.to} time={time.to} setTime={setTime} type={'to'} label="End Time"/>
-              </div>
+              </div> */}
+            <div className="sm:col-span-9 grid grid-cols-2 gap-3">
+              <TimePicker
+                error={isError && !time.from}
+                time={time.from}
+                setTime={setTime}
+                label="Start Time"
+                type={'from'}
+              />
+              <TimePicker
+                error={isError && !time.to}
+                time={time.to}
+                setTime={setTime}
+                label="End Time"
+                type={'to'}
+              />
             </div>
+          </div>
 
-            <div className="mt-6">
-              <h1 className="text-lg font-semibold">Exam center</h1>
-              <p className="text-sm text-gray-500">
-                Change exam center of study centers (optionl)
-              </p>
-              <div className="mt-6 grid md:grid-cols-3 gap-4 ">
-                <div className="space-y-2">
-                    <Label htmlFor="center">Select Center</Label>
+          <div className="mt-6">
+            <h1 className="text-lg font-semibold">Exam center</h1>
+            <p className="text-sm text-gray-500">
+              Change exam center of study centers (optionl)
+            </p>
+            <div className="mt-6 grid md:grid-cols-3 gap-4 ">
+              <div className="space-y-2">
+                <Label htmlFor="center">Select Center</Label>
                 <Select
                   value={selecteCenter?.centerId}
-                  onValueChange={(value)=>setSelectedCenter({...selecteCenter, centerId: value})}
+                  onValueChange={(value) =>
+                    setSelectedCenter({ ...selecteCenter, centerId: value })
+                  }
                 >
                   <SelectTrigger
                     className={`w-full shadow-none ${
-                        addError && selecteCenter.centerId === "" &&"border-red-500"
+                      addError &&
+                      selecteCenter.centerId === "" &&
+                      "border-red-500"
                     }`}
                   >
                     <SelectValue placeholder="Select Center" />
@@ -273,58 +307,92 @@ const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
                     ))}
                   </SelectContent>
                 </Select>
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="newLocation">New Center</Label>
-                    <Input
-                      type="text"
-                      name="newLocation"
-                      id="newLocation"
-                      placeholder="Enter new center"
-                      value={selecteCenter?.newLocation}
-                      onChange={(e)=>setSelectedCenter({...selecteCenter, newLocation: e.target.value})}
-                      className={`w-full shadow-none ${
-                        addError && selecteCenter.newLocation === "" && "border-red-500"
-                      }`}
-                    />
-                </div>
-                <div className=" self-end">
-                    <Button onClick={handleAddCenter} className='w-full'>Add New Center</Button>
-                </div>
-                </div>
-                 
-                <div>
-                    <div className=" space-y-2 mt-4">
-                        {formData.changedCenters.map((item, i) =>{
-                            const center = data?.data?.find((center)=>center._id === item.centerId)
-                            return (
-                                <div key={i} className="relative items-center grid md:grid-cols-2 group bg-primary-foreground p-2 rounded-md gap-2">
-                                    <p className="text-sm text-muted-foreground">{center.name}</p>
-                                    <p className="text-sm font-medium">{item.newLocation}</p>
-                                    <div onClick={()=>handleRemoveCenter(item.centerId)} className="absolute right-3 md:opacity-0 group-hover:opacity-100 text-primary hover:bg-white transition-all duration-200 rounded-full p-1 cursor-pointer">
-                                        <XIcon size={16} />
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
               </div>
-
-              <div className="border-t pt-5">
-                <p className="text-sm text-muted-foreground">Once the exam schedule is finalized, an automated notification will be sent to all study centers, informing them of the exam details. Additionally, students enrolled in the respective batches will be able to conveniently access and download their hall tickets directly from the portal</p>
-                {isError &&  <p className="text-sm text-red-500 mt-1">Please fill all required fields</p>}
+              <div className="space-y-2">
+                <Label htmlFor="newLocation">New Center</Label>
+                <Input
+                  type="text"
+                  name="newLocation"
+                  id="newLocation"
+                  placeholder="Enter new center"
+                  value={selecteCenter?.newLocation}
+                  onChange={(e) =>
+                    setSelectedCenter({
+                      ...selecteCenter,
+                      newLocation: e.target.value,
+                    })
+                  }
+                  className={`w-full shadow-none ${
+                    addError &&
+                    selecteCenter.newLocation === "" &&
+                    "border-red-500"
+                  }`}
+                />
               </div>
-
+              <div className=" self-end">
+                <Button onClick={handleAddCenter} className="w-full">
+                  Add New Center
+                </Button>
+              </div>
             </div>
 
-          <div className="flex justify-end gap-2 mt-4">
-            <Button onClick={handleCancel} variant="outline">Cancel and back</Button>
-            <Button onClick={handleSubmit} type="submit">
-           {isPending? <Loader2 className="animate-spin"/>:" Schedule Exam"}
-            </Button>
+            <div>
+              <div className=" space-y-2 mt-4">
+                {formData.changedCenters.map((item, i) => {
+                  const center = data?.data?.find(
+                    (center) => center._id === item.centerId
+                  );
+                  return (
+                    <div
+                      key={i}
+                      className="relative items-center grid md:grid-cols-2 group bg-primary-foreground p-2 rounded-md gap-2"
+                    >
+                      <p className="text-sm text-muted-foreground">
+                        {center.name}
+                      </p>
+                      <p className="text-sm font-medium">{item.newLocation}</p>
+                      <div
+                        onClick={() => handleRemoveCenter(item.centerId)}
+                        className="absolute right-3 md:opacity-0 group-hover:opacity-100 text-primary hover:bg-white transition-all duration-200 rounded-full p-1 cursor-pointer"
+                      >
+                        <XIcon size={16} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t pt-5">
+            <p className="text-sm text-muted-foreground">
+              Once the exam schedule is finalized, an automated notification
+              will be sent to all study centers, informing them of the exam
+              details. Additionally, students enrolled in the respective batches
+              will be able to conveniently access and download their hall
+              tickets directly from the portal
+            </p>
+            {isError && (
+              <p className="text-sm text-red-500 mt-1">
+                Please fill all required fields
+              </p>
+            )}
           </div>
         </div>
+
+        <div className="flex justify-end gap-2 mt-4">
+          <Button onClick={handleCancel} variant="outline">
+            Cancel and back
+          </Button>
+          <Button onClick={handleSubmit} type="submit">
+            {isPending ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              " Schedule Exam"
+            )}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

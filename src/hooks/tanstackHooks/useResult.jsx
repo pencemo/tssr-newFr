@@ -2,13 +2,13 @@ import { resultService } from "@/API/services/resultService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
-export const useGetAllResutl = (search, page, limit) => {
-    return useQuery({
-      queryKey: ["results", search, page, limit],
-      queryFn: () => resultService.getAllResult(search, page, limit),
-      keepPreviousData: false,
-    });
-  };
+export const useGetAllResutl = (search, page, limit, filter) => {
+  return useQuery({
+    queryKey: ["results", search, page, limit, filter],
+    queryFn: () => resultService.getAllResult(search, page, limit, filter),
+    keepPreviousData: false,
+  });
+};
 
 
 
@@ -27,12 +27,12 @@ export const useGetStudentForResult = () => {
 export const useUploadResult = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data) => {
-      return resultService.uploadResult(data?.resultsArray);
+    mutationFn: (payload) => {
+      return resultService.uploadResult(payload);
     },
     onSuccess: () => {
       queryClient.invalidateQueries("results");
-    }
+    },
   });
 }
 
