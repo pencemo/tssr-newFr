@@ -13,7 +13,7 @@ function DashbordCard({ data }) {
           data={
             {
               head: "All Students",
-              count: data.students,
+              count: data?.students,
               from: `All students of center`
             }
           }
@@ -24,7 +24,7 @@ function DashbordCard({ data }) {
           data={
             {
               head: "This Year",
-              count: data.studentsOfCurrentYear,
+              count: data?.studentsOfCurrentYear,
               from: `Students of ${new Date().getFullYear()}`
             }
           }
@@ -35,7 +35,7 @@ function DashbordCard({ data }) {
           data={
             {
               head: "Courses",
-              count: data.courses,
+              count: data?.courses,
               from: `Available courses`
             }
           }
@@ -46,7 +46,7 @@ function DashbordCard({ data }) {
           data={
             {
               head: "This Year",
-              count: data.studentsOfCurrentYear,
+              count: data?.studentsOfCurrentYear,
               from: `Students of ${new Date().getFullYear()}`
             }
           }

@@ -17,10 +17,10 @@ export const ResultData = forwardRef(({ data, className }, ref) => {
             <img src={head} alt="" />
           </div>
 
-          <div className="w-full flex items-center justify-center text-center bg-[#253a7c] mt-3 text-white font-medium rounded-sm py-1">
-            {data.courseName}
+          <div className="w-full flex items-center px-4 capitalize justify-center text-center bg-[#253a7c] mt-3 text-white font-medium rounded-sm py-1">
+          {data.examName} {data.courseName?.toLowerCase()}
           </div>
-
+ 
           {/* Main Title */}
           <div className={cn("flex w-full h -full  flex-col ", className)}>
             <div className={cn("relative text-black")}>

@@ -28,7 +28,7 @@ function SelectDropDown({ filters, setFilters , error}) {
   const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 ">
       {/* Sort Option */}
       {user.isAdmin && <DlFilter
           data={center?.data || []}
@@ -90,11 +90,11 @@ function DlFilter({
   error = false,
 }) {
   return (
-    <div className="space-y-1 w-full">
+    <div className="space-y-1 w-full ">
       {/* <h1 className=" text-sm font-medium">{lebal}</h1> */}
       <Select value={value} onValueChange={onChange} disabled={disabled}>
         <SelectTrigger
-          className={`w-full shadow-none ${error ? "border-red-500" : ""}`}
+          className={`w-full max-w-[350px] shadow-none  ${error ? "border-red-500" : ""}`}
         >
           <SelectValue placeholder={text} />
         </SelectTrigger>

@@ -11,13 +11,13 @@ function DataCard({ data }) {
       <div className="">
         <div className="grid md:grid-cols-4 border border-gray-200 shadow-2xs rounded-xl overflow-hidden">
           <CardComp
-            data={{ head: "Students", count: data.totalEnrollments, from: "All student count" }}
+            data={{ head: "Students", count: data?.totalEnrollments, from: "All student count" }}
             Icon={UserAdd01Icon}
           />
           <CardComp
             data={{
               head: "This Year",
-              count: data.totalEnrollmentInThisYear,
+              count: data?.totalEnrollmentInThisYear,
               from: `Students of ${new Date().getFullYear()}`,
             }}
             Icon={Mortarboard02Icon}
@@ -25,13 +25,13 @@ function DataCard({ data }) {
           <CardComp
             data={{
               head: "Study Centre",
-              count: data.totalStudyCenters,
+              count: data?.totalStudyCenters,
               from: "Registered Study Centers",
             }}
             Icon={BookOpen02Icon}
           />
           <CardComp
-            data={{ head: "Coures", count: data.totalCourses, from: "Available Courses" }}
+            data={{ head: "Coures", count: data?.totalCourses, from: "Available Courses" }}
             Icon={BookOpen02Icon}
           />
         </div>

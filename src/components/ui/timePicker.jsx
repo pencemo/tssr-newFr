@@ -99,7 +99,7 @@ export function TimePicker({ type, time, setTime, label, error }) {
                       ref={hourValue === hour ? hourRef : null}
                       className={cn(
                         "cursor-pointer py-1.5 rounded-md hover:bg-accent w-full text-center",
-                        hourValue === hour && "bg-accent font-medium"
+                        hourValue === hour && "bg-primary text-white hover:bg-primary/90 font-medium"
                       )}
                       onClick={() => handleHourClick(hourValue)}
                     >
@@ -124,7 +124,7 @@ export function TimePicker({ type, time, setTime, label, error }) {
                     ref={i === minute ? minuteRef : null}
                     className={cn(
                       "cursor-pointer py-1.5 rounded-md hover:bg-accent w-full text-center",
-                      i === minute && "bg-accent font-medium"
+                      i === minute && "bg-primary text-white hover:bg-primary/90"
                     )}
                     onClick={() => handleMinuteClick(i)}
                   >
@@ -145,7 +145,7 @@ export function TimePicker({ type, time, setTime, label, error }) {
                 ref={p === period ? periodRef : null}
                 className={cn(
                   "cursor-pointer py-1 rounded-sm w-full text-center",
-                  p === period ? "bg-accent font-medium" : "hover:bg-accent"
+                  p === period ? "bg-primary text-white hover:bg-primary/90" : "hover:bg-accent"
                 )}
                 onClick={() => setPeriod(p)}
               >
