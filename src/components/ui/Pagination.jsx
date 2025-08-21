@@ -36,7 +36,7 @@ function Pagination({ currentPage, setCurrentPage, totalPage, totalData = 0 }) {
           </h1>
         )}
       </div>
-      <div className="flex items-center space-x-2 ml-4 max-md:hidden">
+      {Number.parseInt(pageInput) < 1&&<div className="flex items-center space-x-2 ml-4 max-md:hidden">
           <Input
             type="number"
             min="1"
@@ -55,7 +55,7 @@ function Pagination({ currentPage, setCurrentPage, totalPage, totalData = 0 }) {
           >
             Go
           </Button>
-        </div>
+        </div>}
       <div className=" space-x-2 ">
         <Button
           variant="outline"

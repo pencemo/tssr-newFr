@@ -10,7 +10,6 @@ export const formateDateToIST = (date, formatType = "PPP") => {
     // Convert into IST Date
     const istDate = new TZDate(dob, "Asia/Kolkata");
     
-    console.log(istDate);
     const formatted = format(istDate, formatType);
     return formatted;
 }

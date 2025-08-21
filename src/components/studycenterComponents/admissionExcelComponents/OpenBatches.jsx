@@ -1,4 +1,3 @@
-
 import { useOpenBatchesOfStudyCenter } from "@/hooks/tanstackHooks/useBatch";
 import { CourseCard } from "./CourseCard";
 import Loader from "@/components/ui/loader";

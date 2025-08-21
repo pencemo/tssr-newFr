@@ -16,7 +16,7 @@ function DownloadFiles() {
         icon=''
         comp={
           <DocDownload
-            name="Student Deta"
+            name="Student Data"
             // fields={[
             // ]}
           />

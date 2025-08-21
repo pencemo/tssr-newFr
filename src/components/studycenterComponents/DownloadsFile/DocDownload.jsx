@@ -1,14 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Download04Icon } from "hugeicons-react";
 import { Loader2, XIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -86,7 +77,7 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
       setTimeout(() => {
         handlePrint();
       }, 200); // Delay to allow DOM update
-      setFilters({ course: "", batch: "", year: "" });
+      // setFilters({ course: "", batch: "", year: "" });
       setError(null);
     } catch (err) {
       console.error(err);

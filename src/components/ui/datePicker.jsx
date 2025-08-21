@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { formateDateToIST } from "@/lib/formateDate"
 
 export function DatePicker({date, setDate, length = 25, year = new Date().getFullYear()}) {
   const [calendarDate, setCalendarDate] = React.useState(new Date())
@@ -62,7 +63,7 @@ export function DatePicker({date, setDate, length = 25, year = new Date().getFul
           className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? formateDateToIST(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
@@ -99,7 +100,7 @@ export function DatePicker({date, setDate, length = 25, year = new Date().getFul
           mode="single"
           selected={date}
           onSelect={setDate}
-          initialFocus
+          initialFocus={true}
           month={calendarDate}
           // timeZone="IST"
           onMonthChange={setCalendarDate}

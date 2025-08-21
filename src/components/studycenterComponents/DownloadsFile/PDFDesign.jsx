@@ -1,5 +1,5 @@
 import React from "react";
-import headerImg from "../../../assets/PdfHead.png"
+import headerImg from "../../../assets/PdfHead.svg"
 import { format } from "date-fns";
 
 const datas = {
@@ -98,7 +98,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
 
   return (
     <div className="w-[210mm] border h-[297mm] mx-auto p-8 ">
-        <div className="border-t border-x border-black/70">
+        <div className="border-t border-x border-black/70 py-2">
             <img src={headerImg} className="w-full" alt="" />
         </div>
 
@@ -111,7 +111,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
             <div className="col-span-8">
                 <h1 className="text-sm font-medium p-2.5 border-b border-black/70">{data.studycenterName}</h1>
                 <h1 className="text-sm font-medium p-2.5 border-b border-black/70">{data.courseName}</h1>
-                <h1 className="text-sm font-medium p-2.5 border-black/70">{data.batchMonth}, {data.year}</h1>
+                <h1 className="text-sm font-medium p-2.5 border-black/70">{data.batchMonth}, {data.year}, Duration : {data?.duration}</h1>
             </div>
         </div>
 
@@ -122,7 +122,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
         {/* table and rows  */}
       <div className="border mt-6 border-black/70 rounded-xl overflow-hidden">
         <div
-          className={`w-full grid ${isHeader?"grid-cols-12" : "grid-cols-5"} border-b border-black/70 bg-[#e5e7eb]`} //text-white bg-[#253a7c]
+          className={`w-full grid ${isHeader?"grid-cols-12" : "grid-cols-10"} border-b border-black/70 bg-[#e5e7eb]`} //text-white bg-[#253a7c]
         >
           <div className="col-span-1 border-r border-black/70 p-2.5">
             <h1 className="text-sm font-medium ">No</h1>
@@ -130,7 +130,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
           <div className="col-span-2 border-r border-black/70 p-2.5">
             <h1 className="text-sm font-medium ">Admissinon No</h1>
           </div>
-          <div className="col-span-2 border-r border-black/70 p-2.5">
+          <div className={`${isHeader?"col-span-2" : "col-span-7"} border-r border-black/70 p-2.5`}>
             <h1 className="text-sm font-medium ">Name</h1>
           </div>
           {headers && headers.length > 0 && <div
@@ -225,7 +225,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
           const rowLast = index === array.length - 1;
           return (
             <div
-              className={`w-full grid ${isHeader?"grid-cols-12" : "grid-cols-5"} ${
+              className={`w-full grid ${isHeader?"grid-cols-12" : "grid-cols-10"} ${
                 !rowLast && "border-b"
               } border-black/70 `}
             >
@@ -235,7 +235,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
               <div className="col-span-2 border-r border-black/70 p-1.5">
                 <h1 className="text-sm ">{item.admissionNumber}</h1>
               </div>
-              <div className="col-span-2 border-r border-black/70 p-1.5">
+              <div className={`${isHeader?"col-span-2" : "col-span-7"} border-r border-black/70 p-1.5`}>
                 <h1 className="text-sm ">{item?.name?.toUpperCase()}</h1>
               </div>
               {headers && headers.length > 0 &&<div

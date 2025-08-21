@@ -92,7 +92,6 @@ export function EditStudentForm( ) {
   };
 
   const handleDateChange = (date, field) => {
-    console.log(date);
     setFormData((prev) => ({
       ...prev,
       [field]: date,

@@ -81,11 +81,6 @@ const allValid = newStudents.every(
       toast.warning("No students to save.")
       return
     }
-    const odlData = localStorage.getItem("studentData")
-    if(odlData){
-      const newData = [...JSON.parse(odlData), {newStudents, pendingEnrollmentStudents, course}]
-      localStorage.setItem("studentData", JSON.stringify({newStudents, pendingEnrollmentStudents, course}))
-    }
     localStorage.setItem("studentData", JSON.stringify({newStudents, pendingEnrollmentStudents, course}))
     toast.success("Data saved successfully.")
     
