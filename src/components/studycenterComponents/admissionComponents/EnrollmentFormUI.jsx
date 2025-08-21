@@ -255,8 +255,8 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
               <DatePicker
                 date={formData.dateOfBirth}
                 setDate={(date) => handleDateChange(date, "dateOfBirth")}
-                year={new Date().getFullYear() - 30}
-                length={32}
+                year={new Date().getFullYear() - 50}
+                length={52}
               />
             </div>
 

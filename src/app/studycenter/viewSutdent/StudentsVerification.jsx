@@ -41,7 +41,6 @@ function StudentsVerification() {
     debouncedSearch,
     status
   );
-
   useEffect(() => {
     if (data) {
       setTotalPage(data.totalPages);

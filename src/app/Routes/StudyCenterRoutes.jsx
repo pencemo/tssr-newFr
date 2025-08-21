@@ -18,12 +18,13 @@ import CenterNotification from "../studycenter/Notifications/CenterNotification"
 import CoursesStudyCente from "../studycenter/Course/CoursesStudyCente";
 import Enrollment from "../studycenter/Admission/Enrollment";
 import MarkSheet from "../studycenter/CenterExams/MarkSheet";
+import FilterContext from "@/Context/FilterContext";
 
 export default function StudyCenterRoutes() {
   return (
     <Route path="/" element={<PageForStudyCenter />}>
       <Route index element={<DashbordStudy />} />
-      <Route path="students" element={<Outlet />}>
+      <Route path="students" element={<FilterContext><Outlet /></FilterContext>}>
         <Route index element={<ViewStudent />} />
         <Route path="verification" element={<StudentsVerification />} />
         <Route path="view" element={<OneStudent />} />

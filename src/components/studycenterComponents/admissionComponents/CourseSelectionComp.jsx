@@ -39,6 +39,11 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
 
   // handleSubmit with validation
   const handleSubmit = async() => {
+
+    if(!isAccept || isLoading){
+      toast.error("Please accept the terms and conditions")
+      return
+    }
     setIsLoading(true)
     let studentWithUrls
     if(!userData._id){
@@ -175,7 +180,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
             >
               Back to edit
             </Button>
-            <Button disabled={!isAccept} className="w-full sm:w-auto" onClick={handleSubmit}>
+            <Button disabled={!isAccept || isLoading} className="w-full sm:w-auto" onClick={handleSubmit}>
               {isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (

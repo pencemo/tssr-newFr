@@ -21,7 +21,7 @@ function DashbordStudy() {
           <img src={logo} className="w-20 md:w-24" alt="" />
           <div>
             <h1 className="text-3xl md:text-5xl font-bold text-[#253a7c]">TSSR Council</h1>
-            <p className="text-muted-foreground">Task manage applicatin</p>
+            <p className="text-muted-foreground">तकनीकी अध्ययन और कौशल अनुसंधान परिषद</p>
           </div>
         </div>
       </div>

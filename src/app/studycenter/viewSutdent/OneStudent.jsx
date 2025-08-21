@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import Loader from '@/components/ui/loader'
 import { useOneStudent } from '@/hooks/tanstackHooks/useStudents'
 import { format } from 'date-fns'
+import { formateDateToIST } from '@/lib/formateDate'
 import React from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
@@ -23,6 +24,7 @@ function OneStudent() {
   if(error) return <div>Error</div>
   
   const student = data?.data
+
   const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
     if(typeof isCompleted === "string"){
       return (
@@ -73,7 +75,7 @@ function OneStudent() {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
               <div className="relative">
                 <img
-                  src={student.profileImage || "/placeholder.svg"}
+                  src={student.profileImage || "https://static.vecteezy.com/system/resources/thumbnails/055/581/121/small_2x/default-profile-picture-icon-avatar-photo-placeholder-illustration-vector.jpg"}
                   alt={student.name}
                   className="w-24 h-24 rounded-full bg-white border-2 border-white/80 object-cover"
                 />
@@ -110,7 +112,7 @@ function OneStudent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-500">Full Name</label>
-                    <p className="text-gray-900 font-medium">{student.name}</p>
+                    <p className="text-gray-900 font-medium">{student?.name?.toUpperCase()}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Age</label>
@@ -118,7 +120,7 @@ function OneStudent() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Date of Birth</label>
-                    <p className="text-gray-900 font-medium">{format(new Date(student.dateOfBirth), 'PPP')}</p>
+                    <p className="text-gray-900 font-medium">{formateDateToIST(student.dateOfBirth, 'PPP')}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Gender</label>

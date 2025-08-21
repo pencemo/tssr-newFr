@@ -41,7 +41,7 @@ export function TableComp({ data }) {
         {data.map((item, i) => (
           <TableRow key={i}>
             <TableCell className="font-medium">{i + 1}</TableCell>
-            <TableCell className="font-medium">{item.name}</TableCell>
+            <TableCell className="font-medium md:w-80  md:whitespace-normal md:break-words ">{item.name}</TableCell>
             <TableCell><CopyToClipbord text={item.atcId}/></TableCell>
             <TableCell>{item.email}</TableCell>
             <TableCell>{item.phoneNumber}</TableCell>

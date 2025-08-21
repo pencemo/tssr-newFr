@@ -5,7 +5,9 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -19,10 +21,13 @@ import Loader from "@/components/ui/loader";
 import { Loader2Icon } from "lucide-react";
 import { deleteByUrl, useFirebaseUpload } from "@/hooks/useFirebaseUpload";
 import { Progress } from "@/components/ui/progress";
+import EditCourseNBatch from "./EditCourseNBatch";
+import { useAuth } from "@/Context/authContext";
 
 export function EditStudentForm( ) {
     const [selectedState, setSelectedState] = useState("");
     const navigate = useNavigate();
+    const {user} =useAuth()
 
     const [searchParams ] = useSearchParams();
     const paramsId = searchParams.get('id');
@@ -34,6 +39,7 @@ export function EditStudentForm( ) {
     const { mutate , isPending} = useEditStudentData()
     const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
     
+
     const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -52,6 +58,12 @@ export function EditStudentForm( ) {
     profileImage: null,
     adhaarNumber:  "",
   });
+
+    const [editCours, setEditCours] = useState({
+      courseId: "",
+      batchId: "",
+      year: 2025
+    });
 
   const [errors, setErrors] = useState({});
   const handleChange = (e) => {
@@ -80,6 +92,7 @@ export function EditStudentForm( ) {
   };
 
   const handleDateChange = (date, field) => {
+    console.log(date);
     setFormData((prev) => ({
       ...prev,
       [field]: date,
@@ -94,7 +107,6 @@ export function EditStudentForm( ) {
       district: "",
     }));
   };
-
   const handleDistrictChange = (value) => {
     setFormData((prev) => ({
       ...prev,
@@ -138,6 +150,12 @@ export function EditStudentForm( ) {
         adhaarNumber: student.adhaarNumber || "",
       });
 
+      setEditCours({
+        batchId: student.batchId || "",
+        courseId: student.courseId || "",
+        year: student.year || 2025
+      })
+
       setSelectedState(properState || "");
     } 
   }, [data]);
@@ -170,6 +188,7 @@ export function EditStudentForm( ) {
   };
 
   const handleSubmit = async () => {
+    // return console.log(formData);
     if (!validate()) return;
     setOnLoading(true)
 
@@ -204,10 +223,12 @@ export function EditStudentForm( ) {
 
     const editData = {
       ...formData,
+      ...editCours,
       profileImage: profileImgUrl || formData.profileImage,
       sslc: sslcUrl || formData.sslc,
       id : data.data._id, isEnrolled, approvalId: paramsId
     }
+
       mutate(
         editData,
         {
@@ -320,8 +341,8 @@ export function EditStudentForm( ) {
               <DatePicker
                 date={formData.dateOfBirth}
                 setDate={(date) => handleDateChange(date, "dateOfBirth")}
-                year={new Date().getFullYear() - 30}
-                length={32}
+                year={new Date().getFullYear() - 50}
+                length={52}
               />
             </div>
 
@@ -501,6 +522,8 @@ export function EditStudentForm( ) {
           </div>
         </div>
 
+        {user?.isAdmin && <EditCourseNBatch editCours={editCours} setEditCours={setEditCours}/>}
+
         {/* ACTIONS */}
               <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6 pt-5 border-t">
                   <div className="grid grid-cols-2 gap-2">
@@ -552,3 +575,4 @@ const FormInput = ({
     </div>
   );
 };
+

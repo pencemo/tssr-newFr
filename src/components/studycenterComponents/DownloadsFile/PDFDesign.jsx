@@ -94,6 +94,8 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
 
       const students = getStudents()
 
+      const isHeader = headers && headers.length > 0
+
   return (
     <div className="w-[210mm] border h-[297mm] mx-auto p-8 ">
         <div className="border-t border-x border-black/70">
@@ -120,7 +122,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
         {/* table and rows  */}
       <div className="border mt-6 border-black/70 rounded-xl overflow-hidden">
         <div
-          className={`w-full grid grid-cols-12 border-b border-black/70 bg-[#e5e7eb]`} //text-white bg-[#253a7c]
+          className={`w-full grid ${isHeader?"grid-cols-12" : "grid-cols-5"} border-b border-black/70 bg-[#e5e7eb]`} //text-white bg-[#253a7c]
         >
           <div className="col-span-1 border-r border-black/70 p-2.5">
             <h1 className="text-sm font-medium ">No</h1>
@@ -131,7 +133,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
           <div className="col-span-2 border-r border-black/70 p-2.5">
             <h1 className="text-sm font-medium ">Name</h1>
           </div>
-          <div
+          {headers && headers.length > 0 && <div
             className={`col-span-7 grid `}
             style={{
               gridTemplateColumns: `repeat(${headers.length}, minmax(0, 1fr))`,
@@ -155,7 +157,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
                 </div>
               );
             })}
-          </div>
+          </div>}
         </div>
         {marks&&<div className={`w-full grid grid-cols-12 border-b border-black/70 `}>
           <div className="col-span-1 border-r text-center border-black/70 p-1.5">
@@ -223,7 +225,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
           const rowLast = index === array.length - 1;
           return (
             <div
-              className={`w-full grid grid-cols-12 ${
+              className={`w-full grid ${isHeader?"grid-cols-12" : "grid-cols-5"} ${
                 !rowLast && "border-b"
               } border-black/70 `}
             >
@@ -234,15 +236,15 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
                 <h1 className="text-sm ">{item.admissionNumber}</h1>
               </div>
               <div className="col-span-2 border-r border-black/70 p-1.5">
-                <h1 className="text-sm ">{item.name}</h1>
+                <h1 className="text-sm ">{item?.name?.toUpperCase()}</h1>
               </div>
-              <div
+              {headers && headers.length > 0 &&<div
                 className={`col-span-7 grid `}
                 style={{
                   gridTemplateColumns: `repeat(${headers.length}, minmax(0, 1fr))`,
                 }}
               >
-                {headers.map((item, index) => {
+                { headers.map((item, index) => {
                   const isLast = index === headers.length - 1;
                   return (
                     <div
@@ -255,7 +257,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
                     </div>
                   );
                 })}
-              </div>
+              </div>}
             </div>
           );
         })}

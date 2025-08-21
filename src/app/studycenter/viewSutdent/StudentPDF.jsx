@@ -15,6 +15,7 @@ import {
   Printer,
 } from "lucide-react";
 import { format } from "date-fns";
+import { formateDateToIST } from "@/lib/formateDate";
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("en-IN", {
@@ -125,7 +126,7 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
             <div className="grid grid-cols-2">
               <span className="text-gray-600">Date of Birth</span>
               <span className="font-medium text-[16px]">
-                : {formatDate(studentData.dateOfBirth)}
+                : {formateDateToIST(studentData.dateOfBirth)}
               </span>
             </div>
             <div className="grid grid-cols-2">

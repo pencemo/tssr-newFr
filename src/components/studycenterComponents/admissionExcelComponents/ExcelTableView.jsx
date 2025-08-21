@@ -65,6 +65,7 @@ const allValid = newStudents.every(
             setNewStudents([]);
             setPendingEnrollmentStudents([]);
             setUnavailableStudents([]);
+            localStorage.removeItem("studentData");
             onBack();
           } else {
             toast.error("Error enrolling students.");
@@ -73,6 +74,22 @@ const allValid = newStudents.every(
       }
     );
   };
+
+  const handelSaveData = ()=>{
+    if(newStudents.length === 0 && pendingEnrollmentStudents.length === 0){
+      // console.log();
+      toast.warning("No students to save.")
+      return
+    }
+    const odlData = localStorage.getItem("studentData")
+    if(odlData){
+      const newData = [...JSON.parse(odlData), {newStudents, pendingEnrollmentStudents, course}]
+      localStorage.setItem("studentData", JSON.stringify({newStudents, pendingEnrollmentStudents, course}))
+    }
+    localStorage.setItem("studentData", JSON.stringify({newStudents, pendingEnrollmentStudents, course}))
+    toast.success("Data saved successfully.")
+    
+  }
 
   const inst = [
     {
@@ -210,6 +227,9 @@ const allValid = newStudents.every(
             <div className="flex gap-3 justify-end mb-6">
               <Button variant={"outline"} onClick={onBack}>
                 Back
+              </Button>
+              <Button variant={"outline"} onClick={handelSaveData}>
+                Save Data
               </Button>
               <Button disabled={!isAccept} onClick={handleSubmit} className="">
                 {isPending ? (

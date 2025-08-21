@@ -103,7 +103,7 @@ export function DatePicker({date, setDate, length = 25, year = new Date().getFul
           month={calendarDate}
           // timeZone="IST"
           onMonthChange={setCalendarDate}
-          captionLayout="dropdown"
+          // captionLayout="dropdown"
         />
       </PopoverContent>
     </Popover>

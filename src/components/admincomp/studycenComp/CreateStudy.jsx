@@ -324,7 +324,7 @@ export function DateInputs({ name, id, date, setDate }) {
         <Label htmlFor={id}>{name}</Label>
       </div>
       <div className="sm:col-span-9">
-        <DatePicker date={date} setDate={setDate} />
+        <DatePicker  date={date} setDate={setDate} />
       </div>
     </div>
   );

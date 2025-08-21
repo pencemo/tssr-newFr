@@ -56,7 +56,6 @@ export function StudentVarificationTable({
           <TableHead className="w-[10px]">NO</TableHead>
           <TableHead className="w-[100px]">Profile</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>Mobile</TableHead>
           {user?.isAdmin && <TableHead>Center</TableHead>}
           <TableHead>Status</TableHead>
           <TableHead>Course</TableHead>
@@ -93,9 +92,8 @@ export function StudentVarificationTable({
               </Avatar>
             </TableCell>
             <TableCell>{item?.studentId?.name}</TableCell>
-            <TableCell>{item?.studentId?.phoneNumber}</TableCell>
             {user?.isAdmin && (
-              <TableCell>{item?.studycenterId?.name}</TableCell>
+              <TableCell className='md:min-w-40 md:whitespace-normal md:break-words '>{item?.studycenterId?.name}</TableCell>
             )}
             <TableCell>
               <Badge
@@ -107,7 +105,7 @@ export function StudentVarificationTable({
                 {item.approvalStatus}
               </Badge>
             </TableCell>
-            <TableCell>{item.courseId.name}</TableCell>
+            <TableCell className='md:min-w-40 md:whitespace-normal md:break-words '>{item.courseId.name}</TableCell>
             <TableCell>{item.batchId.month}</TableCell>
             <TableCell>{item.year}</TableCell>
             <TableCell>

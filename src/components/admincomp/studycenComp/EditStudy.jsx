@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { useEffect, useMemo, useState } from "react";
-import { DateInputs, FormInputs, StateSelect } from "./CreateStudy";
+import { DateInputs, FormInputs } from "./CreateStudy";
 import { MultiSelect } from "@/components/ui/multiselect";
 
 import { Card } from "@/components/ui/card";
@@ -10,6 +10,8 @@ import { useUpdateSutdyCenter } from "@/hooks/tanstackHooks/useStudyCentre";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { EditAdminPopup } from "./EditAdminPopup";
+import { states } from "@/lib/list";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function EditStudy({ data, course, users }) {
   
@@ -41,9 +43,21 @@ export function EditStudy({ data, course, users }) {
   }, [date, selected]);
 
   useEffect(() => {
-    setFormData({ ...formData, ...data });
-    setDate(new Date(data.renewalDate));
-    setSelected(data.courses);
+    if(data){
+      const properState =
+      states.find((s) => s.state.toLowerCase() === data?.state?.toLowerCase())?.state?.trim() || "";
+
+    const properDistrict =
+      states
+        .find((s) => s.state.toLowerCase() === data?.state?.toLowerCase())
+        ?.districts.find(
+          (d) => d.toLowerCase() === data?.district?.toLowerCase()
+        )?.trim() || "";
+
+      setFormData({ ...formData, ...data, state: properState, district: properDistrict});
+      setDate(new Date(data.renewalDate));
+      setSelected(data.courses);
+    }
     setAdmins(users);
   }, [data, users]);
 
@@ -305,3 +319,55 @@ function SwitchCard({ title, description, checked, action }) {
     </div>
   );
 }
+
+
+
+const StateSelect = ({ name, setFormData, formData, error}) => {
+  // const [selectedState, setSelectedState] = useState("");
+  const [districts, setDistricts] = useState(
+    formData.state ? states.find((item) => item?.state?.toLowerCase() === formData.state?.toLowerCase())?.districts : []
+  );
+
+  const handleStateChange = (stateName) => {
+    setFormData({...formData, state:stateName});
+    const foundState = states.find((item) => item.state === stateName);
+    setDistricts(foundState ? foundState.districts : []);
+  };
+
+  return (
+    <div className="grid sm:grid-cols-12 gap-3 sm:gap-5">
+      <div className="sm:col-span-3 ">
+        <Label htmlFor={name}>{name}</Label>
+      </div>
+      <div className="sm:col-span-9 w-full grid sm:grid-cols-2 gap-2 ">
+        {/* State Dropdown */}
+        <Select value={formData.state} onValueChange={handleStateChange}>
+          <SelectTrigger className={`w-full py-5 shadow-none ${error && formData.state === "" && "border-red-500"}`}>
+            <SelectValue placeholder="Select State" />
+          </SelectTrigger>
+          <SelectContent>
+            {states.map((item, i) => (
+              <SelectItem key={i} value={item.state}>
+                {item.state}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* District Dropdown */}
+        <Select value={formData?.district} onValueChange={(value)=>setFormData({...formData, district:value})} disabled={districts.length === 0}>
+          <SelectTrigger className={`w-full py-5 shadow-none ${error && formData.district === "" && "border-red-500"}`}>
+            <SelectValue placeholder="Select District" />
+          </SelectTrigger>
+          <SelectContent>
+            {districts.map((district, i) => (
+              <SelectItem key={i} value={district}>
+                {district}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+};

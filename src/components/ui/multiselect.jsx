@@ -6,7 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
-export function MultiSelect({ options, selected, onChange, placeholder = "Select items", className, error, disabled = false }) {
+export function MultiSelect({ options = [], selected, onChange, placeholder = "Select items", className, error, disabled = false }) {
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState("")
 
@@ -20,7 +20,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
 
   // Get the selected items' names for display
   const selectedItems = React.useMemo(() => {
-    return options?.filter((option) => selected.includes(option._id))
+    return options?.filter((option) => selected?.includes(option._id))
   }, [options, selected])
 
   return (
@@ -54,7 +54,7 @@ export function MultiSelect({ options, selected, onChange, placeholder = "Select
           </div>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start">
+      <PopoverContent className="w-full p-0 max-w-md" align="start">
         <Command>
           <CommandInput placeholder="Search..." value={inputValue} onValueChange={setInputValue} />
           <CommandList>

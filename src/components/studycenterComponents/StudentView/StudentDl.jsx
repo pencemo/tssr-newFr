@@ -23,6 +23,7 @@ import { useStudentForDl } from "@/hooks/tanstackHooks/useStudents";
 import { toast } from "sonner";
 import { useAuth } from "@/Context/authContext";
 import { HiMiniArrowDownTray } from "react-icons/hi2";
+import { Input } from "@/components/ui/input";
 
 const EXPORT_FIELDS = [
   { id: "registrationNumber", label: "Reg. Number" },
@@ -91,7 +92,7 @@ export function StudentDl() {
     );
 
   const currentYear = new Date().getFullYear()+1;
-  const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
+  const oldYears = Array.from({ length: 18 }, (_, i) => currentYear - i);
 
   const handleDownload = async () => {
     setError(null);
@@ -155,7 +156,11 @@ export function StudentDl() {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-72 shadow-2xl" align="end">
+      <PopoverContent
+      onInteractOutside={(e) => {
+        e.preventDefault()
+      }}
+       className="w-72 shadow-2xl relative" align="end">
         <div className="grid gap-4">
           <div className="">
             <h4 className="font-medium">Export Student Data</h4>
@@ -234,22 +239,26 @@ export function StudentDl() {
           </div>
 
           {/* Export Button */}
-          <div>
+          <div >
             {error && <p className="text-sm text-red-500">{error}</p>}
+            <div className="grid grid-cols-2 gap-2 mt-2">
+
+            <Button variant='outline' onClick={()=>setOpen(false)}>Cancel</Button>
             <Button
               onClick={handleDownload}
               disabled={isPending}
-              className="w-full mt-2"
+              className="w-full "
             >
               {isPending || isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (
                 <span className="flex items-center">
-                  Export to Excel
+                  Export 
                   <Download  className="ml-2" />
                 </span>
               )}
             </Button>
+            </div>
           </div>
         </div>
       </PopoverContent>
@@ -267,27 +276,50 @@ function DlFilter({
   disabled = false,
   error = false,
 }) {
+
+  const [search, setSearch] = useState("");
+
+  // filter items based on search text
+  const filteredData = data.filter((item) => {
+    const label = isObject
+      ? String(item.courseName || item.month || item.name || "").toLowerCase()
+      : String(item || "").toLowerCase();
+  
+    return label.includes(search.toLowerCase());
+  })
+
   return (
     <div className="space-y-1 w-full">
       {/* <h1 className=" text-sm font-medium">{lebal}</h1> */}
       <Select value={value} onValueChange={onChange} disabled={disabled}>
         <SelectTrigger
-          className={`w-full shadow-none ${error ? "border-red-500" : ""}`}
+          className={`w-full max-w-64 shadow-none ${error ? "border-red-500" : ""}`}
         >
           <SelectValue placeholder={text} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='w-full max-w-[300px]'>
+        <div className="p-2">
+            <Input
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-8"
+              onKeyDown={(e) => {
+                e.stopPropagation();
+              }}
+            />
+          </div>
           <SelectGroup>
             <SelectLabel>{lebal}</SelectLabel>
             {isObject ? (
-              data.map((item, index) => (
+              filteredData.map((item, index) => (
                 <SelectItem key={index} value={item.courseId || item._id}>
                   {item.courseName || item.month || item.name}
                 </SelectItem>
               ))
             ) : (
               <>
-                {data.map((item, index) => (
+                {filteredData.map((item, index) => (
                   <SelectItem key={index} value={item}>
                     {item}
                   </SelectItem>

@@ -14,6 +14,7 @@ import { StudentDl } from "@/components/studycenterComponents/StudentView/Studen
 import Pagination from "@/components/ui/Pagination";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
+import { useFilters } from "@/Context/FilterContext";
 
 export function ViewStudent() {
   const [search, setSearch] = useState("");
@@ -24,13 +25,7 @@ export function ViewStudent() {
   const { data: course } = useCourseOfStudyCenter();
   const { data: studycenter } = useGetStudyCenterForExcel();
   const navigate = useNavigate();
-  const [filters, setFilters] = useState({
-    course: "",
-    batch: "",
-    year: "",
-    sort: "",
-    studyCentre: "",
-  });
+  const {filters, setFilters} = useFilters()
 
    
   useEffect(() => {

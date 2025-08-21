@@ -28,6 +28,7 @@ import AddNewStaff from "../admin/Staff/AddNewStaff";
 import RequestCourse from "../admin/Course/RequestCourse";
 import SubjectList from "../admin/Course/SubjectList";
 import CenterRequest from "../admin/study centre/CenterRequest";
+import FilterContext from "@/Context/FilterContext";
 
 export default function AdminRoutes() {
   return (
@@ -45,7 +46,7 @@ export default function AdminRoutes() {
         <Route path="request" element={<RequestCourse />} />
       </Route>
       <Route path="admission" element={<AdmissionSection />} />
-      <Route path="students" element={<Outlet />}>
+      <Route path="students" element={<FilterContext><Outlet /></FilterContext>}>
         <Route index element={<ViewStudent />} />
         <Route path="verification" element={<StudentsVerification />} />
         <Route path="view" element={<OneStudent />} />

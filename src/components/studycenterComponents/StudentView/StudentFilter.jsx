@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/Context/authContext";
+import { Input } from "@/components/ui/input";
 
 const currentYear = new Date().getFullYear()+1;
-const oldYears = Array.from({ length: 10 }, (_, i) => currentYear - i);
+const oldYears = Array.from({ length: 16 }, (_, i) => currentYear - i);
 
 function StudentFilter({ filters, onFilterChange, courses , studycenter}) {
    const [batches, setBatches] = useState([]);
@@ -68,6 +69,18 @@ function StudentFilter({ filters, onFilterChange, courses , studycenter}) {
 export default StudentFilter;
 
 function SelctFilter({ data, lebal, text, value, onChange, isObject = false, disabled =false }) {
+  const [search, setSearch] = useState("");
+
+  // filter items based on search text
+  const filteredData = data.filter((item) => {
+    const label = isObject
+      ? String(item.courseName || item.month || item.name || "").toLowerCase()
+      : String(item || "").toLowerCase();
+  
+    return label.includes(search.toLowerCase());
+  });
+
+  
   return (
     <div className="space-y-1">
       {/* <h1 className=" text-sm font-medium">{lebal}</h1> */}
@@ -75,18 +88,30 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
         <SelectTrigger className="w-full bg-zinc-50  shadow-none  ">
           <SelectValue placeholder={text} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='w-full max-w-md'>
+          {/* Search Input */}
+          <div className="p-2">
+            <Input
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-8"
+              onKeyDown={(e) => {
+                e.stopPropagation();
+              }}
+            />
+          </div>
           <SelectGroup>
             <SelectLabel>{lebal}</SelectLabel>
             {isObject ? (
-              data.map((item, index) => (
+              filteredData.map((item, index) => (
                 <SelectItem key={index} value={item.courseId || item._id}>
                   {item.courseName || item.month || item.name}
                 </SelectItem>
               ))
             ) : (
               <>
-                {data.map((item, index) => (
+                {filteredData.map((item, index) => (
                   <SelectItem key={index} value={item}>
                     {item}
                   </SelectItem>

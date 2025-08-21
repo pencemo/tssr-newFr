@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Download04Icon } from "hugeicons-react";
-import { Loader2 } from "lucide-react";
+import { Loader2, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import SelectDropDown from "./SelectDropDown";
@@ -19,6 +19,7 @@ import { useReactToPrint } from "react-to-print";
 import { useStudentForDl } from "@/hooks/tanstackHooks/useStudents";
 import { useSettings } from "@/hooks/tanstackHooks/useAuth";
 import { excelDownload } from "@/lib/ExcelDownload";
+import { Input } from "@/components/ui/input";
 
 export function DocDownload({ name, fields, mark, date, isLong }) {
   const contentRef = useRef(null);
@@ -26,7 +27,12 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
   const [pdfData, setPdfData] = useState(null);
   const [error, setError] = useState(null);
   const [loadingType, setLoadingType] = useState(null); // 'pdf' | 'excel'
-  const [filters, setFilters] = useState({ course: "", batch: "", year: "" , studycenterId: ""});
+  const [filters, setFilters] = useState({
+    course: "",
+    batch: "",
+    year: "",
+    studycenterId: "",
+  });
 
   const { isPending, mutateAsync } = useStudentForDl();
   const { data: settings } = useSettings();
@@ -123,9 +129,11 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
     }
   };
 
+  const dialogRef = useRef(null);
+
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      {/* <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button disabled={!settings?.data?.reportsDownload} className="w-full">
             Download Doc
@@ -171,7 +179,74 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
+
+      <div className="relative w-full">
+        <Button className={"w-full"} onClick={() => setIsOpen(true)}>
+          Download <Download04Icon className="ml-2" strokeWidth={2} />
+        </Button>
+        {isOpen && (
+          <div
+            className={`fixed w-full h-full flex items-center justify-center z-10 inset-0 bg-black/70 transition-all duration-300 ${
+              isOpen ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div
+              ref={dialogRef}
+              className="w-full space-y-2 max-w-sm p-6 bg-white rounded-lg shadow-md relative"
+            >
+              <div
+                onClick={() => setIsOpen(false)}
+                className="absolute top-4 right-4 text-muted-foreground "
+              >
+                <XIcon className="w-5 h-5 cursor-pointer" />
+              </div>
+              <div>
+                <h1 className="text-lg font-medium">{name}</h1>
+                <p className="text-sm text-muted-foreground">
+                  Select course, batch, and year to download the {name}.
+                </p>
+              </div>
+              <div>
+                <div className="py-4">
+                  <SelectDropDown
+                    error={error}
+                    filters={filters}
+                    setFilters={setFilters}
+                  />
+                  {error && (
+                    <p className="text-red-500 text-sm mt-2">{error}</p>
+                  )}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                <Button
+                  variant="outline"
+                  onClick={handleDownloadPDF}
+                  disabled={loadingType === "pdf" && isPending}
+                >
+                  {loadingType === "pdf" && isPending ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Download PDF"
+                  )}
+                </Button>
+
+                <Button
+                  onClick={handleDownloadExcel}
+                  disabled={loadingType === "excel" && isPending}
+                >
+                  {loadingType === "excel" && isPending ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Download Excel"
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Hidden PDF Component for Printing */}
       <div className="sr-only">
