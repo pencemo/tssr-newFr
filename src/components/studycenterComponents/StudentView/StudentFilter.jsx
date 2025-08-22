@@ -80,6 +80,11 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
     return label.includes(search.toLowerCase());
   });
 
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+    console.log("stoped");
+  }
+
   
   return (
     <div className="space-y-1">
@@ -88,7 +93,14 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
         <SelectTrigger className="w-full bg-zinc-50  shadow-none  ">
           <SelectValue placeholder={text} />
         </SelectTrigger>
-        <SelectContent className='w-full max-w-md'>
+        <SelectContent
+        onKeyDown={(e) => {
+          // prevent Radix from handling keys
+          if (!["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(e.key)) {
+            e.stopPropagation();
+          }
+        }}
+         className='w-full max-w-md'>
           {/* Search Input */}
           <div className="p-2">
             <Input
@@ -96,16 +108,19 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-8"
-              onKeyDown={(e) => {
-                e.stopPropagation();
-              }}
+              // onKeyDown={(e) => {
+              //   e.stopPropagation();
+              // }}
+              onKeyDown={stopPropagation}  // block radix typeahead
+              onKeyUp={stopPropagation}
+              onKeyDownCapture={stopPropagation}
             />
           </div>
           <SelectGroup>
             <SelectLabel>{lebal}</SelectLabel>
             {isObject ? (
               filteredData.map((item, index) => (
-                <SelectItem key={index} value={item.courseId || item._id}>
+                <SelectItem onKeyDown={stopPropagation} key={index} value={item.courseId || item._id}>
                   {item.courseName || item.month || item.name}
                 </SelectItem>
               ))

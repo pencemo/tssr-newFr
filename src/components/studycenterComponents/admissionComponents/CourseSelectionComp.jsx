@@ -40,8 +40,12 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
   // handleSubmit with validation
   const handleSubmit = async() => {
 
-    if(!isAccept || isLoading){
+    if(!isAccept){
       toast.error("Please accept the terms and conditions")
+      return
+    }
+    if(!isLoading){
+      toast.error("Enrollment on progress")
       return
     }
     setIsLoading(true)
