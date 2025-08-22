@@ -87,7 +87,7 @@ function StudentsVerification() {
               <Button
                 size="sm"
                 onClick={() => handleSubmit(selectedIds, "approved", "btn1")}
-                disabled={!selectedIds.length > 0}
+                disabled={!selectedIds.length > 0 || isPending}
                 variant="outline"
               >
                 {loading === 'btn1' ? <Loader2 className="animate-spin" /> : "Approve"}
@@ -95,7 +95,7 @@ function StudentsVerification() {
               <Button
                 size="sm"
                 onClick={() => handleSubmit(selectedIds, "rejected", "btn2")}
-                disabled={!selectedIds.length > 0}
+                disabled={!selectedIds.length > 0 || isPending}
                 variant="destructive"
               >
                 {loading === "btn2" ? <Loader2 className="animate-spin" /> : "Reject"}
@@ -135,13 +135,14 @@ function StudentsVerification() {
         <div className="rounded-2xl border overflow-hidden mt-6">
           <StudentVarificationTable
             onSubmit={handleSubmit}
+            disabled={isPending}
             status={status}
             data={data?.students || []}
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
           />
           <Pagination
-            totalData={data?.totalData || 0}
+            totalData={data?.totalDate || 0}
             currentPage={currentPage}
             totalPage={totalPage}
             setCurrentPage={setCurrentPage}

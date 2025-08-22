@@ -36,7 +36,7 @@ function Pagination({ currentPage, setCurrentPage, totalPage, totalData = 0 }) {
           </h1>
         )}
       </div>
-      {Number.parseInt(pageInput) < 1&&<div className="flex items-center space-x-2 ml-4 max-md:hidden">
+      {Number.parseInt(totalPage) > 1&&<div className="flex items-center space-x-2 ml-4 max-md:hidden">
           <Input
             type="number"
             min="1"

@@ -15,7 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-export function ExcelTableView({ tableData, course, onBack }) {
+export function ExcelTableView({ tableData, course, onBack, isSaved }) {
   const [newStudents, setNewStudents] = useState([]);
   const [isAccept, setAccept]=useState(false)
   const [pendingEnrollmentStudents, setPendingEnrollmentStudents] = useState(
@@ -65,10 +65,10 @@ const allValid = newStudents.every(
             setNewStudents([]);
             setPendingEnrollmentStudents([]);
             setUnavailableStudents([]);
-            localStorage.removeItem("studentData");
+            if(isSaved) {localStorage.removeItem("studentData");}
             onBack();
           } else {
-            toast.error("Error enrolling students.");
+            toast.error(res.message);
           }
         },
       }

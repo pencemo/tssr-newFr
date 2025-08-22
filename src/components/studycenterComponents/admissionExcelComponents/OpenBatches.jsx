@@ -29,7 +29,7 @@ export default function OpenBatches({ onIndividual, setCourse, onBulk }) {
 
   if (isLoading) return <div className="w-full h-full"><Loader  /></div>;
   if (isError) return <p className="text-center text-red-500">Failed to load batches</p>;
-  if (isSaved) return <div><ExcelTableView tableData={{newStudents:savedData?.newStudents, pendingEnrollmentStudents: savedData?.pendingEnrollmentStudents}} course={savedData?.course} onBack={()=>setSaved(false)} /></div>
+  if (isSaved) return <div><ExcelTableView isSaved tableData={{newStudents:savedData?.newStudents, pendingEnrollmentStudents: savedData?.pendingEnrollmentStudents}} course={savedData?.course} onBack={()=>setSaved(false)} /></div>
 
 
   return (

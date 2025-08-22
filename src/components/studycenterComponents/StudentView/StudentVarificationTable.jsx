@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/Context/authContext";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Edit02Icon, ViewIcon } from "hugeicons-react";
 
 export function StudentVarificationTable({
   data,
@@ -19,6 +20,7 @@ export function StudentVarificationTable({
   selectedIds,
   setSelectedIds,
   onSubmit,
+  disabled,
 }) {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -46,22 +48,22 @@ export function StudentVarificationTable({
       <TableHeader>
         <TableRow>
           {user?.isAdmin && (
-            <TableHead className="w-[50px]">
+            <TableHead className="w-[30px]">
               <Checkbox
                 checked={selectedIds.length === data.length}
                 onCheckedChange={toggleSelectAll}
               />
             </TableHead>
           )}
-          <TableHead className="w-[10px]">NO</TableHead>
-          <TableHead className="w-[100px]">Profile</TableHead>
+          <TableHead className="w-[30px]">NO</TableHead>
+          <TableHead className="w-[50px]">Profile</TableHead>
           <TableHead>Name</TableHead>
           {user?.isAdmin && <TableHead>Center</TableHead>}
           <TableHead>Status</TableHead>
           <TableHead>Course</TableHead>
           <TableHead>Batch</TableHead>
           <TableHead>Year</TableHead>
-          <TableHead>View</TableHead>
+          <TableHead>View & Edit</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -88,12 +90,14 @@ export function StudentVarificationTable({
                   }
                   alt="@shadcn"
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{item?.studentId?.name[0]}</AvatarFallback>
               </Avatar>
             </TableCell>
             <TableCell>{item?.studentId?.name}</TableCell>
             {user?.isAdmin && (
-              <TableCell className='md:min-w-40 md:whitespace-normal md:break-words '>{item?.studycenterId?.name}</TableCell>
+              <TableCell className="md:min-w-40 md:whitespace-normal md:break-words ">
+                {item?.studycenterId?.name}
+              </TableCell>
             )}
             <TableCell>
               <Badge
@@ -105,42 +109,28 @@ export function StudentVarificationTable({
                 {item.approvalStatus}
               </Badge>
             </TableCell>
-            <TableCell className='md:min-w-40 md:whitespace-normal md:break-words '>{item.courseId.name}</TableCell>
+            <TableCell className="md:min-w-40 md:whitespace-normal md:break-words ">
+              {item.courseId.name}
+            </TableCell>
             <TableCell>{item.batchId.month}</TableCell>
             <TableCell>{item.year}</TableCell>
-            <TableCell>
-            <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    navigate(
-                      `/${route}/students/view?id=${item?._id}&isEnroll=false`
-                    )
-                  }
-                >
-                  View Data
-                </Button></TableCell>
-            <TableCell>
-              {user?.isAdmin && status === "pending" ? (
-                <div className="space-x-2">
-                  <Button
-                    onClick={() => onSubmit([item?._id], "approved")}
-                    variant="outline"
-                    className="h-8 rounded-full"
-                  >
-                    Approve
-                  </Button>
-                  <Button
-                    onClick={() => onSubmit([item?._id], "rejected")}
-                    variant="destructive"
-                    className="h-8 rounded-full "
-                  >
-                    Reject
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  variant="outline"
+            <TableCell >
+            <div className="space-x-2">
+              <Button
+                variant="outline"
+                // disabled={disabled}
+                size="sm"
+                onClick={() =>
+                  navigate(
+                    `/${route}/students/view?id=${item?._id}&isEnroll=false`
+                  )
+                }
+              >
+                View <ViewIcon/>
+              </Button>
+              <Button
+                  variant='outline'
+                  className='border border-primary text-primary hover:bg-primary-foreground hover:text-primary cursor-pointer'
                   size="sm"
                   onClick={() =>
                     navigate(
@@ -148,9 +138,31 @@ export function StudentVarificationTable({
                     )
                   }
                 >
-                  Edit student
+                  Edit <Edit02Icon className="size-3.5" size={16}/>
                 </Button>
-              )}
+                </div>
+            </TableCell>
+            <TableCell>
+              {user?.isAdmin && status === "pending" && (
+                <div className="space-x-2">
+                  <Button
+                    onClick={() => onSubmit([item?._id], "approved")}
+                    variant="outline"
+                    disabled={disabled}
+                    className="h-8 rounded-full"
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    onClick={() => onSubmit([item?._id], "rejected")}
+                    disabled={disabled}
+                    variant="destructive"
+                    className="h-8 rounded-full "
+                  >
+                    Reject
+                  </Button>
+                </div>
+              ) }
             </TableCell>
           </TableRow>
         ))}

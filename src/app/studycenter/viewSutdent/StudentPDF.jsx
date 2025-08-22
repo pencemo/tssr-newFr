@@ -26,6 +26,7 @@ const formatDate = (dateString) => {
 };
 
 const StudentCertificate = forwardRef(({ studentData }, ref) => {
+  console.log(studentData);
   return (
     <div
       ref={ref}
@@ -78,12 +79,12 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
           <div className="grid grid-cols-8">
             <div className="col-span-2">
               <span className="font-normal text-muted-foreground text-sm">
-                Registration No :
+                Admission No :
               </span>
             </div>
             <div className="col-span-3">
               <p className="text-foreground font-medium text-sm">
-                {studentData.registrationNumber}
+                {studentData.admissionNumber}
               </p>
             </div>
           </div>
@@ -179,7 +180,7 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
             <div className="space-y-1 text-sm">
               <div className="grid grid-cols-3 gap-5">
                 <span className="text-gray-600">Course:</span>
-                <span className="font-medium col-span-2">{studentData.ourseName}</span>
+                <span className="font-medium col-span-2">{studentData.courseName}</span>
               </div>
               <div className="grid grid-cols-3 gap-5">
                 <span className="text-gray-600">Batch Month:</span>
