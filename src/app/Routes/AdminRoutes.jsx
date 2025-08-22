@@ -29,6 +29,7 @@ import RequestCourse from "../admin/Course/RequestCourse";
 import SubjectList from "../admin/Course/SubjectList";
 import CenterRequest from "../admin/study centre/CenterRequest";
 import FilterContext from "@/Context/FilterContext";
+import { ViewCenter } from "../admin/study centre/ViewCenter";
 
 export default function AdminRoutes() {
   return (
@@ -39,6 +40,7 @@ export default function AdminRoutes() {
         <Route path="req" element={<CenterRequest />} />
         <Route path="add" element={<NewStudy />} />
         <Route path="edit/:id" element={<EditStudyCen />} />
+        <Route path="view/:id" element={<ViewCenter />} />
       </Route>
       <Route path="course" element={<Outlet />}>
         <Route index element={<Courses />} />

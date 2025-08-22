@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { useFirebaseUpload } from "@/hooks/useFirebaseUpload";
+import { useRef } from "react";
 
 const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
   
@@ -27,7 +28,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
   const navigate = useNavigate();
-  const { mutate } = useCreateEnrollmentAndStudent();
+  const { mutateAsync, isPending } = useCreateEnrollmentAndStudent();
 
   useEffect(() => {
     setStudent({
@@ -36,15 +37,18 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
     });
   }, [userData, course]);
 
-
+  const isSubmittingRef = useRef(false);
   // handleSubmit with validation
   const handleSubmit = async() => {
+
+    if (isSubmittingRef.current) return; // block instantly
+    isSubmittingRef.current = true;
 
     if(!isAccept){
       toast.error("Please accept the terms and conditions")
       return
     }
-    if(isLoading){
+    if(isLoading || isPending){
       toast.error("Enrollment on progress")
       return
     }
@@ -80,7 +84,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
     
 
 
-    mutate(
+    await mutateAsync(
       { student: studentWithUrls, course },
       {
         onSuccess: (res) => {
@@ -98,6 +102,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
     );
 
     setIsLoading(false);
+    isSubmittingRef.current = false;
   };
   
   const image = student?._id ? student?.profileImage : student?.profileImage ? URL.createObjectURL(student?.profileImage) : 'https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg';

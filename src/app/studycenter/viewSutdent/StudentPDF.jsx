@@ -239,7 +239,7 @@ export default function StudentPDF({ studentData }) {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     contentRef: componentRef,
-    documentTitle: `Student_Certificate`,
+    documentTitle: `Student ${studentData.name}`,
     pageStyle: `
       @page {
         size: A4;

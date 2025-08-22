@@ -16,6 +16,7 @@ import { Delete01Icon, Edit02Icon, ViewIcon } from "hugeicons-react";
 import { useDeleteStudentFromRejectList } from "@/hooks/tanstackHooks/useStudentVarification";
 import { Alert } from "@/components/ui/Alert";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function StudentVarificationTable({
   data,
@@ -61,6 +62,9 @@ export function StudentVarificationTable({
           toast.error("Something went wrong")
         }
       },
+      onError: (error) => {
+        toast.error("Something went wrong")
+      }
     })
   }
 
@@ -186,7 +190,7 @@ export function StudentVarificationTable({
                     Reject
                   </Button>
                 </div>) : 
-                <Button onClick={()=>onSlected(item?._id)} variant="destructive" className="h-8">Delete <Delete01Icon/></Button>
+                <Button onClick={()=>onSlected(item?._id)} variant="outline" className="h-8 hover:text-red-600 border-red-500 text-red-500">Delete <Delete01Icon/></Button>
               ) }
             </TableCell>
           </TableRow>

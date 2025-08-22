@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import CopyToClipbord from "@/components/ui/CopyToClipbord";
+import { Edit02Icon, ViewIcon } from "hugeicons-react";
 
 export function TableComp({ data }) {
   const navigate = useNavigate();
@@ -55,13 +56,20 @@ export function TableComp({ data }) {
                 <Badge variant="destructive" className='rounded-full w-full max-w-24 bg-red-500'>Not Active</Badge>
               )}
             </TableCell>
-            <TableCell className="">
+            <TableCell className="space-x-2">
               <Button
               variant='outline'
               className='h-8'
+                onClick={() => navigate(`/admin/studycentre/view/${item._id}`)}
+              >
+                View <ViewIcon/>
+              </Button>
+              <Button
+              variant=''
+              className='h-8'
                 onClick={() => navigate(`/admin/studycentre/edit/${item._id}`)}
               >
-                Edit data
+                Edit <Edit02Icon/> 
               </Button>
             </TableCell>
           </TableRow>

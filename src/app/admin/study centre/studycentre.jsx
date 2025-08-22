@@ -71,7 +71,7 @@ export function StudyCentre() {
             <Loader />
           </div>
         ) : studyCenters.length > 0 ? (
-          <div className="rounded-md border">
+          <div className="rounded-xl overflow-hidden border">
             <TableComp
               data={studyCenters}
             />
