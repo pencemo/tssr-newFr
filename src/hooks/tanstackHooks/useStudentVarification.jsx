@@ -20,3 +20,13 @@ export const useUpdateStatusofVerification = () => {
       },
     })
   };
+
+export const useDeleteStudentFromRejectList = () => {
+  const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (data) => { return varificationService.deleteStudentFromRejectList(data)},
+      onSuccess: () => {
+        queryClient.invalidateQueries(["verificationStudent"]);
+      },
+    })
+  };

@@ -12,7 +12,10 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/Context/authContext";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Edit02Icon, ViewIcon } from "hugeicons-react";
+import { Delete01Icon, Edit02Icon, ViewIcon } from "hugeicons-react";
+import { useDeleteStudentFromRejectList } from "@/hooks/tanstackHooks/useStudentVarification";
+import { Alert } from "@/components/ui/Alert";
+import { useState } from "react";
 
 export function StudentVarificationTable({
   data,
@@ -24,13 +27,20 @@ export function StudentVarificationTable({
 }) {
   const { user } = useAuth();
   const navigate = useNavigate();
-
+ const {mutate, isPending}=useDeleteStudentFromRejectList()
+ const [isDelete, setIsDelete] = useState(false)
+ const [deleteId, setDeleteId] = useState()
   // Handle individual checkbox toggle
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
+
+  const onSlected = (id) => {
+    setDeleteId(id)
+    setIsDelete(true)
+  }
 
   // Handle "Select All" checkbox
   const toggleSelectAll = () => {
@@ -41,9 +51,23 @@ export function StudentVarificationTable({
     }
   };
 
+  const handleDelete = async (id) => {
+    if(isPending) return
+    mutate({id}, {
+      onSuccess: (data) => {
+        if(data.success){
+          toast.success("Student deleted successfully")
+        }else{
+          toast.error("Something went wrong")
+        }
+      },
+    })
+  }
+
   const route = user?.isAdmin ? "admin" : "studycenter";
 
   return (
+    <>
     <Table className="border-b">
       <TableHeader>
         <TableRow>
@@ -143,7 +167,7 @@ export function StudentVarificationTable({
                 </div>
             </TableCell>
             <TableCell>
-              {user?.isAdmin && status === "pending" && (
+              {user?.isAdmin && (status === "pending" ? (
                 <div className="space-x-2">
                   <Button
                     onClick={() => onSubmit([item?._id], "approved")}
@@ -161,12 +185,15 @@ export function StudentVarificationTable({
                   >
                     Reject
                   </Button>
-                </div>
+                </div>) : 
+                <Button onClick={()=>onSlected(item?._id)} variant="destructive" className="h-8">Delete <Delete01Icon/></Button>
               ) }
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
+    <Alert isOpen={isDelete} setIsOpen={setIsDelete} deleteFn={()=>handleDelete(deleteId)}/>
+    </>
   );
 }

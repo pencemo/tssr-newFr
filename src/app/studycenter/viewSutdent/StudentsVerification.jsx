@@ -12,9 +12,10 @@ import Loader from "@/components/ui/loader";
 import { toast } from "sonner";
 import { useAuth } from "@/Context/authContext";
 import { Loader2 } from "lucide-react";
+import { useFilters } from "@/Context/FilterContext";
 
 function StudentsVerification() {
-  const [search, setSearch] = useState("");
+  const {search, setSearch} = useFilters()
   const { user } = useAuth();
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,7 +50,15 @@ function StudentsVerification() {
 
   useEffect(() => {
     setSelectedIds([]);
+    
   }, [status]);
+
+  useEffect(() => {
+    setSearch('')
+    return () => {
+      setSearch('')
+    }
+  }, []);
 
   const handleSubmit = (ids, status, btn) => {
     if(btn){
@@ -123,6 +132,7 @@ function StudentsVerification() {
         </div>
         <Input
           onChange={(e) => setSearch(e.target.value)}
+          value={search}
           className="max-w-sm max-sm:max-w-full"
           placeholder="Search by Name, Center, Course"
         />

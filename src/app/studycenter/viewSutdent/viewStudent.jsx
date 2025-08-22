@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useFilters } from "@/Context/FilterContext";
 
 export function ViewStudent() {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [students, setStudents] = useState([]);
@@ -25,7 +25,7 @@ export function ViewStudent() {
   const { data: course } = useCourseOfStudyCenter();
   const { data: studycenter } = useGetStudyCenterForExcel();
   const navigate = useNavigate();
-  const {filters, setFilters} = useFilters()
+  const {filters, setFilters, search, setSearch} = useFilters()
 
    
   useEffect(() => {

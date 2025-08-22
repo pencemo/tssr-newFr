@@ -116,6 +116,7 @@ export const API_ENDPOINTS = {
   VERIFICATION_STUDENT: {
     GET_VERIFICATION_STUDENT: "/api/approval/getPendingAndRejectedStudents",
     UPDATE_STATUS_OF_VERIFICATION: "/api/approval/updateStatusOfPendingApproval",
+    DELETE_REJECT_STUDENT: "/api/approval/deleteApproval",
   },
   STAFF: {
     CREATE_STAFF: "/api/staff/createStaff",

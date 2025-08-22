@@ -23,6 +23,17 @@ export const varificationService = {
     );
     return response.data;
   },
+  deleteStudentFromRejectList: async (data) => {
+    const response = await axiosInstance.post(
+      API_ENDPOINTS.VERIFICATION_STUDENT.DELETE_REJECT_STUDENT,
+      {
+        params: {
+          data
+        },
+      }
+    );
+    return response.data;
+  },
   
   
 }; 

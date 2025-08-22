@@ -44,7 +44,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
       toast.error("Please accept the terms and conditions")
       return
     }
-    if(!isLoading){
+    if(isLoading){
       toast.error("Enrollment on progress")
       return
     }
