@@ -41,8 +41,8 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
   // handleSubmit with validation
   const handleSubmit = async() => {
 
-    if (isSubmittingRef.current) return; // block instantly
-    isSubmittingRef.current = true;
+    // if (isSubmittingRef.current) return console.log(isSubmittingRef.current);
+    // isSubmittingRef.current = true;
 
     if(!isAccept){
       toast.error("Please accept the terms and conditions")
@@ -189,7 +189,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
             >
               Back to edit
             </Button>
-            <Button disabled={isLoading} className="w-full sm:w-auto" onClick={() => {
+            <Button disabled={isLoading || isPending} className="w-full sm:w-auto" onClick={() => {
               handleSubmit()
             }}>
               {isLoading ? (
