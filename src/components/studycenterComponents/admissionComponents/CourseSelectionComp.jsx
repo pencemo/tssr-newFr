@@ -184,7 +184,9 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
             >
               Back to edit
             </Button>
-            <Button disabled={!isAccept || isLoading} className="w-full sm:w-auto" onClick={handleSubmit}>
+            <Button disabled={isLoading} className="w-full sm:w-auto" onClick={() => {
+              handleSubmit()
+            }}>
               {isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (
