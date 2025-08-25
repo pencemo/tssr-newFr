@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import OrderPending from '@/components/admincomp/StoreComp/orderPending';
+import OrderPending from '@/components/admincomp/StoreComp/OrderPending';
 import OrderConfirmed from '@/components/admincomp/StoreComp/OrderConfirmed';
 import OrderCancelled from '@/components/admincomp/StoreComp/OrderCancelled';
 import { Button } from '@/components/ui/button';
