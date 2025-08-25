@@ -51,6 +51,16 @@ function ExcelDemoResult() {
     setSelectedCourseId("")
   }
 
+  const dlExcel = async ()=>{
+    const data = [{admissionNumber:"", name:"", examName: "",studyCenterName: "", examCenterName: "",courseName: "",duration: "", dateOfExam:"", grade:"", remark: "", subjects: ""}]
+    try{
+      await excelDownload(data, "Result")
+      toast.success("Excel downloaded successfully")
+    }catch(err){
+      toast.error(err.message)
+    }
+  }
+
   const handleSubmit = ()=>{
     const data = {examScheduleId:selectedExamId, courseId:selectedCourseId, batchId:selectedBatchId}
     mutate(data, {
@@ -137,7 +147,14 @@ function ExcelDemoResult() {
         </Select>
       </div>
 
-      <div className="mt-2 justify-self-end">
+      <div className="mt-2 justify-self-end space-x-2">
+        <Button
+          size="sm"
+          onClick={dlExcel}
+          variant="outline"
+        >
+          Default Excel
+        </Button>
         <Button
           size="sm"
           onClick={handleSubmit}

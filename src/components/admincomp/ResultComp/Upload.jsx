@@ -112,7 +112,7 @@ function Upload() {
           )}
         </label>
       </div>
-      <div className="flex justify-between items-center mt-6">
+      <div className="flex max-md:flex-col gap-4 justify-between md:items-center mt-6">
         {/* Radio Buttons */}
         <RadioGroup
           onValueChange={setExamType}

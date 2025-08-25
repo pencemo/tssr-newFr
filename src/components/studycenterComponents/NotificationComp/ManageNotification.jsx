@@ -60,12 +60,12 @@ const NavigateBack = () => {
       </div>
     );
 
-  if (!data.data || data.data.length === 0)
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        No Notification
-      </div>
-    );
+  // if (!data.data || data.data.length === 0)
+  //   return (
+  //     <div className="w-full h-full flex items-center justify-center">
+  //       No Notification
+  //     </div>
+  //   );
 
   return (
     <div className="w-full max-w-[65rem] mx-auto">
@@ -78,7 +78,7 @@ const NavigateBack = () => {
         </div>
       </div>
       <div className="flex flex-col divide-y">
-        {data?.data.map((item, i) => {
+        {data?.data?.map((item, i) => {
           const isDeleting = deletingId === item._id;
 
           return (

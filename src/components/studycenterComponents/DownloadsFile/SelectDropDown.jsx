@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -92,7 +92,7 @@ function DlFilter({
 }) {
 
   const [search, setSearch] = useState("");
-
+  const inputRef = useRef(null)
   // filter items based on search text
   const filteredData = data.filter((item) => {
     const label = isObject
@@ -101,6 +101,28 @@ function DlFilter({
   
     return label.includes(search.toLowerCase());
   });
+
+  const handleInputKeyDown = (e) => {
+    // Prevent the Select component from handling these events
+    e.stopPropagation()
+    e.nativeEvent.stopImmediatePropagation()
+
+    // Allow normal input behavior for all keys except Escape
+    if (e.key === "Escape") {
+      inputRef.current?.blur()
+    } 
+  }
+
+  const handleInputChange = (e) => {
+    setSearch(e.target.value)
+    // Ensure input stays focused
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
+    }, 0)
+  }
+
 
   return (
     <div className="space-y-1 w-full ">
@@ -116,11 +138,12 @@ function DlFilter({
             <Input
               placeholder="Search..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              ref={inputRef}
+              onChange={handleInputChange}
               className="h-8"
-              onKeyDown={(e) => {
-                e.stopPropagation();
-              }}
+              onKeyDown={handleInputKeyDown}  // block radix typeahead
+              onKeyUp={handleInputKeyDown}
+              onKeyDownCapture={handleInputKeyDown}
             />
           </div>
           <SelectGroup>

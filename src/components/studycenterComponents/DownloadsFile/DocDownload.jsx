@@ -12,7 +12,7 @@ import { useSettings } from "@/hooks/tanstackHooks/useAuth";
 import { excelDownload } from "@/lib/ExcelDownload";
 import { Input } from "@/components/ui/input";
 
-export function DocDownload({ name, fields, mark, date, isLong }) {
+export function DocDownload({ name, fields= [], mark, date, isLong }) {
   const contentRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [pdfData, setPdfData] = useState(null);
@@ -26,7 +26,6 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
   });
 
   const { isPending, mutateAsync } = useStudentForDl();
-  const { data: settings } = useSettings();
 
   const handlePrint = useReactToPrint({
     contentRef,
@@ -94,7 +93,6 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
 
     try {
       const result = await fetchData();
-
       if (!result.success || result.data.length === 0) {
         const msg = result.message || "No data found";
         toast.error(msg);
@@ -102,7 +100,7 @@ export function DocDownload({ name, fields, mark, date, isLong }) {
         return;
       }
 
-      const rows = result.data.map((item) => ({
+      const rows = result?.data?.map((item) => ({
         "Admission Number": item.admissionNumber,
         Name: item.name,
         ...Object.fromEntries(fields.map((field) => [field, ""])),
