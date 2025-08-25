@@ -1,5 +1,5 @@
 import React from "react";
-import headerImg from "../../../assets/PdfHead.svg"
+import headerImg from "../../../assets/pdfHead.svg"
 import { format } from "date-fns";
 
 const datas = {
