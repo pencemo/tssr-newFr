@@ -13,9 +13,18 @@ import { toast } from "sonner";
 import { useAuth } from "@/Context/authContext";
 import { Loader2 } from "lucide-react";
 import { useFilters } from "@/Context/FilterContext";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 function StudentsVerification() {
-  const {search, setSearch} = useFilters()
+  const {searchPending, setSearchPending} = useFilters()
   const { user } = useAuth();
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,22 +32,23 @@ function StudentsVerification() {
   const [status, setStatus] = useState("pending");
   const [selectedIds, setSelectedIds] = useState([]);
   const [loading, setLoading] = useState(null);
+  const [perPage, setPerPage] = useState(20);
   const { mutate, isPending } = useUpdateStatusofVerification();
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedSearch(search);
+      setDebouncedSearch(searchPending);
       setCurrentPage(1);
     }, 1000);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [search]);
+  }, [searchPending]);
 
   const { data, error, isLoading } = useAllVarificationStudents(
     currentPage,
-    20,
+    perPage,
     debouncedSearch,
     status
   );
@@ -53,13 +63,7 @@ function StudentsVerification() {
     
   }, [status]);
 
-  useEffect(() => {
-    setSearch('')
-    return () => {
-      setSearch('')
-    }
-  }, []);
-
+  
   const handleSubmit = (ids, status, btn) => {
     if(btn){
       setLoading(btn)
@@ -90,9 +94,9 @@ function StudentsVerification() {
     <div>
       <div className="flex justify-between items-center   gap-2">
         <h1 className="text-lg md:text-2xl font-bold">Students Verification</h1>
-        <div className="flex gap-2 items-center">
+        <div className="">
           {user?.isAdmin && (
-            <div className="space-x-2">
+            <div className="flex gap-2 items-center">
               <Button
                 size="sm"
                 onClick={() => handleSubmit(selectedIds, "approved", "btn1")}
@@ -130,12 +134,25 @@ function StudentsVerification() {
             Rejected{" "}
           </Button>
         </div>
+        <div className="flex gap-2 items-center max-sm:w-full max-sm:max-w-full">
         <Input
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
+          onChange={(e) => setSearchPending(e.target.value)}
+          value={searchPending}
           className="max-w-sm max-sm:max-w-full"
           placeholder="Search by Name, Center, Course"
         />
+        <Select onValueChange={(value)=>setPerPage(value)} defaultValue={perPage}>
+          <SelectTrigger className="w-[100px]">
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent className='w-[60px] max-w-[60px]'>
+            <SelectGroup>
+              {[10, 20, 50, 100].map((item) =><SelectItem value={item}>{item}</SelectItem>)}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        </div>
       </div>
       {isLoading ? (
         <div>

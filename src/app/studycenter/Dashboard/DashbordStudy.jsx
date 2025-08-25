@@ -2,7 +2,7 @@ import CentreDetails from '@/components/studycenterComponents/Dashboard/CentreDe
 import DashbordCard from '@/components/studycenterComponents/Dashboard/DashbordCard'
 import NotificationCard from '@/components/studycenterComponents/Dashboard/NotificationCard'
 import React from 'react'
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/Logo.svg";
 import { useDashboardDataOfCenter } from '@/hooks/tanstackHooks/useNotifications';
 import Loader from '@/components/ui/loader';
 import { useAuth } from '@/Context/authContext';

@@ -106,7 +106,7 @@ function ExcelDemoResult() {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Exams</SelectLabel>
-              {data?.data.map((item, i) => (
+              {data?.data?.map((item, i) => (
                 <SelectItem key={i} value={item.examScheduleId}>
                   {item.examName}
                 </SelectItem>

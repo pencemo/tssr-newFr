@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef } from "react";
 import head from "../../../assets/pdfHead.svg";
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/Logo.svg";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import sealimg from "../../../assets/sealpng.png";

@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import header from "../../../assets/pdfHead.svg";
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/Logo.svg";
 import {
   User,
   Phone,

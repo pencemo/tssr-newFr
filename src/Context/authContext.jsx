@@ -2,7 +2,7 @@ import { useGetUser } from '@/hooks/tanstackHooks/useAuth'
 import { useAllNotifications } from '@/hooks/tanstackHooks/useNotifications'
 import React, { useContext, useEffect, useState } from 'react'
 import { createContext } from 'react'
-import logo from '../assets/logo.svg'
+import logo from '../assets/Logo.svg'
 
 export const AuthContexP = createContext()
 

@@ -5,7 +5,7 @@ import React, { forwardRef, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import header from "../../../assets/pdfHead.svg";
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/Logo.svg";
 import {
   Printer,
 } from "lucide-react";

@@ -4,6 +4,7 @@ import { useContext } from 'react';
 const FilterContextPro = createContext()
 function FilterContext({children}) {
     const [search, setSearch] = useState("")
+    const [searchPending, setSearchPending] = useState("")
     const [filters, setFilters] = useState({
         course: "",
         batch: "",
@@ -12,7 +13,7 @@ function FilterContext({children}) {
         studyCentre: "",
       });
   return (
-    <FilterContextPro.Provider value={{filters, setFilters, search, setSearch}}>
+    <FilterContextPro.Provider value={{filters, setFilters, search, setSearch, searchPending, setSearchPending}}>
         {children}
     </FilterContextPro.Provider>
   )

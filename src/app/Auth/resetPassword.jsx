@@ -2,7 +2,7 @@ import { ResetOTP } from "@/components/auth/ResetOTP";
 import { SubmitReset } from "@/components/auth/SubmitReset";
 import { VerifyOTP } from "@/components/auth/VerifyOTP";
 import React, { useState } from "react";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/Logo.svg";
 
 function ResetPassword() {
   const [step, setStep] = useState(0);

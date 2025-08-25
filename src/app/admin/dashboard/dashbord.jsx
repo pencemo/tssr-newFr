@@ -1,7 +1,7 @@
 import { AdminChart } from "@/components/admincomp/AdminDashbord/AdminChart";
 import DataCard from "@/components/admincomp/AdminDashbord/DataCard";
 import React from "react";
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/Logo.svg";
 import NotificationCard from "@/components/studycenterComponents/Dashboard/NotificationCard";
 import { useDashboardData } from "@/hooks/tanstackHooks/useNotifications";
 import Loader from "@/components/ui/loader";
