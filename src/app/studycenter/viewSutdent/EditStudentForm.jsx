@@ -178,8 +178,8 @@ export function EditStudentForm( ) {
     if (!formData.parentName) newErrors.parentName = "Parent Name is required.";
     if (!formData.qualification)
       newErrors.qualification = "Qualification is required.";
-    if (!formData.sslc) newErrors.sslc = "SSLC certificate is required.";
-    if (!formData.profileImage)
+    if (!formData.sslc && !sslc) newErrors.sslc = "SSLC certificate is required.";
+    if (!formData.profileImage && !profileImg)
       newErrors.profileImage = "Profile image is required.";
 
     setErrors(newErrors);
@@ -188,7 +188,7 @@ export function EditStudentForm( ) {
 
   const handleSubmit = async () => {
     // return console.log(formData);
-    if (!validate()) return;
+    if (!validate()) return ;
     setOnLoading(true)
 
 
@@ -197,6 +197,8 @@ export function EditStudentForm( ) {
         file: profileImg,
         path: "students/profileImages",
       });
+      setProfileImg(null)
+      setFormData({...formData, profileImage: profileImgUrl})
 
       if(!profileImgUrl){
         toast.error("Failed to upload profile image.")
@@ -210,6 +212,8 @@ export function EditStudentForm( ) {
         file: sslc,
         path: "students/files",
       });
+      setSslc(null)
+      setFormData({...formData, sslc: sslcUrl})
 
       if(!sslcUrl){
         setOnLoading(false)
