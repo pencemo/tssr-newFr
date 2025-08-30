@@ -76,7 +76,7 @@ export function ViewCenter() {
           </div>
           <div className="flex items-center gap-3">
             
-            <CenterPDF data={studyCenterData} />
+            <CenterPDF data={studyCenterData} course={availableCourses} />
             <Button onClick={()=>navigate(-1)} variant={'outline'}>Back <ArrowLeft/></Button>
           </div>
         </div>

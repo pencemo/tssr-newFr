@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import header from "../../../assets/pdfHead.svg";
 import logo from "../../../assets/Logo.svg";
 import {
+  CheckIcon,
   Printer,
 } from "lucide-react";
-import { format } from "date-fns";
-import { formateDateToIST } from "@/lib/formateDate";
+import { QRCodeSVG } from "qrcode.react";
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("en-IN", {
@@ -20,7 +20,7 @@ const formatDate = (dateString) => {
   });
 };
 
-const StudyCentrPDF = forwardRef(({ data }, ref) => {
+const StudyCentrPDF = forwardRef(({ data, course }, ref) => {
   return (
     <div
       ref={ref}
@@ -31,128 +31,133 @@ const StudyCentrPDF = forwardRef(({ data }, ref) => {
       </div>
 
 <div>
-<div className="p-8  ">
+<div className="p- 6  ">
         {/* Header */}
-        <div className="text-center   pb-6 mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">STUDY CENTER CERTIFICATE</h1>
-          <p className=" text-gray-600">Authorized Training Center Registration Details</p>
+        <div className="text-center  mt-3 pb-5 ">
+          
+          <h1 className="text-2xl uppercase font-semibold text-gray-800">Authorised Training Center</h1>
+          <p className="text-lg font-bold text-gray-600">CERTIFICATE</p>
         </div>
 
         {/* Main Content */}
-        <div className="space-y-8">
+        <div className="space-y-4">
           {/* Center Information */}
           <div className="bg-gray-50 p-6 rounded-lg print:bg-gray-100">
             {/* <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">CENTER INFORMATION</h2> */}
 
             <div className="grid grid-cols-1 gap-4">
-              <div className="text-center mb-6">
+              <div className="flex gap-6 items-end mb-6">
+                {data.logo&&<div>
+                  <img className="size-28 object-cover border rounded-2xl" src={data.logo} alt="" />
+                </div>}
+                <div>
                 <h3 className="text-2xl font-bold text-blue-800 mb-2">{data.name}</h3>
                 <p className="text-lg text-gray-600">
                   ATC ID: <span className="font-semibold">{data.atcId}</span>
                 </p>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-5">
                 <div className="space-y-3">
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                    <span className="text-xs font-medium text-gray-500  tracking-wide">
                       Registration Number
                     </span>
-                    <span className="text-lg font-semibold text-gray-800">{data.regNo}</span>
+                    <span className="text-base font-semibold text-gray-800">{data.regNo}</span>
                   </div>
 
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Center Head</span>
-                    <span className="text-lg font-semibold text-gray-800">{data.centerHead}</span>
+                    <span className="text-xs font-medium text-gray-500  tracking-wide">Center Head</span>
+                    <span className="text-base font-semibold text-gray-800">{data.centerHead}</span>
                   </div>
 
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Email Address</span>
-                    <span className="text-lg font-semibold text-gray-800">{data.email}</span>
+                    <span className="text-xs font-medium text-gray-500  tracking-wide">Email Address</span>
+                    <span className="text-base font-semibold text-gray-800">{data.email}</span>
                   </div>
                 </div>
 
                 <div className="space-y-3">
+                  {/* <div className="flex flex-col">
+                    <span className="text-xs font-medium text-gray-500  tracking-wide">Phone Number</span>
+                    <span className="text-base font-semibold text-gray-800">{data.phoneNumber}</span>
+                  </div> */}
+
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Phone Number</span>
-                    <span className="text-lg font-semibold text-gray-800">{data.phoneNumber}</span>
+                    <span className="text-xs font-medium text-gray-500  tracking-wide">Location</span>
+                    <span className="text-base font-semibold text-gray-800">{data.place}</span>
                   </div>
 
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Location</span>
-                    <span className="text-lg font-semibold text-gray-800">{data.place}</span>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">District & State</span>
-                    <span className="text-lg font-semibold text-gray-800">
+                    <span className="text-xs font-medium text-gray-500  tracking-wide">District & State</span>
+                    <span className="text-base font-semibold text-gray-800">
                       {data.district.toUpperCase()}, {data.state.toUpperCase()}
                     </span>
                   </div>
+                  <div className="flex flex-col">
+                  <span className="text-xs font-medium text-gray-500  tracking-wide">Pincode</span>
+                  <span className="text-base font-semibold text-gray-800">{data.pincode}</span>
+                </div>
+
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 pt-4 border-t">
+              <div className="grid grid-cols-2 gap-x-6 pt-2 border-t">
+              <h3 className="text-base font-semibold text-gray-800 col-span-full mb-3">Registration Details</h3>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Pincode</span>
-                  <span className="text-lg font-semibold text-gray-800">{data.pincode}</span>
+                  <span className="text-xs font-medium text-gray-500 tracking-wide">Registered Date</span>
+                  <span className="text-base font-semibold text-gray-800">{formatDate(data.createdAt)}</span>
                 </div>
-
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">Renewal Date</span>
-                  <span className="text-lg font-semibold text-gray-800">{formatDate(data.renewalDate)}</span>
+                  <span className="text-xs font-medium text-gray-500 tracking-wide">Renewal Date</span>
+                  <span className="text-base font-semibold text-gray-800">{formatDate(data.renewalDate)}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Status Information */}
-          {/* <div className="grid grid-cols-2 gap-6">
-            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-              <h3 className="font-semibold text-green-800 mb-2">Approval Status</h3>
-              <div className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${data.isApproved ? "bg-green-500" : "bg-red-500"}`}></div>
-                <span className={`font-medium ${data.isApproved ? "text-green-700" : "text-red-700"}`}>
-                  {data.isApproved ? "APPROVED" : "NOT APPROVED"}
-                </span>
-              </div>
+          <div className=" ">
+            <div className="bg-gray-100 p-4 rounded-lg border">
+              <h3 className="font-semibold text-blue-800 mb-2">Approved Courses</h3>
+              {course?.map((data, i) =>{
+                return<span key={i} className="text-sm text-gray-600">
+                {data.name}{i !== course.length - 1 ? ", " : ""}
+              </span>
+              })}
             </div>
-
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <h3 className="font-semibold text-blue-800 mb-2">Active Status</h3>
-              <div className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${data.isActive ? "bg-green-500" : "bg-orange-500"}`}></div>
-                <span className={`font-medium ${data.isActive ? "text-green-700" : "text-orange-700"}`}>
-                  {data.isActive ? "ACTIVE" : "INACTIVE"}
-                </span>
-              </div>
-            </div>
-          </div> */}
+          </div>
 
           {/* Registration Details */}
-          <div className="bg-gray-50 p-6 rounded-lg print:bg-gray-100">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Registration Details</h3>
+          <div className=" rounded-lg mt-8 text-right ">
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-500">Created Date:</span>
-                <span className="ml-2 font-medium">{formatDate(data.createdAt)}</span>
-              </div>
-              <div>
-                <span className="text-gray-500">Last Updated:</span>
-                <span className="ml-2 font-medium">{formatDate(data.updatedAt)}</span>
+            <div className="relative">
+            <div className="absolute left-0 -top-3">
+          <QRCodeSVG size={70} value={'tssr council authorized certificate'}/>
+          </div>
+            </div>
+              <div className="flex flex-col items-end justify-end">
+                
+              <h1 className="font-medium">CHAIRMAN, TSSR COUNCIL</h1>
+              <h1 className="text-sm text-muted-foreground">Central Administrative office</h1>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-12 pt-8 border-t-2 border-gray-800">
+        <div className="mt-8 pt-4 border-t border-gray-800">
           <div className="text-center">
-            <p className="text-sm text-gray-600 mb-2">
-              This certificate is issued by the TSSR Council 
+            <p className="text-sm text-gray-600 ">
+            We here by certify that <span className="font-medium">{data.name}</span> is an Authorised Training Center of tssr council as per the rules & Regulations stipulated by the authority
             </p>
-            <p className="text-xs text-gray-500">
-              Generated on: {new Date().toLocaleDateString("en-IN")} | Certificate ID: {data._id}
+            {/* <p className="text-sm text-gray-600 mb-2">
+              This certificate is issued by the TSSR Council 
+            </p> */}
+            
+            <p className="text-xs text-gray-500 mt-2 p-1">
+            Corporate office, TSSR Bhavan, Thamarassery, Calicut Kerala, India, Pin -  673 573
             </p>
           </div>
         </div>
@@ -169,7 +174,7 @@ const StudyCentrPDF = forwardRef(({ data }, ref) => {
   );
 });
 
-export default function CenterPDF({ data }) {
+export default function CenterPDF({ data, course }) {
   const componentRef = useRef(null);
 
   const handlePrint = useReactToPrint({
@@ -198,7 +203,7 @@ export default function CenterPDF({ data }) {
           </Button>
         </div>
         <div className="bg-white rounded-lg sr-only shadow-2xl overflow-hidden">
-          <StudyCentrPDF ref={componentRef} data={data} />
+          <StudyCentrPDF ref={componentRef} data={data} course={course} />
         </div>
       </div>
   );

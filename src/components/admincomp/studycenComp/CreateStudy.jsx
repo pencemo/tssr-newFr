@@ -185,7 +185,7 @@ function FrDtils({ setFormData, formData, isError}) {
   return (
     <div className=" space-y-3 mt-6">
       <FormInputs
-        name="Name"
+        name="Center Name"
         id="name"
         onChange={handleChange}
         value={formData.name}
