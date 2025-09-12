@@ -43,14 +43,14 @@ function Home() {
         style={{
           background: `
             radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, 
-              oklch(0.65 0.12 160 / 0.3) 0%, 
+              rgba(62, 165, 118, 0.3) 0%, 
               transparent 50%),
             linear-gradient(135deg, 
-              oklch(0.55 0.15 160 / 0.1) 0%, 
-              oklch(0.65 0.12 160 / 0.05) 25%,
+              rgba(0, 139, 82, 0.1) 0%, 
+              rgba(62, 165, 118, 0.05) 25%,
               transparent 50%,
-              oklch(0.6 0.18 45 / 0.05) 75%,
-              oklch(0.55 0.15 160 / 0.1) 100%)
+              rgba(210, 82, 0, 0.05) 75%,
+              rgba(0, 139, 82, 0.1) 100%)
           `,
           backgroundSize: "400% 400%",
           animation: "gradient-shift 8s ease infinite",

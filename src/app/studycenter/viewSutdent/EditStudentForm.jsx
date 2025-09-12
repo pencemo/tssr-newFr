@@ -57,6 +57,7 @@ export function EditStudentForm( ) {
     sslc: null,
     profileImage: null,
     adhaarNumber:  "",
+    houseName: ""
   });
 
     const [editCours, setEditCours] = useState({
@@ -147,6 +148,7 @@ export function EditStudentForm( ) {
         sslc: student.sslc || null,
         profileImage: student.profileImage || null,
         adhaarNumber: student.adhaarNumber || "",
+        houseName: student.houseName || ""
       });
 
       setEditCours({
@@ -181,6 +183,8 @@ export function EditStudentForm( ) {
     if (!formData.sslc && !sslc) newErrors.sslc = "SSLC certificate is required.";
     if (!formData.profileImage && !profileImg)
       newErrors.profileImage = "Profile image is required.";
+    if (!formData.houseName)
+      newErrors.houseName = "House Name is required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -338,7 +342,16 @@ export function EditStudentForm( ) {
               error={errors.age}
               type="number"
             />
-
+            {user?.isAdmin && 
+            <FormInput
+            label="Adhaar Number"
+            id="adhaarNumber"
+            name="adhaarNumber"
+            value={formData.adhaarNumber}
+            onChange={handleChange}
+            type="number"
+          />
+            }
             <div className="space-y-2">
               <Label>Date of Birth</Label>
               <DatePicker
@@ -462,6 +475,14 @@ export function EditStudentForm( ) {
               value={formData.pincode}
               onChange={handleChange}
               error={errors.pincode}
+            />
+            <FormInput
+              label="House Name"
+              id="houseName"
+              name="houseName"
+              value={formData.houseName}
+              onChange={handleChange}
+              error={errors.houseName}
             />
           </div>
         </div>

@@ -130,6 +130,9 @@ export const API_ENDPOINTS = {
     CREATE_POST: "/api/gallery/addGallery",
     EDIT_POST: "/api/gallery/editGallery",
     DELETE_POST: "/api/gallery/deleteGallery",
+  },
+  PDF: {
+    DL_PDF: "/api/pdf/generate-pdf",
   }
 };
  

@@ -9,6 +9,7 @@ import { authService } from "@/API/services/authService"
 import { toast } from "sonner"
 import { useAuth } from "@/Context/authContext"
 import { Loader2 } from "lucide-react"
+import logo from '../../assets/Logo.svg'
 
 
 export function LoginForm({
@@ -76,7 +77,7 @@ export function LoginForm({
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-muted-foreground text-balance">
-                  Login to your Acme Inc account
+                  Login to your TSSR account
                 </p>
               </div>
               <div className="grid gap-3">
@@ -130,6 +131,9 @@ export function LoginForm({
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
+            <div className="absolute z-10 size-16 right-10 top-10 rounded-full grid   bg-white p-1">
+            <img src={logo} className="w-full h-full object-contain " alt="" />
+            </div>
             <img
               src="https://img.freepik.com/premium-photo/light-bulbs-books-with-graduation-hat-concept-reading-books-knowledge-searching-new-ideas-innovation-inspiration-creativity-with-twinkling-lights-inspiration-ideas_721781-1031.jpg"
               alt="Image"

@@ -86,7 +86,7 @@ const ExcelUpload = ({ onBack, setCourse, course }) => {
     "ഫോം സബ്മിറ്റ് ചെയ്യുക.",
   ];
 
-  let excelCol = ["name", "age", "dateOfBirth", "gender", "phoneNumber", "place", "district", "state", "pincode", "email", "adhaarNumber", "parentName","qualification" ]
+  let excelCol = ["name", "age", "dateOfBirth", "gender", "phoneNumber", "place", "houseName", "district", "state", "pincode", "email", "adhaarNumber", "parentName","qualification" ]
 
   return (
     <div>

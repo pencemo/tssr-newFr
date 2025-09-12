@@ -18,6 +18,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const statusColorMap = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -28,6 +29,7 @@ const statusColorMap = {
 const MyOrders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 5;
+  const navigate = useNavigate()
 
   const { data, isLoading } = useOrderOfUser(currentPage, limit);
   const orders = data?.data || [];
@@ -36,7 +38,10 @@ const MyOrders = () => {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
-      <h2 className="text-2xl font-bold mb-6">My Orders</h2>
+      <div className="flex items-center justify-between mb-6">
+      <h2 className="text-2xl font-bold ">My Orders</h2>
+      <Button onClick={()=>navigate(-1)}>Back</Button>
+      </div>
 
       <div className="overflow-x-auto rounded-md border">
         <Table>

@@ -83,7 +83,6 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
     }
     
 
-
     await mutateAsync(
       { student: studentWithUrls, course },
       {
@@ -155,6 +154,7 @@ const CourseSelectionComp = ({ userData, onBack, onBack2, course }) => {
               <DetailsInfo name="District" value={student?.district} />
               <DetailsInfo name="Pincode" value={student?.pincode} />
               <DetailsInfo name="Place" value={student?.place} /> 
+              <DetailsInfo name="House Name" value={student?.houseName} /> 
             </div>
             
             <div className="space-y-1">

@@ -47,6 +47,7 @@ const OrderPending = () => {
   });
 
   const orders = data?.data || [];
+  console.log(orders);
   const totalPage = data?.totalPages || 1;
 
   const { mutate, isPending, variables } = useUpdateOrderStatus();
@@ -89,6 +90,7 @@ const OrderPending = () => {
             <TableRow>
               <TableHead>Product</TableHead>
               <TableHead>Buyer</TableHead>
+              <TableHead>Phone</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Qty</TableHead>
@@ -126,6 +128,9 @@ const OrderPending = () => {
                   <TableRow key={order._id}>
                     <TableCell className="font-medium">{productName}</TableCell>
                     <TableCell>{order.buyerId?.name || "N/A"}</TableCell>
+                    <TableCell className="truncate max-w-[150px]">
+                      {order.buyerId?.phoneNumber || "N/A"}
+                    </TableCell>
                     <TableCell className="truncate max-w-[150px]">
                       {order.buyerId?.email || "N/A"}
                     </TableCell>

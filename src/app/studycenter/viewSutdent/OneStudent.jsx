@@ -3,14 +3,19 @@ import Loader from '@/components/ui/loader'
 import { useOneStudent } from '@/hooks/tanstackHooks/useStudents'
 import { format } from 'date-fns'
 import { formateDateToIST } from '@/lib/formateDate'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { User, Phone, Mail, MapPin, GraduationCap, FileText, Download, CheckCircle, XCircle, Clock } from "lucide-react"
+import { User, Phone, Mail, MapPin, GraduationCap, FileText, Download, CheckCircle, XCircle, Clock, Loader2 } from "lucide-react"
 import { Call02Icon, Location01Icon, MailOpen01Icon, StudentCardIcon } from 'hugeicons-react'
 import StudentPDF from './StudentPDF'
+import { usePDF } from '@/hooks/tanstackHooks/usePdf'
+const appUrl = import.meta.env.VITE_APP_URL
+import { saveAs } from "file-saver";
+import { toast } from 'sonner'
+ 
 
 function OneStudent() {
   // const {id} = useParams()
@@ -19,11 +24,27 @@ function OneStudent() {
   const isEnrolled = searchParams.get('isEnroll');
   const {data, error, isLoading} = useOneStudent(id, isEnrolled)
   const navigate = useNavigate()
+  const {mutate, isPending}=usePDF() 
+ 
+  const student = data?.data
+
+  const handleDownload = () => {
+    const url = `${appUrl}pdf?id=${id}&isEnroll=true`
+    mutate({url, student}, {
+      onSuccess: (data) => {
+        if(data.status === 500 || data.status === 400){
+          return toast.error("Something went wrong")
+        }
+        saveAs(data?.data, "student-profile.pdf");
+    }
+    })
+  }
+ 
 
   if(isLoading) return <div className='w-full h-full'><Loader/></div>
   if(error) return <div>Error</div>
   
-  const student = data?.data
+
   const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
     if(typeof isCompleted === "string"){
       return (
@@ -80,7 +101,7 @@ function OneStudent() {
                 />
               </div>
               <div className="flex-1">
-                <h1 className="text-2xl font-semibold text-white ">{student.name}</h1>
+                <h1 className="text-2xl font-semibold text-white ">{student.name?.toUpperCase()}</h1>
                 <p className="text-sm mb-3 text-white ">Admission No: {student.admissionNumber}</p>
                 <div className="flex flex-wrap gap-2">
                   {getStatusBadge(student.isCompleted, student.isPassed, student.isCertificateIssued)}
@@ -92,6 +113,7 @@ function OneStudent() {
             </div>
             <div className='flex items-center gap-2'>
             <StudentPDF studentData={student}/>
+            <Button onClick={handleDownload} disabled={isPending} className='h-8' variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button>
             <Button onClick={()=>navigate(-1)} className='h-8' variant='outline'>Back</Button>
             </div>
           </div>
@@ -167,7 +189,7 @@ function OneStudent() {
                   <div>
                     <label className="text-sm text-gray-500">Address</label>
                     <p className="text-gray-900 font-medium">
-                      {student.place}, {student.district}, {student.state} - {student.pincode}
+                    {student?.houseName ? `${student?.houseName},`:''} {student.place}, {student.district}, {student.state} - {student.pincode}
                     </p>
                   </div>
                 </div>

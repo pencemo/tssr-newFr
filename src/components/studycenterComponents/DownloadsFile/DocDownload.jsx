@@ -122,53 +122,6 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
 
   return (
     <>
-      {/* <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button disabled={!settings?.data?.reportsDownload} className="w-full">
-            Download Doc
-            <Download04Icon className="ml-2" strokeWidth={2} />
-          </Button>
-        </DialogTrigger>
-
-        <DialogContent className="sm:max-w-[400px]">
-          <DialogHeader>
-            <DialogTitle>{name}</DialogTitle>
-            <DialogDescription>
-              Select course, batch, and year to download the {name}.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="py-4">
-            <SelectDropDown error={error} filters={filters} setFilters={setFilters} />
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-          </div>
-
-          <DialogFooter className="grid grid-cols-2 gap-2 mt-2">
-            <Button
-              variant="outline"
-              onClick={handleDownloadPDF}
-              disabled={loadingType === "pdf" && isPending}
-            >
-              {loadingType === "pdf" && isPending ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                "Download PDF"
-              )}
-            </Button>
-
-            <Button
-              onClick={handleDownloadExcel}
-              disabled={loadingType === "excel" && isPending}
-            >
-              {loadingType === "excel" && isPending ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                "Download Excel"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog> */}
 
       <div className="relative w-full">
         <Button className={"w-full"} onClick={() => setIsOpen(true)}>

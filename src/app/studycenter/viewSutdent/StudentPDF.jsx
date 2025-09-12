@@ -26,7 +26,6 @@ const formatDate = (dateString) => {
 };
 
 const StudentCertificate = forwardRef(({ studentData }, ref) => {
-  console.log(studentData);
   return (
     <div
       ref={ref}
@@ -39,7 +38,7 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
       {/* Student Info Header */}
       <div className="flex  gap-6 items-end mt-10">
       <div className=" ">
-          <div className="w-32 h-40 rounded-md overflow-hidden ">
+          <div className="w-32 h-40 rounded-md border overflow-hidden ">
             <img
               className="w-full h-full object-cover"
               src={studentData.profileImage}
@@ -57,7 +56,7 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
             </div>
             <div className="col-span-3">
               <h2 className="text-xl font-semibold text-gray-800 capitalize">
-                {studentData.name}
+                {studentData.name?.toUpperCase()}
               </h2>
             </div>
           </div>
@@ -162,9 +161,10 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
               <span className="font-medium col-span-2">{studentData.phoneNumber}</span>
             </div>
             <div className="grid grid-cols-3">
-            <span className="text-gray-600">Place</span>
+            <span className="text-gray-600">Address</span>
               <div className="font-medium col-span-2">
                 <p className="capitalize">
+                {studentData?.houseName ? `${studentData?.houseName},`:''}
                   {studentData.place}, {studentData.district},{" "}
                   {studentData.state}, PIN: {studentData.pincode} 
                 </p>
@@ -236,7 +236,8 @@ const StudentCertificate = forwardRef(({ studentData }, ref) => {
 export default function StudentPDF({ studentData }) {
   const componentRef = useRef(null);
 
-  const handlePrint = useReactToPrint({
+
+  const print = useReactToPrint({
     content: () => componentRef.current,
     contentRef: componentRef,
     documentTitle: `Student ${studentData.name}`,
@@ -253,6 +254,15 @@ export default function StudentPDF({ studentData }) {
       }
     `,
   });
+
+  const handlePrint = ()=>{
+    if(!componentRef.current){
+      return;
+    }
+    setTimeout(()=>{
+      print();
+    }, 100)
+  }
   return (
     <div className="">
       <div className="">

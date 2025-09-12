@@ -32,6 +32,7 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
     sslc: null,
     profileImage: null,
     adhaarNumber: userData?.adhaarNumber || "",
+    houseName: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -124,6 +125,8 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
     if (!formData.sslc) newErrors.sslc = "SSLC certificate is required.";
     if (!formData.profileImage)
       newErrors.profileImage = "Profile image is required.";
+    if (!formData.houseName)
+      newErrors.houseName = "House Name is required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -156,6 +159,7 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
       sslc: null,
       profileImage: null,
       adhaarNumber: userData?.adhaarNumber || "",
+      houseName: ""
     });
 
     // Clear errors
@@ -372,6 +376,14 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
               value={formData.pincode}
               onChange={handleChange}
               error={errors.pincode}
+            />
+            <FormInput
+              label="House Name"
+              id="houseName"
+              name="houseName"
+              value={formData.houseName}
+              onChange={handleChange}
+              error={errors.houseName}
             />
           </div>
         </div>
