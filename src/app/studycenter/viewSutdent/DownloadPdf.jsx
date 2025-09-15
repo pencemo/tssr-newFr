@@ -250,7 +250,7 @@ function DownloadPdf() {
         <div className=" py-6">
           <div className="flex justify-between ">
             <p className="text-sm text-gray-600">
-              Studendt Signature : <br />
+            Student Signature : <br />
               Date:
             </p>
             <p className="text-sm text-gray-600">Official Seal</p>

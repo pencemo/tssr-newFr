@@ -32,7 +32,7 @@ function OneStudent() {
     const url = `${appUrl}pdf?id=${id}&isEnroll=true`
     mutate({url, student}, {
       onSuccess: (data) => {
-        if(data.status === 500 || data.status === 400){
+        if(!data.status === 200){
           return toast.error("Something went wrong")
         }
         saveAs(data?.data, "student-profile.pdf");
@@ -44,47 +44,6 @@ function OneStudent() {
   if(isLoading) return <div className='w-full h-full'><Loader/></div>
   if(error) return <div>Error</div>
   
-
-  const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
-    if(typeof isCompleted === "string"){
-      return (
-        <Badge variant="secondary"  >
-        <Clock className="w-3 h-3 mr-1" />
-        {isCompleted}
-      </Badge>
-      )
-    }
-    if (isCertificateIssued) {
-      return (
-        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-          <CheckCircle className="w-3 h-3 mr-1" />
-          Certificate Issued
-        </Badge>
-      )
-    }
-    if (isPassed) {
-      return (
-        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-          <CheckCircle className="w-3 h-3 mr-1" />
-          Passed
-        </Badge>
-      )
-    }
-    if (isCompleted) {
-      return (
-        <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-          <Clock className="w-3 h-3 mr-1" />
-          Completed
-        </Badge>
-      )
-    }
-    return (
-      <Badge variant="secondary">
-        <Clock className="w-3 h-3 mr-1" />
-        In Progress
-      </Badge>
-    )
-  }
 
   return (
     <div className="min-h-screen">
@@ -113,7 +72,7 @@ function OneStudent() {
             </div>
             <div className='flex items-center gap-2'>
             <StudentPDF studentData={student}/>
-            <Button onClick={handleDownload} disabled={isPending} className='h-8' variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button>
+            {/* <Button onClick={handleDownload} disabled={isPending} className='h-8' variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button> */}
             <Button onClick={()=>navigate(-1)} className='h-8' variant='outline'>Back</Button>
             </div>
           </div>
@@ -334,3 +293,44 @@ function OneStudent() {
 
 export default OneStudent
 
+
+const getStatusBadge = (isCompleted, isPassed, isCertificateIssued) => {
+  if(typeof isCompleted === "string"){
+    return (
+      <Badge variant="secondary"  >
+      <Clock className="w-3 h-3 mr-1" />
+      {isCompleted}
+    </Badge>
+    )
+  }
+  if (isCertificateIssued) {
+    return (
+      <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+        <CheckCircle className="w-3 h-3 mr-1" />
+        Certificate Issued
+      </Badge>
+    )
+  }
+  if (isPassed) {
+    return (
+      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+        <CheckCircle className="w-3 h-3 mr-1" />
+        Passed
+      </Badge>
+    )
+  }
+  if (isCompleted) {
+    return (
+      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+        <Clock className="w-3 h-3 mr-1" />
+        Completed
+      </Badge>
+    )
+  }
+  return (
+    <Badge variant="secondary">
+      <Clock className="w-3 h-3 mr-1" />
+      In Progress
+    </Badge>
+  )
+}
