@@ -272,7 +272,7 @@ export default function StudentPDF({ studentData }) {
             Print Data
           </Button>
         </div>
-        <div className="bg-white rounded-lg hidden print:block shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-lg invisible absolute print:visible inset-0 shadow-2xl overflow-hidden">
           {/* <div ref={componentRef}>asdfdf</div> */}
           <StudentCertificate ref={componentRef} studentData={studentData} />
         </div>
