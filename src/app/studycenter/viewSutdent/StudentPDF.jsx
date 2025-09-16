@@ -29,7 +29,8 @@ const formatDate = (dateString) => {
   });
 };
 
-const StudentCertificate = forwardRef(({ studentData }, ref) => {
+const StudentCertificate = forwardRef( ({ studentData }, ref) => {
+  
   return (
     <div
       ref={ref}
@@ -285,9 +286,9 @@ export default function StudentPDF({ studentData }) {
   return (
     <div className="">
       <div className="">
-        <div className=" ">
-        <Button onClick={handleDownload} disabled={isPending} className='h-8' variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button>
-          <Button variant="outline" className={'h-8'} onClick={handlePrint}>
+        <div className="flex items-center gap-3">
+        <Button onClick={handleDownload} disabled={isPending}  variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button>
+          <Button variant="outline" onClick={handlePrint}>
             <Printer className="w-5 h-5 " />
             Print Data
           </Button>

@@ -8,13 +8,10 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { User, Phone, Mail, MapPin, GraduationCap, FileText, Download, CheckCircle, XCircle, Clock, Loader2 } from "lucide-react"
+import { User, Phone, Mail, MapPin, GraduationCap, FileText, Download, CheckCircle, XCircle, Clock, Loader2, ArrowLeft } from "lucide-react"
 import { Call02Icon, Location01Icon, MailOpen01Icon, StudentCardIcon } from 'hugeicons-react'
-import StudentPDF from './StudentPDF'
-import { usePDF } from '@/hooks/tanstackHooks/usePdf'
-const appUrl = import.meta.env.VITE_APP_URL
-import { saveAs } from "file-saver";
-import { toast } from 'sonner'
+import StudentPDF from './StudentPDF' 
+ 
  
 
 function OneStudent() {
@@ -23,22 +20,9 @@ function OneStudent() {
   const id = searchParams.get('id');
   const isEnrolled = searchParams.get('isEnroll');
   const {data, error, isLoading} = useOneStudent(id, isEnrolled)
-  const navigate = useNavigate()
-  const {mutate, isPending}=usePDF() 
+  const navigate = useNavigate() 
  
   const student = data?.data
-
-  const handleDownload = () => {
-    const url = `${appUrl}pdf?id=${id}&isEnroll=true`
-    mutate({url, student}, {
-      onSuccess: (data) => {
-        if(!data.status === 200){
-          return toast.error("Something went wrong")
-        }
-        saveAs(data?.data, "student-profile.pdf");
-    }
-    })
-  }
  
 
   if(isLoading) return <div className='w-full h-full'><Loader/></div>
@@ -64,16 +48,15 @@ function OneStudent() {
                 <p className="text-sm mb-3 text-white ">Admission No: {student.admissionNumber}</p>
                 <div className="flex flex-wrap gap-2">
                   {getStatusBadge(student.isCompleted, student.isPassed, student.isCertificateIssued)}
-                  <Badge variant="outline" className="bg-white/10 text-white border-white/20">
+                  <Badge variant="outline" className="bg-white/10 text-white whitespace-normal border-white/20">
                     {student.courseName}
                   </Badge>
                 </div>
               </div>
             </div>
-            <div className='flex items-center gap-2'>
+            <div className='flex md:flex-col md:items-end justify-between gap-2'>
+            <Button onClick={()=>navigate(-1)} size='icon' variant='outline'><ArrowLeft/></Button>
             <StudentPDF studentData={student}/>
-            {/* <Button onClick={handleDownload} disabled={isPending} className='h-8' variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button> */}
-            <Button onClick={()=>navigate(-1)} className='h-8' variant='outline'>Back</Button>
             </div>
           </div>
         </Card>
