@@ -13,9 +13,13 @@ import {
   FileText,
   Award,
   Printer,
+  Loader2,
 } from "lucide-react";
 import { format } from "date-fns";
 import { formateDateToIST } from "@/lib/formateDate";
+import { usePDF } from "@/hooks/tanstackHooks/usePdf";
+import { toast } from "sonner";
+import { saveAs } from "file-saver";
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("en-IN", {
@@ -263,10 +267,26 @@ export default function StudentPDF({ studentData }) {
       print();
     }, 100)
   }
+
+
+  const {mutate, isPending}=usePDF() 
+ 
+  const handleDownload = () => {
+    const componentHTML = componentRef.current.outerHTML;
+    mutate({html:componentHTML }, {
+      onSuccess: (data) => {
+        if(!data.status === 200){
+          return toast.error("Something went wrong")
+        }
+        saveAs(data?.data, "student-profile.pdf");
+    }
+    })
+  }
   return (
     <div className="">
       <div className="">
         <div className=" ">
+        <Button onClick={handleDownload} disabled={isPending} className='h-8' variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button>
           <Button variant="outline" className={'h-8'} onClick={handlePrint}>
             <Printer className="w-5 h-5 " />
             Print Data

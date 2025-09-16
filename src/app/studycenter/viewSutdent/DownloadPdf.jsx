@@ -16,7 +16,7 @@ const formatDate = (dateString) => {
   });
 };
 
-function DownloadPdf() {
+function DownloadPdf({studentData}) {
   // const [searchParams] = useSearchParams();
   // const id = searchParams.get("id");
   // const isEnrolled = searchParams.get("isEnroll");
@@ -24,25 +24,25 @@ function DownloadPdf() {
 
   // const studentData = data?.data || {};
   
-  const [studentData, setStudentData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [studentData, setStudentData] = useState(null);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadData = () => {
-      try {
-        if (window.__PRELOADED_DATA__) {
-          setStudentData(window.__PRELOADED_DATA__);
-          setIsLoading(false);
-          return;
-        }
-      } catch (error) {
-        console.error("Error loading student data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const loadData = () => {
+  //     try {
+  //       if (window.__PRELOADED_DATA__) {
+  //         setStudentData(window.__PRELOADED_DATA__);
+  //         setIsLoading(false);
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading student data:", error);
+  //     }
+  //   };
 
-    loadData();
-  }, []);
-  if (isLoading) return <div className="">Loading...</div>;
+  //   loadData();
+  // }, []);
+  // if (isLoading) return <div className="">Loading...</div>;
 
   return (
     <div className="student-profile">
