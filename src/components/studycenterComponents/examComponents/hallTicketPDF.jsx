@@ -16,15 +16,15 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
       <div className="w-[200mm] h-[280mm] relative border border-black p-8 pt-5 bg-white">
       <div className="relative z-10">
         
-        <div>
+        <div className="relative right-5">
           <img src={head} alt="" />
         </div>
 
         {/* Main Title */}
         <div className="border-b-2 border-black mb-6 pb-3 relative">
-          <h2 className="text- font-medium text-center">
+          {/* <h2 className="text- font-medium text-center">
           Central Board Of Examination - TSSR COUNCIL
-          </h2>
+          </h2> */}
           <h2 className="text-xl font-bold uppercase text-center">
             Hall Ticket 
           </h2>
@@ -43,7 +43,7 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
           <div className="flex">
             <div className="w-1/3  text-[0.940rem]">Name Of Student</div>
             <div className="w-2/3 text-[0.940rem] font-medium ">
-            : {studentData?.studentName}
+            : {studentData?.studentName?.toUpperCase()}
             </div>
           </div>
           <div className="flex">
@@ -80,13 +80,13 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
         <div className="w-full flex flex-col items-center gap-2 col-span-2 ">
           <img className="w-32 h-40  object-cover border-2 " src={studentData?.profileImage} alt="" />
             {/* <img className="w-28" src="https://images.seeklogo.com/logo-png/21/1/qr-code-logo-png_seeklogo-217342.png" alt="" /> */}
-            <QRCodeSVG value={`${url}/ht-verification/${studentData?.registrationNo}`} size={110} />
+            <QRCodeSVG value={`${url}/ht-verification/${studentData?.registrationNo}`} size={105} />
         </div>
         </div>
 
         {/* Instructions */}
-        <div className="mb-5 mt-2">
-          <h3 className="font-bold text-[17px] border-b inline-block pb-1 mb-3">
+        <div className="mb-3 mt-2">
+          <h3 className="font-bold text-[16px] border-b inline-block pb-1 mb-3">
             INSTRUCTION FOR THE CANDIDATES APPEARING ON EXAMINATION
           </h3>
           <ul className="list-disc pl-5 space-y-1 text-[13px] ">
@@ -137,12 +137,12 @@ export const HallTicket = forwardRef(({studentData}, ref)=> {
         </div>
 
         {/* Signatures */}
-        <div className="flex justify-between mt-10 text-sm text-muted-foreg round">
+        <div className="flex justify-between mt-8 text-sm text-muted-foreg round">
             <p>Student Signature</p>
             <p>Principal Signature</p>
-            <img className="absolute  right-0 bottom-16  size-24 -rotate-45  mix-blend-multiply" src={sealimg}  alt="" />
+            <img className="absolute  right-0 bottom-16  size-22 -rotate-45  mix-blend-multiply" src={sealimg}  alt="" />
             <div className="relativ e  ">
-            <p>TSST Council</p>
+            <p>Controller Of Examination</p>
             </div>
         </div>
 
