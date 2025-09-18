@@ -93,11 +93,11 @@ function DownloadFiles() {
         }
       />
       <FileDownload
-        title="Class Test Mark Sheet"
-        desc="Download the class test marksheet for the current semester"
+        title="Mark Sheet"
+        desc="Download the marksheet for the current semester"
         comp={
           <DocDownload
-            name="Class Test Mark Sheet"
+            name="Mark Sheet"
             date={true}
             fields={[
               "Subject 1",

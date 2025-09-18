@@ -12,7 +12,7 @@ import { useCourseOfStudyCenter, useGetStudyCenterForExcel } from "@/hooks/tanst
 import { useAuth } from "@/Context/authContext";
 import { Input } from "@/components/ui/input";
 
-function SelectDropDown({ filters, setFilters , error}) {
+function SelectDropDown({ filters, setFilters , error, courseName}) {
   const { data: course } = useCourseOfStudyCenter();
   const [batchs, setBatches] = useState([]);
   const {data: center}=useGetStudyCenterForExcel()
@@ -51,6 +51,7 @@ function SelectDropDown({ filters, setFilters , error}) {
               (item) => item.courseId === value
             )?.batches;
             setBatches(batch);
+            courseName(course?.data?.find((item) => item?.courseId === value)?.courseName || "");
             handleFilterChange("course", value);
           }}
           isObject={true}

@@ -17,6 +17,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pdfData, setPdfData] = useState(null);
   const [error, setError] = useState(null);
+  const [courseName, setCourseName] = useState("");
   const [loadingType, setLoadingType] = useState(null); // 'pdf' | 'excel'
   const [filters, setFilters] = useState({
     course: "",
@@ -88,6 +89,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
   };
 
   const handleDownloadExcel = async () => {
+    // return console.log(courseName);
     if (!validateFilters()) return;
     setLoadingType("excel");
 
@@ -103,6 +105,8 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
       const rows = result?.data?.map((item) => ({
         "Admission Number": item.admissionNumber,
         Name: item.name,
+        Course: courseName,
+        ...(date && { Date: "" }),
         ...Object.fromEntries(fields.map((field) => [field, ""])),
       }));
 
@@ -155,6 +159,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
                     error={error}
                     filters={filters}
                     setFilters={setFilters}
+                    courseName={setCourseName}
                   />
                   {error && (
                     <p className="text-red-500 text-sm mt-2">{error}</p>
