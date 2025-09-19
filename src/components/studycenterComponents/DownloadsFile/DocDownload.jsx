@@ -55,7 +55,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
       batchId: filters.batch,
       year: filters.year,
       studyCenter: filters.studycenterId,
-      fields: ["name", "admissionNumber"],
+      fields: ["name", "admissionNumber", "studentId"],
     });
   };
 
@@ -95,6 +95,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
 
     try {
       const result = await fetchData();
+      // return console.log(result);
       if (!result.success || result.data.length === 0) {
         const msg = result.message || "No data found";
         toast.error(msg);
@@ -104,15 +105,17 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
 
       const rows = result?.data?.map((item) => ({
         "Admission Number": item.admissionNumber,
+        "Student ID": item.studentId,
         Name: item.name,
-        Course: courseName,
-        ...(date && { Date: "" }),
+        "Study Center" : item.studycenterName,
+        Course: item.courseName,
+        ...(date && { "Exam Date": "" }),
         ...Object.fromEntries(fields.map((field) => [field, ""])),
       }));
 
       const fileName = result.studycenterName || "Attendance Sheet";
       excelDownload(rows, fileName);
-      setFilters({ course: "", batch: "", year: "" });
+      // setFilters({ course: "", batch: "", year: "" });
       setError(null);
     } catch (err) {
       console.error(err);
@@ -133,7 +136,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
         </Button>
         {isOpen && (
           <div
-            className={`fixed w-full h-full flex items-center justify-center z-10 inset-0 bg-black/70 transition-all duration-300 ${
+            className={`fixed w-full h-full flex items-center justify-center z-10 inset-0 bg-black/70 transition-all duration-300 p-4 ${
               isOpen ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -159,7 +162,6 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
                     error={error}
                     filters={filters}
                     setFilters={setFilters}
-                    courseName={setCourseName}
                   />
                   {error && (
                     <p className="text-red-500 text-sm mt-2">{error}</p>
