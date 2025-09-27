@@ -17,6 +17,7 @@ import { useDeleteStudentFromRejectList } from "@/hooks/tanstackHooks/useStudent
 import { Alert } from "@/components/ui/Alert";
 import { useState } from "react";
 import { toast } from "sonner";
+import Avatarview from "@/components/ui/avatarview";
 
 export function StudentVarificationTable({
   data,
@@ -109,7 +110,8 @@ export function StudentVarificationTable({
             )}
             <TableCell className="font-medium">{i + 1}</TableCell>
             <TableCell>
-              <Avatar className={"border"}>
+            <Avatarview src={item?.studentId?.profileImage} fallBack={item?.studentId?.name[1]?.toUpperCase() || "ST"}/>
+              {/* <Avatar className={"border"}>
                 <AvatarImage
                   className="object-cover"
                   src={
@@ -119,7 +121,7 @@ export function StudentVarificationTable({
                   alt="@shadcn"
                 />
                 <AvatarFallback>{item?.studentId?.name[0]}</AvatarFallback>
-              </Avatar>
+              </Avatar> */}
             </TableCell>
             <TableCell>{item?.studentId?.name}</TableCell>
             {user?.isAdmin && (

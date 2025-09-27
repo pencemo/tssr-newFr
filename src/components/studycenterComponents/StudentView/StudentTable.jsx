@@ -19,6 +19,7 @@ import { useAuth } from "@/Context/authContext";
 import { useSettings } from "@/hooks/tanstackHooks/useAuth";
 import CopyToClipbord from "@/components/ui/CopyToClipbord";
 import { PencilEdit02Icon, ViewIcon } from "hugeicons-react";
+import Avatarview from "@/components/ui/avatarview";
   
   
   export function StudentTable({data}) {
@@ -48,14 +49,15 @@ import { PencilEdit02Icon, ViewIcon } from "hugeicons-react";
             <TableRow key={i}>
               <TableCell className="font-medium w-[10px]">{i + 1}</TableCell>
               <TableCell className="font-medium">
-                <Avatar className={' border'}>
+                <Avatarview src={item.profileImage} fallBack={item?.studentName[1]?.toUpperCase() || "ST"}/>
+                {/* <Avatar className={' border'}>
                   <AvatarImage
                     className="object-cover"
                     src={item.profileImage}
                     alt="@shadcn"
                   />
                   <AvatarFallback>{item?.studentName[1]?.toUpperCase() || "ST"}</AvatarFallback>
-                </Avatar>
+                </Avatar> */}
               </TableCell>
               <TableCell className="font-medium">{item.studentName?.toUpperCase()}</TableCell>
               <TableCell>{item.phoneNumber}</TableCell>

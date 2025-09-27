@@ -147,7 +147,7 @@ const StudyCentrPDF = forwardRef(({ data, course }, ref) => {
         <div className="mt-8 pt-4 border-t border-gray-800">
           <div className="text-center">
             <p className="text-sm text-gray-600 ">
-            We here by certify that <span className="font-medium">{data.name}</span> is an Authorised Training Center of tssr council as per the rules & Regulations stipulated by the authority
+            We here by certify that <span className="font-medium">{data.name}</span> is an Authorised Training Center of TSSR COUNCIL as per the rules & Regulations stipulated by the authority
             </p>
             {/* <p className="text-sm text-gray-600 mb-2">
               This certificate is issued by the TSSR Council 
