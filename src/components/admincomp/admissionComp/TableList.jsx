@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { formatDateOnly, formateDateToIST } from "@/lib/formateDate";
 
 export function TableList({ data, model, onEdit, button }) {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export function TableList({ data, model, onEdit, button }) {
             <TableCell>{item.courseId.duration}</TableCell>
             <TableCell>{item.month}</TableCell>
             {model !== "closed" &&
-            <TableCell>{format(new Date(item.startDate), "PPP")} - {format(new Date(item.endDate), "PPP")}</TableCell>
+            <TableCell>{format(new Date(item.startDate), "PPP")} - {formatDateOnly(item.endDate, "PPP")}</TableCell>
             }
             <TableCell>
               <Button

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { formatDateOnly } from "@/lib/formateDate";
 
 export function CourseCard({ batch, onIndividual, setCourse, onBulk }) {
   const courseDetails = batch?.courseId;
@@ -53,7 +54,7 @@ export function CourseCard({ batch, onIndividual, setCourse, onBulk }) {
         <div className="mt-2 text-muted-foreground flex text-sm justify-between">
           <span className="text-muted-foreground font-medium">Last Date</span>
           <span className="font-medium text-primary text-sm">
-            {format(new Date(batch.endDate), "PPP")}
+            {formatDateOnly(batch.endDate, "PPP")}
           </span>
         </div>
       </CardContent>
