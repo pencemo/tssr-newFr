@@ -93,7 +93,7 @@ export function StudentVarificationTable({
           <TableHead>Batch</TableHead>
           <TableHead>Year</TableHead>
           <TableHead>View & Edit</TableHead>
-          <TableHead>Actions</TableHead>
+          {user?.isAdmin &&<TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
 
@@ -172,8 +172,8 @@ export function StudentVarificationTable({
                 </Button>
                 </div>
             </TableCell>
-            <TableCell>
-              {user?.isAdmin && (status === "pending" ? (
+            {user?.isAdmin && <TableCell>
+               {status === "pending" ? (
                 <div className="space-x-2">
                   <Button
                     onClick={() => onSubmit([item?._id], "approved")}
@@ -193,8 +193,8 @@ export function StudentVarificationTable({
                   </Button>
                 </div>) : 
                 <Button onClick={()=>onSlected(item?._id)} variant="outline" className="h-8 hover:text-red-600 border-red-500 text-red-500">Delete <Delete01Icon/></Button>
-              ) }
-            </TableCell>
+               } 
+            </TableCell>}
           </TableRow>
         ))}
       </TableBody>
