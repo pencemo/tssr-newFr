@@ -1,11 +1,12 @@
 import { orderServices } from "@/API/services/orderService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useAllOrders = () => {
+export const useAllOrders = (status) => {
   return useQuery({
-    queryKey: ["orders"],
-    queryFn: () => orderServices.getAllOrders(),
+    queryKey: ["orders", status ],
+    queryFn: () => orderServices.getAllOrders(status),
     keepPreviousData: true,
+    enabled: false,
   });
 };
 export const useGetOrderByStatus = ({ page, limit, status, search }) => {

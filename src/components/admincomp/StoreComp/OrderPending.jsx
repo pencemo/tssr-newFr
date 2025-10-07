@@ -47,7 +47,6 @@ const OrderPending = () => {
   });
 
   const orders = data?.data || [];
-  console.log(orders);
   const totalPage = data?.totalPages || 1;
 
   const { mutate, isPending, variables } = useUpdateOrderStatus();

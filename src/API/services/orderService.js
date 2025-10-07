@@ -21,9 +21,12 @@ export const orderServices = {
     return response.data;
   },
 
-  getAllOrders: async () => {
+  getAllOrders: async (status) => {
     const response = await axiosInstance.get(
-      API_ENDPOINTS.ORDER.GET_ALL_ORDERS
+      API_ENDPOINTS.ORDER.GET_ALL_ORDERS,
+      {
+        params: { status }
+      }
     );
     return response.data;
   },

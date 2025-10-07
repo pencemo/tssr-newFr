@@ -17,7 +17,6 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pdfData, setPdfData] = useState(null);
   const [error, setError] = useState(null);
-  const [courseName, setCourseName] = useState("");
   const [loadingType, setLoadingType] = useState(null); // 'pdf' | 'excel'
   const [filters, setFilters] = useState({
     course: "",
@@ -31,6 +30,23 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
   const handlePrint = useReactToPrint({
     contentRef,
     documentTitle: name,
+    pageStyle: `
+    @media print {
+      @page {
+        margin: 32px;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        @bottom-right {
+          content: "Page " counter(pages);
+          font-size: 9pt;
+          color: #999;
+        }
+      }
+      body {
+        margin: 0;
+      }
+    }
+  `,
   });
 
   useEffect(() => {

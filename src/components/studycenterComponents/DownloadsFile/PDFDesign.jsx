@@ -97,7 +97,7 @@ function PDFDesign({ headers=[], marks, data=datas, date=false , name, isLong=fa
       const isHeader = headers && headers.length > 0
 
   return (
-    <div className="w-[210mm] border h-[297mm] mx-auto p-8 ">
+    <div className="w-[210mm]   h-[297mm] mx-auto  ">
         <div className="border-t border-x border-black/70 py-2">
             <img src={headerImg} className="w-full" alt="" />
         </div>
