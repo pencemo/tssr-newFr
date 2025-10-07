@@ -13,11 +13,21 @@ import { HiMiniArrowDownTray } from 'react-icons/hi2';
 
 const Orders = () => {
 const navigate = useNavigate()
-const {data, isLoading, refetch}=useAllOrders("pending")
+const { data, isLoading, refetch } = useAllOrders("pending");
 
-const handleDl = ()=>{
-  refetch().then(()=>{
-    const flattenedOrders = data?.orders.map(order => ({
+const handleDl = async () => {
+  try {
+    // Always refetch to get fresh data
+    const { data: freshData } = await refetch();
+    
+    const orders = freshData?.orders || data?.orders || [];
+    
+    if (!orders || orders.length === 0) {
+      alert('No orders found with status: pending');
+      return;
+    }
+    
+    const flattenedOrders = orders.map(order => ({
       _id: order._id,
       "Buyer Name": order.buyerId?.name || 'N/A',
       Email: order.buyerId?.email || 'N/A',
@@ -32,13 +42,16 @@ const handleDl = ()=>{
       "Product Name": order.productId?.name || 'N/A',
       "Product Price": order.productId?.price || 0,
       Quantity: order.quantity,
-      Total: order.productId?.price * order.quantity || 0,
+      Total: (order.productId?.price || 0) * order.quantity,
     }));
     
-    excelDownload(flattenedOrders, 'OrdersList');
-  })
-  
-}
+    excelDownload(flattenedOrders, `Pending_Orders_${new Date().toISOString().split('T')[0]}`);
+    
+  } catch (error) {
+    console.error('Download failed:', error);
+    alert('Failed to download orders. Please try again.');
+  }
+};
 
   return (
     <div>
