@@ -16,7 +16,7 @@ export function StaffTable({ data, onEdit,onDelete  }) {
   return (
     <div className=" border-b">
       <Table>
-        <TableHeader>
+        <TableHeader className='uppercase'>
           <TableRow className="hover:bg-muted/50">
             <TableHead className="w-[60px] font-semibold">No</TableHead>
             <TableHead >Name of Staff</TableHead>

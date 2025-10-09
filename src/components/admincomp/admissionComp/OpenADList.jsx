@@ -2,10 +2,21 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
 import { TableList } from "./TableList";
-import { useChangeStatusAdmission, useOpenAdmissinList } from "@/hooks/tanstackHooks/useAdmission";
+import {
+  useChangeStatusAdmission,
+  useOpenAdmissinList,
+} from "@/hooks/tanstackHooks/useAdmission";
 import { Alert } from "@/components/ui/Alert";
 import { toast } from "sonner";
 import Pagination from "@/components/ui/Pagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function OpenADList() {
   const [search, setSearch] = useState("");
@@ -13,9 +24,10 @@ export function OpenADList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [batchs, setBatches] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
-  const [selectedRow, setSelectedRow] = useState(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const {mutate}=useChangeStatusAdmission()
+  const [perPage, setPerPage] = useState(20);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { mutate } = useChangeStatusAdmission();
 
   // Debounce search input
   useEffect(() => {
@@ -29,9 +41,11 @@ export function OpenADList() {
     };
   }, [search]);
 
-  const { data, error, isLoading } = useOpenAdmissinList(currentPage, debouncedSearch);
-
-  
+  const { data, error, isLoading } = useOpenAdmissinList(
+    currentPage,
+    debouncedSearch,
+    perPage
+  );
 
   useEffect(() => {
     if (data && data.data) {
@@ -43,17 +57,17 @@ export function OpenADList() {
   }, [data]);
 
   const handleEdit = (rowData) => {
-    setSelectedRow(rowData)
-    setIsModalOpen(true)
-  }
+    setSelectedRow(rowData);
+    setIsModalOpen(true);
+  };
 
   const onClose = () => {
-    setIsModalOpen(false)
-    setSelectedRow(null)
-  }
+    setIsModalOpen(false);
+    setSelectedRow(null);
+  };
 
   const handleUpdateStatus = () => {
-    const id = selectedRow?._id
+    const id = selectedRow?._id;
     mutate(
       { id },
       {
@@ -62,7 +76,7 @@ export function OpenADList() {
             toast("Batch updated", {
               description: "Batch updated successfully",
             });
-            onClose()
+            onClose();
           } else {
             toast("Somthing went wrong", {
               description: data.message,
@@ -74,9 +88,11 @@ export function OpenADList() {
   };
 
   if (error) {
-    return <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
-    Error to fetch data
-  </div>;
+    return (
+      <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
+        Error to fetch data
+      </div>
+    );
   }
 
   return (
@@ -86,41 +102,62 @@ export function OpenADList() {
           <div className="max-sm:w-full flex items-center justify-center gap-2">
             <h1 className="text-xl font-semibold ">Active Admission</h1>
           </div>
-          <Input
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-            }}
-            type="text"
-            placeholder="Search users..."
-            className="max-w-sm max-sm:max-w-full"
-          />
+          <div className="flex items-center  gap-2 w-full md:max-w-sm max-w-full">
+            <Input
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              type="text"
+              placeholder="Search batches..."
+              className="w-full"
+            />
+            <Select onValueChange={(value) => setPerPage(value)}>
+              <SelectTrigger className={`w-20`}>
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent className=" ">
+                <SelectGroup>
+                  {[10, 20, 50, 100].map((item) => (
+                    <SelectItem value={item}>{item}</SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {isLoading ? (
           <div className="w-full h-full">
             <Loader />
           </div>
-        ) : batchs.length > 0 ?
-          <div className="rounded-md border">
+        ) : batchs.length > 0 ? (
+          <div className="rounded-xl border overflow-hidden">
             <TableList
-              model={'open'}
-              button='Change Status'
+              model={"open"}
+              button="Change Status"
               data={batchs}
               onEdit={handleEdit}
             />
-            <Alert deleteFn={handleUpdateStatus} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
-            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage} />
-            
-          </div>:
+            <Alert
+              deleteFn={handleUpdateStatus}
+              isOpen={isModalOpen}
+              setIsOpen={setIsModalOpen}
+            />
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPage={totalPage}
+            />
+          </div>
+        ) : (
           <div className="w-full h-full flex justify-center items-center font-medium text-muted-foreground">
-          No data found
-        </div>
-          }
+            No data found
+          </div>
+        )}
       </div>
     </div>
   );
-} 
+}
 
-
-export default OpenADList
+export default OpenADList;

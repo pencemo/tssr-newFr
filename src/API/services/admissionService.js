@@ -9,37 +9,40 @@ export const admissionService = {
       );
     return response.data;
   },
-  openAdmissionList: async (page, search) => {
+  openAdmissionList: async (page, search, limit) => {
     const response = await axiosInstance.get(
       API_ENDPOINTS.ADMISSION.OPENED_ADMISSION, 
       {
         params: {
           page: page,
-          search
+          search,
+          limit
         }
       }
       );
     return response.data;
   },
-  closeAdmissionList: async (page, search) => {
+  closeAdmissionList: async (page, search, limit) => {
     const response = await axiosInstance.get(
       API_ENDPOINTS.ADMISSION.CLOSED_ADMISSION, 
       {
         params: {
           page: page,
-          search
+          search,
+          limit
         }
       }
       );
     return response.data;
   },
-  scheduledAdmissionList: async (page, search) => {
+  scheduledAdmissionList: async (page, search, limit) => {
     const response = await axiosInstance.get(
       API_ENDPOINTS.ADMISSION.SHEDULED_ADMISSION, 
       {
         params: {
           page: page,
-          search
+          search,
+          limit
         }
       }
       );

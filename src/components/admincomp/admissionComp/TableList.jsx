@@ -21,7 +21,7 @@ export function TableList({ data, model, onEdit, button }) {
   const navigate = useNavigate();
   return (
     <Table className="border-b ">
-      <TableHeader>
+      <TableHeader className='uppercase'>
         <TableRow>
           <TableHead className="w-[50px] ">No</TableHead>
           <TableHead >Course Name</TableHead>

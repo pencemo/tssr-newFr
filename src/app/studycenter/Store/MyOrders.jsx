@@ -46,7 +46,7 @@ const MyOrders = () => {
       <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableCaption>Your recent orders</TableCaption>
-          <TableHeader>
+          <TableHeader className='uppercase'>
             <TableRow>
               <TableHead>Product</TableHead>
               <TableHead>Description</TableHead>

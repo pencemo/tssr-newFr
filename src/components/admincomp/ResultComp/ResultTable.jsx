@@ -25,7 +25,7 @@ export function ResultTable({ data, setSelectedIds, selectedIds }) {
   };
   return (
     <Table className="border-b ">
-      <TableHeader>
+      <TableHeader className='uppercase'>
         <TableRow>
           <TableHead className="w-[50px]">
             <Checkbox

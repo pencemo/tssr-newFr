@@ -41,7 +41,7 @@ export function ExcelTableLayout({
         <h2 className="text-lg font-semibold">{title}</h2>
       </div>
       <Table className="min-w-full">
-        <TableHeader>
+        <TableHeader className='uppercase'>
           <TableRow>
             <TableHead className={'w-20'}>Image</TableHead>
             <TableHead>Name</TableHead>

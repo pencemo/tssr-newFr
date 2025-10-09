@@ -85,7 +85,7 @@ const OrderPending = () => {
       <div className="w-full overflow-x-auto border rounded-xl">
         <Table className='border-b'>
           <TableCaption>List of all pending orders</TableCaption>
-          <TableHeader>
+          <TableHeader className='uppercase'>
             <TableRow>
               <TableHead>Product</TableHead>
               <TableHead>Buyer</TableHead>

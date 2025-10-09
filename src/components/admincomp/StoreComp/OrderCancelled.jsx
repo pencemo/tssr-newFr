@@ -60,7 +60,7 @@ const OrderCancelled = () => {
       <div className="w-full overflow-x-auto border rounded-xl">
         <Table className={'border-b'}>
           <TableCaption>All cancelled orders</TableCaption>
-          <TableHeader>
+          <TableHeader className='uppercase'>
             <TableRow>
               <TableHead>Product</TableHead>
               <TableHead>Buyer</TableHead>

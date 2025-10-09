@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreVerticalIcon,
-} from "lucide-react";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Loader from "@/components/ui/loader";
 
 import { TableList } from "./TableList";
-import { useOpenAdmissinList, useScheduledAdmissinList } from "@/hooks/tanstackHooks/useAdmission";
+import { useScheduledAdmissinList } from "@/hooks/tanstackHooks/useAdmission";
 import { CustomDialog } from "./EditModel";
 import Pagination from "@/components/ui/Pagination";
 
@@ -21,8 +22,10 @@ export function SheduledAdmission() {
   const [currentPage, setCurrentPage] = useState(1);
   const [batchs, setBatches] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
+  const [perPage, setPerPage] = useState(20);
   const [selectedRow, setSelectedRow] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  
 
   // Debounce search input
   useEffect(() => {
@@ -36,7 +39,7 @@ export function SheduledAdmission() {
     };
   }, [search]);
 
-  const { data, error, isLoading } = useScheduledAdmissinList(currentPage, debouncedSearch);
+  const { data, error, isLoading } = useScheduledAdmissinList(currentPage, debouncedSearch, perPage);
 
   
 
@@ -66,15 +69,29 @@ export function SheduledAdmission() {
           <div className="max-sm:w-full flex items-center justify-center gap-2">
             <h1 className="text-xl font-semibold ">Scheduled Admission</h1>
           </div>
-          <Input
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-            }}
-            type="text"
-            placeholder="Search users..."
-            className="max-w-sm max-sm:max-w-full"
-          />
+          <div className="flex items-center  gap-2 w-full md:max-w-sm max-w-full">
+            <Input
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              type="text"
+              placeholder="Search batches..."
+              className="w-full"
+            />
+            <Select onValueChange={(value) => setPerPage(value)}>
+              <SelectTrigger className={`w-20`}>
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent className=" ">
+                <SelectGroup>
+                  {[10, 20, 50, 100].map((item) => (
+                    <SelectItem value={item}>{item}</SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {isLoading ? (
@@ -82,7 +99,7 @@ export function SheduledAdmission() {
             <Loader />
           </div>
         ) : batchs.length > 0 ?
-          <div className="rounded-md border">
+          <div className="rounded-xl overflow-hidden border">
             <TableList
               model='scheduled'
               data={batchs}

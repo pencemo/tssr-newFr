@@ -63,7 +63,7 @@ const OrderConfirmed = () => {
         <div className="w-full overflow-x-auto border rounded-lg">
           <Table className='border-b'>
             <TableCaption>All confirmed (accepted) orders</TableCaption>
-            <TableHeader>
+            <TableHeader className='uppercase'>
               <TableRow>
                 <TableHead>Product</TableHead>
                 <TableHead>Buyer</TableHead>

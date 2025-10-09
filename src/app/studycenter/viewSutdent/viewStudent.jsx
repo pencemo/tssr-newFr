@@ -109,7 +109,7 @@ export function ViewStudent() {
           </div>
           </div>
 
-        <div className={`w-full flex border border-accent bg-neutral-50 items-center px-3 rounded-xl max-md:flex-col justify-center md:justify-between gap-2 transition-all duration-300 overflow-hidden ${isFilter ? "md:h-16 h-52 visible opacity-100": "h-0 invisible opacity-0"}`}>
+        <div className={`w-full flex border border-accent bg-neutral-100 items-center px-3 rounded-xl max-md:flex-col justify-center md:justify-between gap-2 transition-all duration-300 overflow-hidden ${isFilter ? "md:h-16 h-52 visible opacity-100": "h-0 invisible opacity-0"}`}>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-2 w-full max-w- 5xl ">
           <StudentFilter
             courses={course?.data}

@@ -15,7 +15,7 @@ import {
     const navigate = useNavigate();
     return (
       <Table >
-        <TableHeader>
+        <TableHeader className='uppercase'>
           <TableRow>
             <TableHead className="w-[50px]">No</TableHead>
             {[

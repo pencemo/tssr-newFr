@@ -76,7 +76,7 @@ export function TableExams({
       {/* Main Exam Schedules Table */}
       <div className="rounded-xl border overflow-hidden">
         <Table>
-          <TableHeader className="bg-muted/50">
+          <TableHeader className="bg-muted/50 uppercase">
             <TableRow className="hover:bg-muted/50">
               <TableHead className="w-[60px] font-semibold">No</TableHead>
               <TableHead className="font-semibold">Exam Name</TableHead>

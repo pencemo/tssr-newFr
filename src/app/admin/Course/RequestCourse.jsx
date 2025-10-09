@@ -53,7 +53,7 @@ function RequestCourse() {
       </div>
       <div className="rounded-xl border overflow-hidden mt-10">
         <Table className={" "}>
-          <TableHeader>
+          <TableHeader className='uppercase'>
             <TableRow>
               <TableHead className="w-[50px]">No</TableHead>
               <TableHead>Study Center</TableHead>

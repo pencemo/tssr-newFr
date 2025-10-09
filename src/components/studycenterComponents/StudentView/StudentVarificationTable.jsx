@@ -74,7 +74,7 @@ export function StudentVarificationTable({
   return (
     <>
     <Table className="border-b">
-      <TableHeader>
+      <TableHeader className='uppercase'>
         <TableRow>
           {user?.isAdmin && (
             <TableHead className="w-[30px]">

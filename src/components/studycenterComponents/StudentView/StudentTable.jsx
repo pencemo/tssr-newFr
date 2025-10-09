@@ -29,7 +29,7 @@ import Avatarview from "@/components/ui/avatarview";
     const navigate = useNavigate()
     return (
       <Table className="border-b">
-        <TableHeader>
+        <TableHeader className='uppercase'>
           <TableRow>
             <TableHead className="w-[10px]">NO</TableHead>
             <TableHead className="w-[50px]">Profile</TableHead>
@@ -39,7 +39,7 @@ import Avatarview from "@/components/ui/avatarview";
             <TableHead>Course</TableHead>
             <TableHead>Batch</TableHead>
             <TableHead>Year</TableHead>
-            <TableHead>Admission NO</TableHead>
+            <TableHead>Adm. NO</TableHead>
             <TableHead>View</TableHead>
             {(user.isAdmin ||settingData.editStudentDataPermission ) && <TableHead>Edit</TableHead>}
           </TableRow>
@@ -47,7 +47,7 @@ import Avatarview from "@/components/ui/avatarview";
         <TableBody>
           {data.map((item, i) => (
             <TableRow key={i}>
-              <TableCell className="font-medium w-[10px]">{i + 1}</TableCell>
+              <TableCell className=" w-[10px]">{i + 1}</TableCell>
               <TableCell className="font-medium">
                 <Avatarview src={item.profileImage} fallBack={item?.studentName[1]?.toUpperCase() || "ST"}/>
                 {/* <Avatar className={' border'}>

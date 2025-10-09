@@ -20,7 +20,7 @@ export function TableComp({ data }) {
   const navigate = useNavigate();
   return (
     <Table className={"border-b"}>
-      <TableHeader>
+      <TableHeader className='uppercase'>
         <TableRow>
           <TableHead className="w-[50px]">No</TableHead>
           {[
