@@ -20,7 +20,7 @@ function StudentFilter({ filters, onFilterChange, courses , studycenter}) {
    const {user}=useAuth()
   return (
     // <div className="w-full flex max-md:fle x-col items-end justify-between gap-2 rounded-xl">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 w-full max-w-5xl">
+      <>
         {user?.role === "admin" &&
         <SelctFilter
         data={studycenter || []}
@@ -61,7 +61,7 @@ function StudentFilter({ filters, onFilterChange, courses , studycenter}) {
         onChange={(value) => onFilterChange("year", value)}
         lebal={"Year"}
       />
-      </div>
+      </>
     // </div>
   );
 }
@@ -106,7 +106,7 @@ function SelctFilter({ data, lebal, text, value, onChange, isObject = false, dis
     <div className="space-y-1">
       {/* <h1 className=" text-sm font-medium">{lebal}</h1> */}
       <Select  value={value} onValueChange={onChange} disabled={disabled} >
-        <SelectTrigger className="w-full bg-zinc-50  shadow-none  ">
+        <SelectTrigger className="w-full  shadow-none bg-white border-accent ">
           <SelectValue placeholder={text} />
         </SelectTrigger>
         <SelectContent

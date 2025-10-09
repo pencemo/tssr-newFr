@@ -12,9 +12,11 @@ import { useStudentOfStudyCenter } from "@/hooks/tanstackHooks/useStudents";
 import NoData from "@/components/ui/noData";
 import { StudentDl } from "@/components/studycenterComponents/StudentView/StudentDl";
 import Pagination from "@/components/ui/Pagination";
-import { HiOutlineXMark } from "react-icons/hi2";
+import { HiOutlineAdjustmentsHorizontal, HiOutlineXMark } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useFilters } from "@/Context/FilterContext";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from "@/Context/authContext";
 
 export function ViewStudent() {
   // const [search, setSearch] = useState("");
@@ -22,10 +24,13 @@ export function ViewStudent() {
   const [currentPage, setCurrentPage] = useState(1);
   const [students, setStudents] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
+  const [perPage, setPerPage] = useState(20);
   const { data: course } = useCourseOfStudyCenter();
   const { data: studycenter } = useGetStudyCenterForExcel();
+  const [isFilter, setIsFilter]=useState(false)
   const navigate = useNavigate();
   const {filters, setFilters, search, setSearch} = useFilters()
+  const {user}=useAuth()
 
    
   useEffect(() => {
@@ -41,7 +46,7 @@ export function ViewStudent() {
 
   const { data, error, isLoading } = useStudentOfStudyCenter(
     currentPage,
-    20,
+    perPage,
     debouncedSearch,
     filters.course,
     filters.batch,
@@ -77,8 +82,8 @@ export function ViewStudent() {
 
   return (
     <div className=" w-full h-full">
-      <div className="space-y-6 w-full h-full">
-          <h1 className="text-2xl font-bold">Students Data</h1>
+      <div className="md:space-y-6 space-y-5 w-full h-full">
+          <h1 className="text-xl font-medium text-neutral-800">Students Data</h1>
           <div className="flex justify-between items-center max-sm:flex-col gap-2">
           <Input
             value={search}
@@ -89,17 +94,41 @@ export function ViewStudent() {
             placeholder="Search Student"
             className="max-w-sm max-sm:max-w-full"
           />
-          <Button onClick={()=>navigate('verification')} className="max-sm:w-full ">Verifications</Button>
+          <div className="grid grid-cols-2 gap-2 max-sm:w-full">
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              onClick={() => setIsFilter(!isFilter)}
+              variant="outline"
+            >
+              {isFilter ?<HiOutlineXMark size={26} />:
+              <HiOutlineAdjustmentsHorizontal strokeWidth={1} size={30} />}
+            </Button>
+            <StudentDl />
+          </div>
+              <Button onClick={()=>navigate('verification')} className="max-sm:w-full ">Verifications</Button>
+          </div>
           </div>
 
-        <div className="w-full flex max-md:flex-col  md:justify-between gap-2 ">
+        <div className={`w-full flex border border-accent bg-neutral-50 items-center px-3 rounded-xl max-md:flex-col justify-center md:justify-between gap-2 transition-all duration-300 overflow-hidden ${isFilter ? "md:h-16 h-52 visible opacity-100": "h-0 invisible opacity-0"}`}>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-2 w-full max-w- 5xl ">
           <StudentFilter
             courses={course?.data}
             studycenter={studycenter?.data}
             filters={filters}
             onFilterChange={handleFilterChange}
           />
-          <div className="grid grid-cols-2 gap-2">
+          <Select onValueChange={(value)=>setPerPage(value)} >
+          <SelectTrigger className={`w-full  bg-white border-accent shadow-none ${user?.role === "admin" && "max-md:col-span-2"} `}>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent className=' '>
+            <SelectGroup>
+              {[10, 20, 50, 100].map((item) =><SelectItem value={item}>{item}</SelectItem>)}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+          </div>
+          <div className="grid   gap-2">
             <Button
               onClick={() => {
                 setFilters({
@@ -109,12 +138,12 @@ export function ViewStudent() {
                   sort: "",
                   studyCentre: "",
                 });
+                setIsFilter(false)
               }}
               variant="outline"
             >
               <HiOutlineXMark size={26} />
             </Button>
-            <StudentDl />
           </div>
         </div>
         {isLoading ? (
