@@ -17,60 +17,62 @@ export const ResultData = forwardRef(({ data, className }, ref) => {
             <img src={head} alt="" />
           </div>
 
-          <div className="w-full flex items-center px-4 capitalize justify-center text-center bg-[#253a7c] mt-3 text-white font-medium rounded-sm py-1">
-          {data.examName} {data.courseName?.toLowerCase()}
+          <div className="w-full flex items-center px-4 capitalize justify-center text-center bg-[#253a7c] mt-2 text-white font-medium rounded-sm py-1">
+          {data.examName || "Public Examination"} of {data.courseName?.toLowerCase()}
           </div>
  
           {/* Main Title */}
           <div className={cn("flex w-full h -full  flex-col ", className)}>
             <div className={cn("relative text-black")}>
               {/* Header */}
-              <header className="relative z-10 mt-4">
-                <div className="mt-2 text-center">
+              <header className="relative z-10 mt-3">
+                {/* <div className="mt-2 text-center">
                   <h2 className="text-lg font-semibold leading-tight underline">
                     Result
                   </h2>
-                </div>
+                </div> */}
 
-                <div className="mt-4 grid grid-cols-2 gap-y-1 gap-x-6 text-[10pt]">
-                  <div className="flex gap-2">
-                    <span className="font-semibold w-[30mm]">Reg No:</span>
-                    <span className="tabular-nums">{data.admissionNumber}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="font-semibold w-[30mm] ">Grade:</span>
-                    <span className="">{data.grade}</span>
-                  </div>
+                <div className="mt-5 grid grid-cols-3 gap-y-1 gap-x-8 text-[10pt]">
                   <div className="flex gap-2 ">
-                    <span className="font-semibold w-[30mm]">Name:</span>
+                    <span className="font-semibold w-[25mm]">Name:</span>
                     <span className="">{data.studentName} </span>
                   </div>
-                  <div className="flex gap-2 ">
-                    <span className="font-semibold w-[30mm]">
+                  <div className="flex gap-2 col-span-2 ">
+                    <span className="font-semibold w-[25mm]">
                       Study Center:
                     </span>
                     <span className="">{data.studyCenterName}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span className="font-semibold w-[30mm]">Duration:</span>
+                    <span className="font-semibold w-[25mm]">Reg No:</span>
+                    <span className="tabular-nums">{data.admissionNumber}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="font-semibold w-[25mm] ">Grade:</span>
+                    <span className="">{data.grade}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="font-semibold w-[25mm]">Duration:</span>
                     <span className="">{data.duration}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span className="font-semibold w-[30mm]">Remark:</span>
+                    <span className="font-semibold w-[25mm]">Remark:</span>
                     <span className="">{data.remark}</span>
                   </div>
                   <div className="flex gap-2 col-span-2">
-                    <span className="font-semibold w-[30mm]">Exam Date:</span>
+                    <span className="font-semibold w-[25mm]">Exam Date:</span>
                     <span className="">{data.dateOfExam}</span>
                   </div>
                 </div>
               </header>
 
               {/* Body - Subjects Table */}
-              <main className="relative z-10 mt-5">
-                <h1 className="text-lg font-semibold leading-tight mb-2 text-center">
+              <main className="relative z-10 mt-4">
+                <div className=" flex items-center justify-center ">
+                <h1 className="text-lg font-semibold leading-tight  bg-[#253a7c] py-0.5 px-5 rounded-t-lg text-white  text-center">
                   Mark List{" "}
                 </h1>
+                </div>
                 <table className="w-full border border-zinc-800 text-[10pt] ">
                   <thead className="bg-zinc-100">
                     <tr>
@@ -103,7 +105,7 @@ export const ResultData = forwardRef(({ data, className }, ref) => {
                 </table>
 
                 {/* Overall grade summary */}
-                <div className="my-4 flex items-center justify-between text-[10pt]">
+                <div className="mb-4 mt-1  flex items-center justify-between text-[10pt]">
                   <div>
                     <span className="font-semibold">Overall Grade: </span>
                     <span className="text-[11pt] font-bold">{data.grade}</span>
@@ -117,10 +119,10 @@ export const ResultData = forwardRef(({ data, className }, ref) => {
 
             <div className="absolute w-full bottom-0 left-0">
               {/* Signatures */}
-              <div className="flex justify-between mt-10 text-sm text-muted-foreg round">
+              <div className="flex justify-between  text-sm text-muted-foreg round">
                 <p>Principal Signature</p>
                 <img
-                  className="absolute  right-0 bottom-16  size-24 -rotate-45  mix-blend-multiply"
+                  className="absolute  right-0 bottom-12  size-24 -rotate-45  mix-blend-multiply"
                   src={sealimg}
                   alt=""
                 />
@@ -130,10 +132,10 @@ export const ResultData = forwardRef(({ data, className }, ref) => {
               </div>
 
               {/* Footer */}
-              <div className="text-center text-xs mt-8 border-2 ring ring-offset-2 border-gray-900 p-2">
+              <div className="text-center text-[11px] mt-5 border-2 ring ring-offset-2 border-gray-900 px-2 py-1">
                 <p>
                   ISSUED BY TSSR COUNCIL, OFFICE OF THE CENTRAL BOARD OF
-                  EXAMINATION,
+                  EXAMINATION
                 </p>
                 <p>CENTRAL ADMINISTRATIVE OFFICE, CALICUT, KERALA</p>
               </div>

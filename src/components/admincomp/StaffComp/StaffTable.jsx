@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 // import { Edit, Trash2, Mail, User, PencilLine, Pencil } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Delete02Icon, Edit02Icon } from "hugeicons-react";
+import VaulDrawer  from "./ViewStaff";
+import CopyToClipbord from "@/components/ui/CopyToClipbord";
 
 export function StaffTable({ data, onEdit,onDelete  }) {
 
@@ -46,15 +48,17 @@ export function StaffTable({ data, onEdit,onDelete  }) {
 
               <TableCell> {staff.phoneNumber} </TableCell>
               <TableCell> {staff.email} </TableCell>
-              <TableCell> {staff.staffId} </TableCell>
+              <TableCell> <CopyToClipbord text={staff.staffId}/> </TableCell>
               <TableCell> {staff.designation} </TableCell>
               <TableCell> {staff.department} </TableCell>
 
               {/* Actions */}
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
+                  <VaulDrawer data={staff}/>
                   <Button
                     variant="outline"
+                    className='hover:bg-foreground hover:text-white'
                     size="sm"
                     onClick={() => onEdit(staff)}
                   >

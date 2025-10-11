@@ -27,15 +27,15 @@ export function ResultTable({ data, setSelectedIds, selectedIds }) {
     <Table className="border-b ">
       <TableHeader className='uppercase'>
         <TableRow>
-          <TableHead className="w-[50px]">
+          <TableHead className="w-[30px]">
             <Checkbox
               checked={selectedIds.length === data.length}
               onCheckedChange={toggleSelectAll}
             />
           </TableHead>
-          <TableHead className="w-[50px] ">No</TableHead>
+          <TableHead className="w-[10px] ">No</TableHead>
           <TableHead>Student Name</TableHead>
-          <TableHead>admissionNumber</TableHead>
+          <TableHead>Admission NO</TableHead>
           <TableHead>Course</TableHead>
           <TableHead>Study Center</TableHead>
           <TableHead>Date Of Exam</TableHead>
@@ -46,19 +46,19 @@ export function ResultTable({ data, setSelectedIds, selectedIds }) {
       <TableBody>
         {data.map((item, i) => (
           <TableRow key={i}>
-            <TableCell>
+            <TableCell className="w-[10px] ">
               <Checkbox
                 checked={selectedIds.includes(item?._id)}
                 onCheckedChange={() => toggleSelect(item?._id)}
               />
             </TableCell>
-            <TableCell className="font-medium">{i + 1}</TableCell>
-            <TableCell className="font-medium md:whitespace-normal md:max-w-60 break-words">
+            <TableCell className="font-medium w-[10px]">{i + 1}</TableCell>
+            <TableCell className="font-medium md:whitespace-normal  md:max-w-md break-words">
               {item?.studentName}
             </TableCell>
             <TableCell>{item?.admissionNumber}</TableCell>
-            <TableCell>{item?.courseName}</TableCell>
-            <TableCell>{item?.studyCenterName}</TableCell>
+            <TableCell className='md:whitespace-normal  md:max-w-sm break-words'>{item?.courseName}</TableCell>
+            <TableCell className='md:whitespace-normal  md:max-w-sm break-words'>{item?.studyCenterName}</TableCell>
             <TableCell>{item?.dateOfExam}</TableCell>
             <TableCell>
               {item?.remark?.toLowerCase() === "pass" ? <Badge className="rounded-full w-full max-w-20 bg-green-100 text-green-700">Pass</Badge>: <Badge className="rounded-full w-full max-w-20 bg-red-100 text-red-700">Fail</Badge>}
