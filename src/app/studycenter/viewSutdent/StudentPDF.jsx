@@ -287,7 +287,7 @@ export default function StudentPDF({ studentData }) {
     <div className="">
       <div className="">
         <div className="flex items-center gap-3">
-        <Button onClick={handleDownload} disabled={isPending}  variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button>
+        {/* <Button onClick={handleDownload} disabled={isPending}  variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button> */}
           <Button variant="outline" onClick={handlePrint}>
             <Printer className="w-5 h-5 " />
             Print Data

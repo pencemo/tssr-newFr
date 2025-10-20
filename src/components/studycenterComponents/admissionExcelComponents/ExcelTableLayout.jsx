@@ -58,28 +58,28 @@ export function ExcelTableLayout({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {students.map((student, index) => (
+          {students?.map((student, index) => (
             <TableRow key={index}>
               <TableCell>
                 <Avatar>
                   <AvatarImage
                     src={
-                      student.profileImage ||
+                      student?.profileImage ||
                       "https://imgs.search.brave.com/Tdd-8hSXGxRJvnfZAxvVjk9_01vEQe4FraxeApkoyc0/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzlhLzU2/L2JmLzlhNTZiZjRm/YjlkZmJkNzVhYTBm/OTFiNjI4NDBmM2Zh/LmpwZw"
                     }
                     alt="@shadcn"
                   />
                   <AvatarFallback className="capitalize">
-                    {student.name[0]}
+                    {student?.name[0]}
                   </AvatarFallback>
                 </Avatar>
               </TableCell>
-              <TableCell>{student.name}</TableCell>
-              <TableCell>{student.gender}</TableCell>
-              <TableCell>{student.phoneNumber}</TableCell>
-              <TableCell>{student.email}</TableCell>
-              <TableCell>{student.adhaarNumber}</TableCell>
-              {isError&&<TableCell className='text-base font-medium  max-w-sm  text-red-500'>{student.reason}</TableCell>}
+              <TableCell>{student?.name}</TableCell>
+              <TableCell>{student?.gender}</TableCell>
+              <TableCell>{student?.phoneNumber}</TableCell>
+              <TableCell>{student?.email}</TableCell>
+              <TableCell>{student?.adhaarNumber}</TableCell>
+              {isError&&<TableCell className='text-base font-medium  max-w-sm  text-red-500'>{student?.reason}</TableCell>}
 
               {enableUpload && (
                 <>
@@ -107,7 +107,7 @@ export function ExcelTableLayout({
         </TableBody>
         <TableFooter className={"bg-white"}>
           <TableRow>
-            <TableCell >Total Students {students.length}</TableCell>
+            <TableCell >Total Students {students?.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>

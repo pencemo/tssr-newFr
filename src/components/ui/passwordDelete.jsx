@@ -11,16 +11,19 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ViewIcon, ViewOffSlashIcon } from "hugeicons-react"
 import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export function PasswordDelete({isOpen, setIsOpen, deleteFn, error, loading}) {
   const [password, setPassword] = useState('')
+  const [isShow,setShow]=useState(true)
 
   useEffect(()=>{
     if(!isOpen) {setPassword('')}
     
   }, [isOpen])
+
   
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -32,8 +35,13 @@ export function PasswordDelete({isOpen, setIsOpen, deleteFn, error, loading}) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-              <Label htmlFor="password">Enter Password</Label>
-              <Input autoComplete="off" defaultValue="" id="password" placeholder="Password" type='password' onChange={(e)=> setPassword(e.target.value)} />
+              <Label htmlFor="pword">Enter Password</Label>
+              <div className="relative">
+              <Input autoComplete="new-password" defaultValue="" id="pword" name="pword" placeholder="Password" type={isShow ? "text":'password'} onChange={(e)=> setPassword(e.target.value)} />
+              <div className="absolute right-4 text-neutral-700 top-1/2 transform -translate-y-1/2 cursor-pointer" onClick={()=>setShow(!isShow)}>
+                {!isShow ? <ViewIcon size={18}/>: <ViewOffSlashIcon size={18}/>}
+              </div>
+              </div>
               {error&&<p className="text-red-500 text-sm">{error}</p>}
           </div>
           <DialogFooter>

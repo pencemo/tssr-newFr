@@ -240,6 +240,7 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
               label="Full Name"
               id="name"
               name="name"
+              autoCapitalize="characters"
               value={formData.name}
               onChange={handleChange}
               error={errors.name}
@@ -307,6 +308,7 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
               error={errors.email}
             />
           </div>
+          
         </div>
 
         {/* ADDRESS SECTION */}
@@ -315,6 +317,22 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
             Address Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormInput
+              label="Parent Name"
+              id="parentName"
+              name="parentName"
+              value={formData.parentName}
+              onChange={handleChange}
+              error={errors.parentName}
+            />
+            <FormInput
+              label="House Name"
+              id="houseName"
+              name="houseName"
+              value={formData.houseName}
+              onChange={handleChange}
+              error={errors.houseName}
+            />
             <div className="space-y-2">
               <Label>State</Label>
               <Select onValueChange={handleStateChange} value={selectedState}>
@@ -377,14 +395,7 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
               onChange={handleChange}
               error={errors.pincode}
             />
-            <FormInput
-              label="House Name"
-              id="houseName"
-              name="houseName"
-              value={formData.houseName}
-              onChange={handleChange}
-              error={errors.houseName}
-            />
+            
           </div>
         </div>
 
@@ -394,25 +405,10 @@ export function EnrollmentFormUI({ userData, onBack, onNext, setUserData }) {
             Education Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* <div className="space-y-2">
-              <Label>Date of Admission</Label>
-              <DatePicker
-                date={formData.dateOfAdmission}
-                setDate={(date) => handleDateChange(date, "dateOfAdmission")}
-              />
-            </div> */}
+                      
 
             <FormInput
-              label="Parent Name"
-              id="parentName"
-              name="parentName"
-              value={formData.parentName}
-              onChange={handleChange}
-              error={errors.parentName}
-            />
-
-            <FormInput
-              label="Qualification"
+              label="Higher Education Qualification"
               id="qualification"
               name="qualification"
               value={formData.qualification}
