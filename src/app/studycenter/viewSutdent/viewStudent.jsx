@@ -123,7 +123,7 @@ export function ViewStudent() {
           </SelectTrigger>
           <SelectContent className=' '>
             <SelectGroup>
-              {[10, 20, 50, 100].map((item) =><SelectItem value={item}>{item}</SelectItem>)}
+              {[10, 20, 50, 100].map((item) =><SelectItem key={item} value={item}>{item}</SelectItem>)}
             </SelectGroup>
           </SelectContent>
         </Select>

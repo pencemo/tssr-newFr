@@ -112,7 +112,7 @@ const StudentCertificate = forwardRef( ({ studentData }, ref) => {
       </div>
 
       {/* Main Content Grid */}
-      <div className=" py-6 border-b border-black/60">
+      <div className=" py-4 border-b border-black/60">
         {/* Personal Information */}
         <div className="">
           <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
@@ -149,10 +149,10 @@ const StudentCertificate = forwardRef( ({ studentData }, ref) => {
 
       </div>
 
-      <div className="  pt-5">
+      <div className="  pt-3">
         <div className=" grid grid-cols-2 gap-4  ">
         <div className="pr-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
             <Phone className="w-5 h-5 mr-2 " />
             Contact Information
           </h3>
@@ -178,7 +178,7 @@ const StudentCertificate = forwardRef( ({ studentData }, ref) => {
           </div>
         </div>
           <div className="pb-5">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
               <GraduationCap className="w-5 h-5 mr-2 text-purple-600" />
               Academic Information
             </h3>
@@ -186,6 +186,10 @@ const StudentCertificate = forwardRef( ({ studentData }, ref) => {
               <div className="grid grid-cols-3 gap-5">
                 <span className="text-gray-600">Course:</span>
                 <span className="font-medium col-span-2">{studentData.courseName}</span>
+              </div>
+              <div className="grid grid-cols-3 gap-5">
+                <span className="text-gray-600">Duration:</span>
+                <span className="font-medium col-span-2">{studentData.duration}</span>
               </div>
               <div className="grid grid-cols-3 gap-5">
                 <span className="text-gray-600">Batch Month:</span>
@@ -288,9 +292,9 @@ export default function StudentPDF({ studentData }) {
       <div className="">
         <div className="flex items-center gap-3">
         {/* <Button onClick={handleDownload} disabled={isPending}  variant='outline'>{isPending? <Loader2 className='animate-spin'/>:"Download"}</Button> */}
-          <Button variant="outline" onClick={handlePrint}>
-            <Printer className="w-5 h-5 " />
-            Print Data
+          <Button variant="outline" className=' bg-transparent' onClick={handlePrint}>
+            <Printer className="w-5 h-5" />
+            {/* Print Data */}
           </Button>
         </div>
         <div className="bg-white rounded-lg invisible absolute print:visible inset-0 shadow-2xl overflow-hidden">
