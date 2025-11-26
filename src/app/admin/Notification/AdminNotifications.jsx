@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 function AdminNotifications() {
   const navigate = useNavigate('')
   const manageNotificationNav = () => {
-    navigate("/admin/notification/manage");
+    navigate("/admin/notifications/manage");
   }
   return (
     <div className="w-full max-w-[65rem] mx-auto">

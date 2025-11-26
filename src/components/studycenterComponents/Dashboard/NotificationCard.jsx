@@ -6,9 +6,11 @@ import { useAllNotifications } from "@/hooks/tanstackHooks/useNotifications";
 import { NotificationIcon } from "../NotificationComp/GetIcon";
 import { formatDistanceToNowStrict } from "date-fns";
 import Loader from "@/components/ui/loader";
+import { useNavigate } from "react-router-dom";
 
 export default function NotificationCard() {
   const { data, error, isLoading } = useAllNotifications();
+  const navigate = useNavigate()
   
   if(error || isLoading) return <Loader/>
   return (
@@ -47,7 +49,7 @@ export default function NotificationCard() {
         </div>
         }
         <div className="pt-2 border-t">
-          <Button variant="ghost" className="w-full text-sm">
+          <Button onClick={()=>navigate('notifications')} variant="ghost" className="w-full text-sm">
             View all notifications
           </Button>
         </div>

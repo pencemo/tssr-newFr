@@ -151,7 +151,7 @@ const data = {
   projects: [
     {
       name: "Notification",
-      url: "notification",
+      url: "notifications",
       icon: Notification03Icon,
     },
     {

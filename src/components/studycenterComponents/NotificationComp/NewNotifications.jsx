@@ -55,7 +55,7 @@ export function NewNotifications() {
           )
         })}
         <div className="pt-2 border-t">
-          <Button onClick={()=>navigate('/admin/notification')} variant="ghost" className="w-full text-sm">
+          <Button onClick={()=>navigate('notifications')} variant="ghost" className="w-full text-sm">
             View all notifications
           </Button>
         </div>

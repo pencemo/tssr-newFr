@@ -69,7 +69,7 @@ export default function AdminRoutes() {
         <Route path="create" element={<CreateExam />} />
       </Route>
       <Route path="settings" element={<AdminSettings />} />
-      <Route path="notification" element={<Outlet />}>
+      <Route path="notifications" element={<Outlet />}>
         <Route index element={<AdminNotifications />} />
         <Route path="manage" element={<ManageNotifications />} />
       </Route>

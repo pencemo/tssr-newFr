@@ -214,7 +214,7 @@ export function DocDownload({ name, fields= [], mark, date, isLong }) {
       </div>
 
       {/* Hidden PDF Component for Printing */}
-      <div className="sr-only">
+      <div className="bg-white   invisible absolute print:visible inset-0   overflow-hidden">
         <div ref={contentRef}>
           <PDFDesign
             isLong={isLong}

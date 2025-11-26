@@ -48,7 +48,7 @@ const handleDeleteNotification = async (id, title) => {
 };
 
 const NavigateBack = () => {
-  navigate("/admin/notification");
+  navigate(-1);
 }
 
   if (error) return <div>error</div>;
