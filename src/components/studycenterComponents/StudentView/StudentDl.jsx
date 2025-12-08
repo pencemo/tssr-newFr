@@ -41,6 +41,7 @@ const EXPORT_FIELDS = [
   { id: "dateOfAdmission", label: "Date of Admission" },
   { id: "parentName", label: "Parent Name" },
   { id: "qualification", label: "Qualification" },
+  { id: "houseName", label: "House Name" },
 ];
 
 export function StudentDl() {
@@ -60,6 +61,7 @@ export function StudentDl() {
     "dateOfAdmission",
     "parentName",
     "qualification",
+    "houseName"
   ]);
   const { data: course } = useCourseOfStudyCenter();
   const [batchs, setBatches] = useState([]);
