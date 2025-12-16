@@ -67,10 +67,15 @@ import { toast } from "sonner";
           path: "logo",
         });
   
-        if(!url){
+        if(url){
+          if(user?.studycenterId?.logo){
+            await deleteByUrl(user?.studycenterId?.logo)
+          }
+        }else {
           toast.error("Failed to upload profile image.")
           setLoading(false)
           return
+
         }
       }
       mutate({...center, logo: url || user.studycenterId.logo}, {

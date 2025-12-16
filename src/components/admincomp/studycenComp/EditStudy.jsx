@@ -12,10 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { EditAdminPopup } from "./EditAdminPopup";
 import { states } from "@/lib/list";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Delete01Icon, Upload04Icon } from "hugeicons-react";
+import { deleteByUrl, useFirebaseUpload } from "@/hooks/useFirebaseUpload";
 
 export function EditStudy({ data, course, users }) {
-  
-   
+  const { uploadFile, progress, uploading, error: uploadError } = useFirebaseUpload();
+  const [file, setFile] = useState(null)
+  const [isLoading, setLoading]=useState(false)
+
   const [isError, setError] = useState(false);
   const [admins, setAdmins] = useState([])
   const [date, setDate] = useState(null);
@@ -72,7 +76,7 @@ export function EditStudy({ data, course, users }) {
   );
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (
       formData.name === "" ||
@@ -87,12 +91,33 @@ export function EditStudy({ data, course, users }) {
     ) {
       setError(true);
     }
+    setLoading(true)
+
+      if(file){
+        var { url } = await uploadFile({
+          file: file,
+          path: "logo",
+        });
+  
+        if(url){
+          if(data?.logo){
+            await deleteByUrl(data?.logo)
+          }
+        }else {
+          toast.error("Failed to upload profile image.")
+          setLoading(false)
+          return
+
+        }
+      }
     const submitData = {
       ...formData,
       users: admins,
+      logo: url,
     }
     mutate({formData: submitData, id : data._id}, {
       onSuccess: (data) => { 
+        setLoading(false)
         if(data.success){
           toast.success(data.message);
           navigate('/admin/studycentre')
@@ -151,8 +176,82 @@ const handleSetAdmin = (updatedAdmin) => {
   setAdminDialogOpen(false);
 };
 
+const handldeDlelete = async() => {
+  if(data?.logo){
+    await deleteByUrl(data?.logo)
+    mutate({formData: {...formData, logo: ""}, id : data._id, }, {
+      onSuccess: (data) => {
+        if(data.success){
+          toast.success(data.message)
+        }else{
+          toast.error(data.message)
+        }
+      },
+      onError: () => {
+        toast.error('Something went wrong')
+      }
+    }
+    )
+  }else{
+    toast.error("No image to delete")
+  }
+}
+
+const imgae = file ? URL.createObjectURL(file) : data?.logo || ""
+
+    
+
+    const handleFileUpload = (e) => {
+      const { files } = e.target;
+  
+      if (files && files[0]) {
+        if (files[0].size > 1048576) {
+          toast.error("File size should be less than 1MB")
+          e.target.value = "";
+          return;
+        }
+  
+        setFile(files[0]);
+      }
+    };
+
   return (
     <div className=" space-y-3 mt-6">
+      <div className="flex max-md:flex-col md:items-end gap-2 py-3 ">
+        <div className="size-28 border rounded-full overflow-hidden">
+                <img
+                  src={imgae}
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+              </div>
+        <div className="flex flex-col items-start">
+                <input
+                  onChange={handleFileUpload}
+                  id="profileImage"
+                  name="profileImage"
+                  type="file"
+                  className="sr-only"
+                  accept="image/*"
+                />
+                <div className="flex gap-2 items-center">
+                <label
+                  htmlFor="profileImage"
+                  className={`border py-2 px-3 inline-flex gap-1 items-center rounded-md cursor-pointer text-sm font-medium  `}
+                >
+                  <Upload04Icon size={20} /> Upload Logo
+                </label>
+                <Button onClick={handldeDlelete} variant='outline' size='icon' className='border-red-200 hover:bg-red-500 hover:text-white duration-200 cursor-pointer text-red-500' >
+                  <Delete01Icon/>
+                </Button>
+
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Maximum file size is 1MB. Accepted: JPG, JPEG
+                </p>
+                
+              </div>
+        </div>
       <FormInputs
         name="Center Name"
         id="name"
@@ -295,7 +394,7 @@ const handleSetAdmin = (updatedAdmin) => {
       </div>
       <div className="flex justify-end gap-2 mt-6">
         <Button onClick={()=>navigate('/admin/studycentre')} variant="outline">Cancel</Button>
-        <Button onClick={handleSubmit}>Save changes</Button>
+        <Button onClick={handleSubmit}>{isLoading ? "Saving..." :"Save changes"}</Button>
       </div>
     </div>
   );
